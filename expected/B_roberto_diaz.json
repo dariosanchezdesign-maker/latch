@@ -1,0 +1,13 @@
+{
+  "file": "B_foto_roberto_diaz.jpg",
+  "patient": { "name": "Roberto Díaz Ortiz", "dob": "1959-06-07", "town": "Bayamón" },
+  "visit": { "date": "2026-09-25", "doctor": "Dr. Pedro Santiago Ruiz", "clinic": "Centro Médico Familiar Río Hondo" },
+  "plan": { "name": "Salud Isla Advantage", "memberId": "SIA-30098812" },
+  "orders": [
+    { "type": "mri", "detail": "MRI de rodilla derecha sin contraste · CPT 73721" },
+    { "type": "follow_up", "detail": "Ortopedia con el Dr. Santiago en 3 semanas" }
+  ],
+  "docsPresent": ["order", "clinical_notes", "plan_card"],
+  "expectedGaps": [],
+  "expectedFirstAction": "Revisar y enviar la autorización del MRI a Salud Isla Advantage"
+}

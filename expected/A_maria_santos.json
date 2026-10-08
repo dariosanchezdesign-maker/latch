@@ -1,0 +1,15 @@
+{
+  "file": "A_resumen_maria_santos.pdf",
+  "patient": { "name": "María Santos Rivera", "dob": "1954-03-14", "town": "Carolina" },
+  "visit": { "date": "2026-09-18", "doctor": "Dr. Luis Rivera", "clinic": "Clínica Costa Norte" },
+  "plan": { "name": "Plan Salud Coquí", "memberId": "PSC-4471902" },
+  "orders": [
+    { "type": "specialist_referral", "detail": "Cardiología · Dr. Rafael Méndez, Corazón Isla Cardiología" },
+    { "type": "mri", "detail": "MRI cardíaca con contraste · CPT 75561" },
+    { "type": "lab_work", "detail": "CBC, CMP y panel lipídico · ayuno 8–12 h" },
+    { "type": "follow_up", "detail": "Dr. Rivera en 4 semanas" }
+  ],
+  "docsPresent": ["order", "plan_card"],
+  "expectedGaps": [ { "order": "mri", "missing": "clinical_notes", "why": "Las notas firmadas no están en el resumen; se completarán en el expediente de la clínica." } ],
+  "expectedFirstAction": "Pedir las notas clínicas a Clínica Costa Norte"
+}

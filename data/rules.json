@@ -1,0 +1,49 @@
+{
+  "_about": "Reglas SIMULADAS para la demo de Latch. Plan Salud Coquí y Salud Isla Advantage son planes ficticios. Revisar y ajustar antes del 8 de octubre.",
+  "version": "2026-10-04",
+  "orderTypes": {
+    "mri": {
+      "label": { "es": "Resonancia magnética (MRI)", "en": "MRI" },
+      "matches": ["mri", "resonancia", "resonancia magnética", "rm"],
+      "needsPriorAuth": true,
+      "requiredDocs": ["order", "clinical_notes", "plan_card"],
+      "clinicalNotesMaxAgeDays": 30,
+      "planResponseDays": "2-3",
+      "dayOfPrep": {
+        "es": "Llegar 30 minutos antes con la tarjeta del plan y una identificación. Seguir las instrucciones del centro.",
+        "en": "Arrive 30 minutes early with the plan card and an ID. Follow the center's instructions."
+      }
+    },
+    "specialist_referral": {
+      "label": { "es": "Referido a especialista", "en": "Specialist referral" },
+      "matches": ["referido", "referral", "cardiología", "endocrinología", "ortopedia"],
+      "needsPriorAuth": false,
+      "requiredDocs": ["referral"],
+      "note": { "es": "Ambos planes piden el referido del médico primario.", "en": "Both plans require the primary doctor's referral." }
+    },
+    "lab_work": {
+      "label": { "es": "Análisis de laboratorio", "en": "Lab work" },
+      "matches": ["laboratorio", "laboratorios", "análisis", "hemograma", "a1c", "panel"],
+      "needsPriorAuth": false,
+      "requiredDocs": ["lab_order"],
+      "dayOfPrep": {
+        "es": "Si la orden menciona ayuno, no comer de 8 a 12 horas antes.",
+        "en": "If the order mentions fasting, don't eat for 8 to 12 hours before."
+      }
+    },
+    "follow_up": {
+      "label": { "es": "Cita de seguimiento", "en": "Follow-up visit" },
+      "matches": ["seguimiento", "follow-up"],
+      "needsPriorAuth": false,
+      "requiredDocs": [],
+      "waitsFor": "the other orders' results"
+    }
+  },
+  "docTypes": {
+    "order": { "es": "Orden del médico", "en": "Doctor's order" },
+    "clinical_notes": { "es": "Notas clínicas recientes", "en": "Recent clinical notes" },
+    "plan_card": { "es": "Información del plan médico", "en": "Health plan information" },
+    "referral": { "es": "Referido del médico primario", "en": "Primary doctor's referral" },
+    "lab_order": { "es": "Orden de laboratorio", "en": "Lab order" }
+  }
+}

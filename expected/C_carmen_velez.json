@@ -1,0 +1,14 @@
+{
+  "file": "C_resumen_carmen_velez.pdf",
+  "patient": { "name": "Carmen Vélez Torres", "dob": "1961-11-02", "town": "Las Piedras" },
+  "visit": { "date": "2026-09-22", "doctor": "Dra. Ana Colón Rosa", "clinic": "Centro de Salud Familiar Las Piedras" },
+  "plan": { "name": "Plan Salud Coquí", "memberId": "PSC-5520318" },
+  "orders": [
+    { "type": "specialist_referral", "detail": "Endocrinología · Dr. Jorge Medina, Endocrinología del Este (Humacao)" },
+    { "type": "lab_work", "detail": "HbA1c, glucosa en ayuno, TSH y T4 libre · ayuno 8 h" },
+    { "type": "follow_up", "detail": "Dra. Colón en 6 semanas" }
+  ],
+  "docsPresent": ["referral", "lab_order", "plan_card"],
+  "expectedGaps": [],
+  "expectedFirstAction": "Agendar la cita de endocrinología"
+}
