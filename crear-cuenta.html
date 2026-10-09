@@ -175,6 +175,8 @@ svg.i{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-widt
 .note h4{margin:0 0 6px;font-size:15.5px}
 .note p{margin:0;color:var(--ink-2);font-size:15px}
 
+.foot{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);line-height:1.45;display:grid;gap:4px}
+.foot p{margin:0}
 @media (max-width:640px){.pg{padding:28px 16px 56px}.row{grid-template-columns:1fr}.scr{height:620px}}
 @media (prefers-reduced-motion:reduce){.caret{animation:none}}
 </style>
@@ -364,6 +366,14 @@ svg.i{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-widt
     <div class="note"><h4>No se queda esperando</h4><p>Ana sigue y sube el resumen mientras María responde.</p></div>
     <div class="note"><h4>Para mí también</h4><p>Si elige «Para mí», se salta el permiso: son 4 pasos.</p></div>
   </div>
+
+  <footer class="foot" id="foot">
+    <p>© 2026 Latch · Todos los derechos reservados</p>
+    <p>Prototipo para el Caribbean AI Summit Hackathon. Datos ficticios. Latch no da consejo médico ni legal, y no está afiliado a ningún plan médico.</p>
+  </footer>
 </main>
+<script>
+try { if (localStorage.getItem('latch-lang') === 'en') document.getElementById('foot').innerHTML = '<p>© 2026 Latch · All rights reserved</p><p>Prototype for the Caribbean AI Summit Hackathon. Fictional data. Latch does not give medical or legal advice and is not affiliated with any health plan.</p>'; } catch(_) {}
+</script>
 </body>
 </html>

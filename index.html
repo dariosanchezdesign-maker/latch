@@ -1597,8 +1597,7 @@ html{overflow-x:hidden}
       tag:'Demo · datos ficticios', 'nav.hoy':'Hoy', 'nav.plan':'Plan', 'nav.fam':'Familia', 'nav.aria':'Principal', pending:'Algo pendiente',
       'menu.open':'Más opciones', 'menu.dark':'Modo oscuro', 'menu.light':'Modo claro', 'menu.reset':'Reiniciar demo',
       'who.pt':'Paciente · {town}', 'who.you':'Tú · hija y cuidadora',
-      ft1:'Prototipo con datos ficticios. {ptFull}, sus médicos, las clínicas, los centros de imágenes y el plan médico son inventados. Los pueblos y calles son lugares reales de Puerto Rico.',
-      ft2:'Latch ayuda a coordinar la logística del cuidado. No ofrece consejos médicos ni reemplaza a tu proveedor de salud.',
+      ft1:'© 2026 Latch · Todos los derechos reservados',
       // intake
       'in.k':'Empieza aquí', 'in.h':'El médico dio un plan. Latch lo pone en marcha.',
       'in.p':'Sube el resumen de la visita. Latch lo convierte en pasos, encuentra lo que falta y te dice qué hacer, una cosa a la vez.',
@@ -1737,8 +1736,7 @@ html{overflow-x:hidden}
       tag:'Demo · synthetic data', 'nav.hoy':'Today', 'nav.plan':'Plan', 'nav.fam':'Family', 'nav.aria':'Main', pending:'Something to do',
       'menu.open':'More options', 'menu.dark':'Dark mode', 'menu.light':'Light mode', 'menu.reset':'Restart demo',
       'who.pt':'Patient · {town}', 'who.you':'You · daughter and caregiver',
-      ft1:'Prototype with synthetic data. {ptFull}, their doctors, the clinics, the imaging centers and the health plan are made up. The towns and streets are real places in Puerto Rico.',
-      ft2:'Latch helps coordinate care logistics. It does not provide medical advice or replace your healthcare provider.',
+      ft1:'© 2026 Latch · All rights reserved',
       'in.k':'Start here', 'in.h':'The doctor gave a plan. Latch gets it moving.',
       'in.p':'Upload the visit summary. Latch turns it into steps, finds what’s missing and tells you what to do, one thing at a time.',
       'in.drop':'Drop the visit summary here', 'in.dropP':'PDF or a phone photo', 'in.choose':'Choose file',
@@ -2163,7 +2161,7 @@ html{overflow-x:hidden}
     $('#xTag').textContent = t('tag');
     $$('#xLang [data-lang]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
     $('#xMenuBtn').setAttribute('aria-label', t('menu.open'));
-    $('#xFoot').innerHTML = `<span>${t('ft1')}</span><span>${t('ft2')}</span>`;
+    $('#xFoot').innerHTML = `<span>${t('ft1')}</span>`;
     $('#xView').innerHTML = pre ? viewIntake() : S.tab === 'plan' ? viewPlan() : S.tab === 'familia' ? viewFam() : viewHoy();
     wire();
     if (dwOpen) renderDrawer();
@@ -2500,8 +2498,8 @@ const STEPK = () => S.steps.map(s => s.k), STEPL = k => stepLabel(S.steps.find(s
       'lg.1':'Cada paso terminado queda marcado.','lg.2':'Los requisitos de cada paso, a la vista.','lg.3':'Lo que detiene el proceso, sin buscarlo.','lg.4':'Una sola acción clara para avanzar.',
       'fin.aria':'Dos personas revisan información juntas en una laptop, sentadas en un sofá en casa',
       'fin.h':'¿Listo para verlo?','fin.p':'Explora una autorización de ejemplo y experimenta el flujo de Latch.','fin.cta':'Usar ejemplo','fin.fine':'Datos ficticios · sin registro',
-      'ft.1':'Prototipo con datos ficticios. Las clínicas, el plan médico y los centros de imágenes son simulados.',
-      'ft.2':'Latch ayuda a coordinar la logística de tu cuidado. No ofrece consejos médicos ni reemplaza a tu proveedor de salud.',
+      'ft.1':'© 2026 Latch · Todos los derechos reservados',
+      'ft.2':'Prototipo para el Caribbean AI Summit Hackathon. Datos ficticios. Latch no da consejo médico ni legal, y no está afiliado a ningún plan médico.',
     },
     en: {
       'title':'Latch · Healthcare authorizations, made clear',
@@ -2540,8 +2538,8 @@ const STEPK = () => S.steps.map(s => s.k), STEPL = k => stepLabel(S.steps.find(s
       'lg.1':'Every finished step is marked.','lg.2':'Each step’s requirements, in view.','lg.3':'What’s holding things up, without searching.','lg.4':'One clear action to move forward.',
       'fin.aria':'Two people reviewing information together on a laptop, sitting on a sofa at home',
       'fin.h':'Ready to see it?','fin.p':'Explore a sample authorization and experience the Latch flow.','fin.cta':'Use the example','fin.fine':'Synthetic data · no sign-up',
-      'ft.1':'Prototype with synthetic data. The clinics, health plan and imaging centers are simulated.',
-      'ft.2':'Latch helps coordinate healthcare logistics. It does not provide medical advice or replace your healthcare provider.',
+      'ft.1':'© 2026 Latch · All rights reserved',
+      'ft.2':'Prototype for the Caribbean AI Summit Hackathon. Fictional data. Latch does not give medical or legal advice and is not affiliated with any health plan.',
     }
   };
 

@@ -195,3 +195,28 @@ What changed in `index.html`:
 
 Already covered from earlier steps: every letter falls back to its template (or hides "Ver resumen") if the AI fails, so the flow never blocks.
 
+
+---
+
+# Footer · rights and disclaimer
+
+Goal: small footer with © line + disclaimer on the landing and `crear-cuenta.html`; only the © line inside the app.
+
+What's already there:
+- Landing already has a footer (`.lp-foot`, keys `ft.1` / `ft.2` in `L`), muted 12.5px, `.lp-wrap` padding.
+- App already has `#xFoot` at the bottom of `.x-main` (keys `ft1` / `ft2` in `D`), below the view, so it never sits on the Hoy card.
+- `crear-cuenta.html` is Spanish only, with no ES/EN switch.
+
+Plan:
+- [x] Landing: change `ft.1` / `ft.2` (ES + EN) to the new two lines. Keep the existing markup and "Sandbox" tag.
+- [x] App: `#xFoot` shows only `ft1`, changed to the © line (ES + EN). Remove `ft2` from `D`.
+- [x] `crear-cuenta.html`: add `<footer>` inside `.pg` using existing tokens (`--muted`, `--line`, 12.5px). Text in Spanish; a 3-line script swaps to English if `localStorage['latch-lang'] === 'en'` (the choice made in the app).
+- [x] Check at 390px: no horizontal scroll on landing, app and crear-cuenta.
+- [x] Commit "Add footer with rights and disclaimer" and push.
+
+## Review
+
+- `index.html`: landing keys `ft.1` / `ft.2` (ES + EN) now hold the © line and the disclaimer; markup and "Sandbox" tag unchanged. App `ft1` is the © line only; `ft2` removed and `#xFoot` renders one line.
+- `crear-cuenta.html`: new `.foot` (existing `--muted` / `--line` tokens, 12.5px, inside `.pg` so it uses the page padding). Spanish by default; English if `latch-lang` is `en`.
+- Checked at 390px: landing, app (upload and Hoy screens) and crear-cuenta have no horizontal scroll (scrollWidth 390). In the app the footer sits below the view and, scrolled to the end, above the mobile tab bar.
+- Note: the app no longer shows the old "datos ficticios" footer; the "Demo: no subas récords reales" note on the upload screen stays.
