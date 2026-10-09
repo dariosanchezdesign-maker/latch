@@ -153,19 +153,45 @@ Done when: the full demo runs twice in a row without a hiccup.
 
 ## Todo
 
-- [ ] 1. Load `data/rules.json` once when the page opens and keep it outside the demo state, so it survives "Reiniciar" and dropped connections. If even that fails, use a copy built into the page.
-- [ ] 2. "Usar ejemplo" uses the saved result from a real run (`SAMPLE_X`) whenever the live read fails, times out or the device is offline. *(See decision below.)*
-- [ ] 3. Real uploads never fall back to María. Instead, the reading card shows a **friendly error** with the reason and two buttons: "Probar otro archivo" and "Usar ejemplo".
+- [x] 1. Load `data/rules.json` once when the page opens and keep it outside the demo state, so it survives "Reiniciar" and dropped connections. If even that fails, use a copy built into the page.
+- [x] 2. "Usar ejemplo" uses the saved result from a real run (`SAMPLE_X`) whenever the live read fails, times out or the device is offline. *(See decision below.)*
+- [x] 3. Real uploads never fall back to María. Instead, the reading card shows a **friendly error** with the reason and two buttons: "Probar otro archivo" and "Usar ejemplo".
       Reasons (ES + EN): wrong file type, file too big, not a visit summary, couldn't read it, the AI service is unavailable / no internet.
-- [ ] 4. Check the file type and size in the page before uploading (PDF, JPG, PNG, WEBP, 4.5 MB max). The file picker only offers those types.
-- [ ] 5. Time limit on the read (45 s). When it's hit, show the friendly error (or use the saved result for "Usar ejemplo").
-- [ ] 6. Loading: the reading card keeps "Leyendo el documento…". After 10 s it adds "Puede tardar hasta un minuto." so a slow read doesn't look frozen.
-- [ ] 7. Test the done-check on the live site: the full demo twice in a row (María: request → deny → appeal → schedule → done; then "Reiniciar demo" and Roberto by upload), plus offline "Usar ejemplo" and each friendly error.
-- [ ] 8. Commit "Step 6: demo hardening" and push.
+- [x] 4. Check the file type and size in the page before uploading (PDF, JPG, PNG, WEBP, 4.5 MB max). The file picker only offers those types.
+- [x] 5. Time limit on the read (45 s). When it's hit, show the friendly error (or use the saved result for "Usar ejemplo").
+- [x] 6. Loading: the reading card keeps "Leyendo el documento…". After 10 s it adds "Puede tardar hasta un minuto." so a slow read doesn't look frozen.
+- [x] 7. Test the done-check on the live site: the full demo twice in a row (María: request → deny → appeal → schedule → done; then "Reiniciar demo" and Roberto by upload), plus offline "Usar ejemplo" and each friendly error.
+- [x] 8. Commit "Step 6: demo hardening" and push.
 
 ## Decision to confirm
 
 **"Usar ejemplo": live or saved?**
 - **A (recommended): live first, saved as backup.** It reads the sample PDF with Claude like a real upload (about 10–15 s), and uses the saved result if that fails, times out or there's no internet.
 - **B: always the saved result.** Instant and never fails, but the sample button no longer shows Claude reading. Only real uploads would.
+
+Chosen: **A** (live first, saved as backup).
+
+## Review
+
+Done-check passed on the live site (Oct 8): the full demo ran three times in a row with "Reiniciar demo" between runs, with no hiccups:
+
+| Run | Case | Read | Flow | Letters | Total |
+| --- | --- | --- | --- | --- | --- |
+| 1 | María · "Usar ejemplo" | live, 15 s | request → notes → review → send → **deny** → appeal → approved → schedule → done | request, packet, appeal: all AI drafts (200) | 26 s |
+| 2 | María · "Usar ejemplo" | live, 14 s | same as run 1 | all AI drafts | 23 s |
+| 3 | Roberto · photo upload | live, 12 s | review → send → approved → schedule → done | packet: AI draft | 17 s |
+
+Failure cases tested locally (server functions missing or mocked):
+- Wrong type (.txt, .docx), file over 4.5 MB → friendly message before uploading.
+- No connection, AI service down, not a visit summary, timeout → friendly message with "Probar otro archivo" / "Usar ejemplo".
+- Slow read → "Puede tardar hasta un minuto." appears after 10 s.
+- "Usar ejemplo" with the read failing → saved result + a note saying so; María's plan is correct (gap found).
+
+What changed in `index.html`:
+- `RULES` loaded once at page start; `RULES_BACKUP` built-in copy of `data/rules.json` for offline (keep the two in sync).
+- `readDoc()` has a 45 s limit and returns `{ error }` instead of throwing; `checkFile()` checks type and size first; the picker only offers PDF/JPG/PNG/WEBP.
+- `startExtract()`: real uploads show an error card on failure; only "Usar ejemplo" falls back to `SAMPLE_X`. A run counter ignores answers from a run that was reset.
+- New copy (ES + EN): `ex.slow`, `ex.saved`, `er.*`.
+
+Already covered from earlier steps: every letter falls back to its template (or hides "Ver resumen") if the AI fails, so the flow never blocks.
 
