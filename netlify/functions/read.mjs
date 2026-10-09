@@ -7,13 +7,17 @@ Call record_visit_summary with what the document says.
 Rules:
 - Record only what is written in the document. Never guess or invent. If something is not stated, leave it out.
 - isVisitSummary is false if this is not a medical visit summary.
-- Dates as YYYY-MM-DD.
-- visit.doctor includes the title as written (Dr. / Dra.).
+- Dates as YYYY-MM-DD. Numeric dates in these documents are written day/month/year (07/06/1959 = 1959-06-07).
+- patient.town: the patient's town if stated; otherwise the town in the clinic's address.
+- visit.doctor: name with title (Dr. / Dra.), without credentials like MD.
 - patient.sex only if the document states it (F or M).
 - orders: one entry per thing the doctor ordered. type is mri, specialist_referral, lab_work, follow_up, or other. detail is a short description in the document's language.
-- docsPresent lists only documents actually included in this file:
-  order (a signed order/requisition), clinical_notes, plan_card (the insurance card or its details), referral, lab_order.
-  Count clinical_notes ONLY if the notes themselves are included. If the document says notes are pending, will be sent later or are in the clinic's record, do NOT count them.
+- docsPresent lists what this file provides:
+  order: the doctor's order for an imaging study or procedure (e.g. the MRI order) is included or handed to the patient.
+  plan_card: the health plan name and member ID appear in the document.
+  referral: the document contains a specialist referral from the doctor.
+  lab_order: the document lists lab tests ordered by the doctor.
+  clinical_notes: ONLY if the clinical notes themselves are included. If the document says notes are pending, will be sent later or are in the clinic's record, do NOT count them.
 - clinicalNotesDate: the date of the included clinical notes, only if they are included.`;
 
 const TOOL = {
