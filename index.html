@@ -2180,7 +2180,7 @@ html{overflow-x:hidden}
     const x = X(), p = x.patient || {}, v = x.visit || {}, pl = x.plan || {}, main = S.steps.find(s => s.k === S.mainK);
     return { patient: p.name, dob: p.dob, doctor: v.doctor, clinic: v.clinic, visitDate: v.date, plan: pl.name, memberId: pl.memberId,
       orderType: main && main.o.type, procedure: main && main.o.detail, notesDate: x.clinicalNotesDate,
-      notesSource: S.path === 'doc' ? 'included in the visit summary' : 'requested from the clinic',
+      notesSource: S.path === 'doc' ? 'visit_summary' : 'clinic',
       caregiver: `Ana ${surname(p.name)}`.trim(), relation: D[lang]['dr.rel'] };
   }
   // Starts any missing draft for the current language; cached per kind + language. The drawer re-renders when one arrives.
@@ -2192,7 +2192,7 @@ html{overflow-x:hidden}
       store[id] = { status:'loading' };
       fetch('/api/draft', { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify({ kind, lang, facts: draftFacts() }) })
         .then(r => r.json())
-        .then(j => { store[id] = j.ok ? { status:'ok', html: j.paragraphs.map(p => `<p>${esc(p).replace(/\n/g, '<br>')}</p>`).join('') } : { status:'fail' }; console.log('/api/draft', id, j.ok ? 'ok' : j.error); })
+        .then(j => { store[id] = j.ok ? { status:'ok', html: j.paragraphs.map(p => `<p>${esc(p).replace(/\n/g, '<br>')}</p>`).join('') } : { status:'fail' }; console.log('/api/draft', id, j.ok ? 'ok' : j.error, j.missing || ''); })
         .catch(e => { store[id] = { status:'fail' }; console.log('/api/draft error', e); })
         .finally(() => { if (dwOpen && !editing && S.drafts === store) renderDrawer(); });
     }

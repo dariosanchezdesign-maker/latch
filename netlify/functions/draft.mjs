@@ -55,15 +55,18 @@ const drSurname = d => { const w = String(d).split(/\s+/).filter(Boolean).slice(
 
 // The letter must be in the asked language and name the doctor, the visit date (day + month) and the procedure.
 const LANG_OK = { es: s => /\bde\b/i.test(s) && !/\bthe\b/i.test(s), en: s => /\bthe\b/i.test(s) };
-function namesTheFacts(text, facts, lang) {
+// Returns the names of the checks that failed (empty = good).
+function missingFacts(text, facts, lang) {
   const [, m, d] = String(facts.visitDate).split('-').map(Number);
   const month = MONTHS[lang][m - 1] || '';
   const proc = PROC[facts.orderType];
-  return LANG_OK[lang](text)
-    && text.includes(drSurname(facts.doctor))
-    && new RegExp(`(^|\\D)${d}(\\D|$)`).test(text)
-    && text.toLowerCase().includes(month.toLowerCase().slice(0, 3))
-    && (!proc || proc.test(text));
+  const checks = {
+    language: LANG_OK[lang](text),
+    doctor: text.includes(drSurname(facts.doctor)),
+    date: new RegExp(`(^|\\D)${d}(\\D|$)`).test(text) && text.toLowerCase().includes(month.toLowerCase().slice(0, 3)),
+    procedure: !proc || proc.test(text)
+  };
+  return Object.keys(checks).filter(k => !checks[k]);
 }
 
 async function askClaude(key, kind, lang, facts) {
@@ -98,14 +101,16 @@ export default async (req) => {
   for (const f of FIELDS) if (raw[f] != null) facts[f] = String(raw[f]).slice(0, 400);
   if (!facts.patient || !facts.doctor || !/^\d{4}-\d{2}-\d{2}$/.test(facts.visitDate || '') || !facts.procedure) return fail('bad_request', 400);
 
+  let missing = ['paragraphs'];
   for (let attempt = 0; attempt < 2; attempt++) {
     let r;
     try { r = await askClaude(key, kind, lang, facts); } catch (e) { console.log('Claude API fetch failed', e.name); return fail('ai_unavailable', 502); }
     if (r.status) return fail('ai_unavailable', 502);
-    if (r.paragraphs && namesTheFacts(r.paragraphs.join('\n'), facts, lang)) return Response.json({ ok: true, paragraphs: r.paragraphs });
-    console.log('draft check failed, attempt', attempt + 1);
+    missing = r.paragraphs ? missingFacts(r.paragraphs.join('\n'), facts, lang) : ['paragraphs'];
+    if (!missing.length) return Response.json({ ok: true, paragraphs: r.paragraphs });
+    console.log('draft check failed, attempt', attempt + 1, missing.join(','));
   }
-  return fail('draft_check', 422);
+  return Response.json({ error: 'draft_check', missing }, { status: 422 });
 };
 
 export const config = { path: '/api/draft' };
