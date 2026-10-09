@@ -136,3 +136,36 @@ Notes: B's English summary keeps the procedure in Spanish, as the document wrote
 - [x] 5. History entries and English copy.
 
 `ORDER` now: request → waitClinic → review → waitPlan → (denied → waitAppeal) → schedule → done. The appeal draft starts as soon as the denial is simulated.
+
+---
+
+# Step 6 · Demo hardening
+
+Goal (from CLAUDE.md): loading states, friendly error, keep "Usar ejemplo" working offline with a saved result from a real run.
+Done when: the full demo runs twice in a row without a hiccup.
+
+## Problems found
+
+1. **A failed upload silently shows María's plan.** If someone uploads Roberto's photo and the read fails, they get María's plan with no explanation. That's the step 4 stopgap.
+2. **"Usar ejemplo" breaks offline.** It needs the network three times: the sample PDF, `/api/read`, and `data/rules.json`. Without the rules, the gap check is empty and María's plan comes out wrong.
+3. **The file picker accepts files the server rejects** (`.heic`, `.doc`, `.docx`), and there's no size check before uploading.
+4. **No time limit on reading.** A stuck request leaves "Leyendo el documento…" on screen forever.
+
+## Todo
+
+- [ ] 1. Load `data/rules.json` once when the page opens and keep it outside the demo state, so it survives "Reiniciar" and dropped connections. If even that fails, use a copy built into the page.
+- [ ] 2. "Usar ejemplo" uses the saved result from a real run (`SAMPLE_X`) whenever the live read fails, times out or the device is offline. *(See decision below.)*
+- [ ] 3. Real uploads never fall back to María. Instead, the reading card shows a **friendly error** with the reason and two buttons: "Probar otro archivo" and "Usar ejemplo".
+      Reasons (ES + EN): wrong file type, file too big, not a visit summary, couldn't read it, the AI service is unavailable / no internet.
+- [ ] 4. Check the file type and size in the page before uploading (PDF, JPG, PNG, WEBP, 4.5 MB max). The file picker only offers those types.
+- [ ] 5. Time limit on the read (45 s). When it's hit, show the friendly error (or use the saved result for "Usar ejemplo").
+- [ ] 6. Loading: the reading card keeps "Leyendo el documento…". After 10 s it adds "Puede tardar hasta un minuto." so a slow read doesn't look frozen.
+- [ ] 7. Test the done-check on the live site: the full demo twice in a row (María: request → deny → appeal → schedule → done; then "Reiniciar demo" and Roberto by upload), plus offline "Usar ejemplo" and each friendly error.
+- [ ] 8. Commit "Step 6: demo hardening" and push.
+
+## Decision to confirm
+
+**"Usar ejemplo": live or saved?**
+- **A (recommended): live first, saved as backup.** It reads the sample PDF with Claude like a real upload (about 10–15 s), and uses the saved result if that fails, times out or there's no internet.
+- **B: always the saved result.** Instant and never fails, but the sample button no longer shows Claude reading. Only real uploads would.
+

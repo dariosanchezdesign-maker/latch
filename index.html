@@ -1607,6 +1607,11 @@ html{overflow-x:hidden}
       'in.note':'Demo: no subas récords reales. Usa los resúmenes de ejemplo ficticios.',
       'ex.h':'Latch está leyendo el documento',
       'ex.reading':'Leyendo el documento…',
+      'ex.slow':'Puede tardar hasta un minuto.', 'ex.saved':'No se pudo leer en vivo, así que Latch usó el resultado guardado de una lectura real de este mismo ejemplo.',
+      'er.h':'No pudimos leer el documento', 'er.retry':'Probar otro archivo',
+      'er.file_type':'Ese tipo de archivo no se puede leer. Sube un PDF o una foto (JPG, PNG o WEBP).', 'er.file_size':'El archivo pesa más de 4.5 MB. Prueba con una foto más liviana o un PDF más pequeño.',
+      'er.not_summary':'Ese documento no parece un resumen de visita médica. Prueba con el resumen que te dieron en la oficina del médico.', 'er.unreadable':'No pudimos leer bien el documento. Prueba con una foto más clara o con el PDF original.',
+      'er.ai_unavailable':'El servicio que lee documentos no respondió. Intenta otra vez en un momento.', 'er.timeout':'La lectura tardó demasiado. Intenta otra vez en un momento.', 'er.offline':'No hay conexión a internet. Revisa la conexión e intenta otra vez.',
       'ex.miss':'Falta algo', 'ex.missFor':'Lo pide:', 'ex.ok':'No falta nada', 'ex.okS':'El documento trae todo lo que piden las órdenes',
       ex:[['Documento identificado','Resumen de visita · Dr. Luis Rivera · 18 sep 2026'],['4 órdenes encontradas','Referido a cardiología · MRI · análisis de sangre · seguimiento'],['Plan médico verificado','Plan Salud Coquí · miembro activo'],['Requisitos revisados','La MRI necesita aprobación del plan'],['Falta algo','El plan pide notas clínicas recientes que no están en el expediente']],
       'ex.go':'Ver el plan de {pt}',
@@ -1741,6 +1746,11 @@ html{overflow-x:hidden}
       'in.note':'Demo: don’t upload real records. Use the fictional sample summaries.',
       'ex.h':'Latch is reading the document',
       'ex.reading':'Reading the document…',
+      'ex.slow':'This can take up to a minute.', 'ex.saved':'The live read didn’t work, so Latch used the saved result of a real read of this same example.',
+      'er.h':'We couldn’t read the document', 'er.retry':'Try another file',
+      'er.file_type':'That file type can’t be read. Upload a PDF or a photo (JPG, PNG or WEBP).', 'er.file_size':'The file is over 4.5 MB. Try a lighter photo or a smaller PDF.',
+      'er.not_summary':'That document doesn’t look like a visit summary. Try the summary from the doctor’s office.', 'er.unreadable':'We couldn’t read the document clearly. Try a sharper photo or the original PDF.',
+      'er.ai_unavailable':'The document-reading service didn’t respond. Try again in a moment.', 'er.timeout':'Reading took too long. Try again in a moment.', 'er.offline':'There’s no internet connection. Check it and try again.',
       'ex.miss':'Something’s missing', 'ex.missFor':'Needed for:', 'ex.ok':'Nothing missing', 'ex.okS':'The document has everything the orders need',
       ex:[['Document identified','Visit summary · Dr. Luis Rivera · Sep 18, 2026'],['4 orders found','Cardiology referral · MRI · blood work · follow-up'],['Health plan verified','Plan Salud Coquí · active member'],['Requirements checked','The MRI needs the plan’s approval'],['Something’s missing','The plan needs recent clinical notes that aren’t on file']],
       'ex.go':'See {pt}’s plan',
@@ -1889,6 +1899,11 @@ html{overflow-x:hidden}
   // ---------- Plan from data ----------
   // Saved result of a real run on sample A; used only if reading fails.
   const SAMPLE_X = {"isVisitSummary":true,"patient":{"name":"María Santos Rivera","dob":"1954-03-14","town":"Carolina"},"visit":{"date":"2026-09-18","doctor":"Dr. Luis Rivera","clinic":"Clínica Costa Norte"},"plan":{"name":"Plan Salud Coquí","memberId":"PSC-4471902"},"orders":[{"type":"specialist_referral","detail":"Referido a Cardiología - Corazón Isla Cardiología, Dr. Rafael Méndez. Prioridad: rutina (dentro de 3 semanas)"},{"type":"mri","detail":"Resonancia magnética (MRI) cardíaca con contraste. Código CPT 75561. Requiere preautorización del plan médico"},{"type":"lab_work","detail":"Hemograma completo (CBC), panel metabólico completo (CMP) y panel lipídico. Requiere ayuno de 8 a 12 horas"},{"type":"follow_up","detail":"Medicina primaria con el Dr. Rivera en 4 semanas, después de los resultados"}],"docsPresent":["order","plan_card","referral","lab_order"]};
+  // Rules: data/rules.json is loaded once when the page opens (kept outside S, so it survives a reset).
+  // RULES_BACKUP is the same table built in, used only if that load failed (offline). Keep the two in sync.
+  const RULES_BACKUP = {"_about":"Reglas SIMULADAS para la demo de Latch. Plan Salud Coquí y Salud Isla Advantage son planes ficticios. Revisar y ajustar antes del 8 de octubre.","version":"2026-10-04","orderTypes":{"mri":{"label":{"es":"Resonancia magnética (MRI)","en":"MRI"},"matches":["mri","resonancia","resonancia magnética","rm"],"needsPriorAuth":true,"requiredDocs":["order","clinical_notes","plan_card"],"clinicalNotesMaxAgeDays":30,"planResponseDays":"2-3","dayOfPrep":{"es":"Llegar 30 minutos antes con la tarjeta del plan y una identificación. Seguir las instrucciones del centro.","en":"Arrive 30 minutes early with the plan card and an ID. Follow the center's instructions."}},"specialist_referral":{"label":{"es":"Referido a especialista","en":"Specialist referral"},"matches":["referido","referral","cardiología","endocrinología","ortopedia"],"needsPriorAuth":false,"requiredDocs":["referral"],"note":{"es":"Ambos planes piden el referido del médico primario.","en":"Both plans require the primary doctor's referral."}},"lab_work":{"label":{"es":"Análisis de laboratorio","en":"Lab work"},"matches":["laboratorio","laboratorios","análisis","hemograma","a1c","panel"],"needsPriorAuth":false,"requiredDocs":["lab_order"],"dayOfPrep":{"es":"Si la orden menciona ayuno, no comer de 8 a 12 horas antes.","en":"If the order mentions fasting, don't eat for 8 to 12 hours before."}},"follow_up":{"label":{"es":"Cita de seguimiento","en":"Follow-up visit"},"matches":["seguimiento","follow-up"],"needsPriorAuth":false,"requiredDocs":[],"waitsFor":"the other orders' results"}},"docTypes":{"order":{"es":"Orden del médico","en":"Doctor's order"},"clinical_notes":{"es":"Notas clínicas recientes","en":"Recent clinical notes"},"plan_card":{"es":"Información del plan médico","en":"Health plan information"},"referral":{"es":"Referido del médico primario","en":"Primary doctor's referral"},"lab_order":{"es":"Orden de laboratorio","en":"Lab order"}}};
+  let RULES = null;
+  fetch('data/rules.json').then(r => r.json()).then(j => { RULES = j; }).catch(e => console.log('rules.json not loaded · using the built-in copy', e));
   const X = () => S.x || SAMPLE_X;
   const fDate = (iso, year) => { const [y, m, d] = String(iso || '').split('-').map(Number); if (!m) return iso || ''; const s = lang === 'en' ? `${MES.en[m-1]} ${d}` : `${d} ${MES.es[m-1]}`; return year ? `${s}${lang === 'en' ? ',' : ''} ${y}` : s; };
   // "Dr. Luis Rivera" → "Dr. Rivera"; "Dra. Ana Colón Rosa" → "Dra. Colón" (first surname).
@@ -1969,15 +1984,21 @@ html{overflow-x:hidden}
         <p class="lede">${t('in.p')}</p>
       </div>
       <div>
-      ${ex ? `
+      ${ex && S.err ? `
+        <div class="x-card">
+          <div class="x-sech" style="margin-bottom:6px"><h3>${t('er.h')}</h3></div>
+          <p class="x-note" role="alert">${t(D[lang]['er.' + S.err] ? 'er.' + S.err : 'er.ai_unavailable')}</p>
+          <div class="x-acts"><button class="x-btn dark" type="button" data-act="retry">${t('er.retry')}</button><button class="x-btn ghost" type="button" data-act="sample">${t('in.use')} ${ic('i-arrow')}</button></div>
+        </div>` : ex ? `
         <div class="x-card">
           <div class="x-sech" style="margin-bottom:6px"><h3>${t('ex.h')}</h3></div>
-          ${S.reading ? `<p class="x-note" id="xReading" role="status">${t('ex.reading')}</p>` : `
+          ${S.reading ? `<p class="x-note" id="xReading" role="status">${t('ex.reading')}${S.slow ? ' ' + t('ex.slow') : ''}</p>` : `
           <ol class="x-extract" id="xEx">${exRows().map((r,i) => { const al = i===4 && !(S.gaps && !S.gaps.length); return `<li class="${i < S.exN ? 'on' : ''} ${al?'s-alert':''}">${node(al?'s-act':'s-done', al?'!':check)}<div><b>${r[0]}</b><span>${r[1]}</span></div></li>`; }).join('')}</ol>`}
+          ${S.saved ? `<p class="x-note">${t('ex.saved')}</p>` : ''}
           <div class="x-acts" id="xExGo" ${S.exN < 5 ? 'hidden' : ''}><button class="x-btn dark" data-act="enter" id="exGo">${t('ex.go')} ${ic('i-arrow')}</button></div>
         </div>` : `
         <label class="x-drop" id="xDrop">
-          <input type="file" id="xFile0" accept=".pdf,.png,.jpg,.jpeg,.heic,.doc,.docx">
+          <input type="file" id="xFile0" accept=".pdf,.png,.jpg,.jpeg,.webp">
           <span class="x-up">${ic('i-upload')}</span>
           <b>${t('in.drop')}</b><p>${t('in.dropP')}</p>
           <span class="x-btn ghost sm" style="margin-top:6px">${t('in.choose')}</span>
@@ -2173,10 +2194,19 @@ html{overflow-x:hidden}
   function toBase64(blob){
     return new Promise((ok, bad) => { const r = new FileReader(); r.onload = () => ok(String(r.result).split(',')[1]); r.onerror = bad; r.readAsDataURL(blob); });
   }
+  // Same limits as the server, checked before uploading.
+  const TYPES = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp'], MAX_BYTES = 4.5 * 1024 * 1024;
+  const checkFile = f => !TYPES.includes(f.type) ? 'file_type' : f.size > MAX_BYTES ? 'file_size' : null;
+  // Returns the server's JSON, or { error } on a timeout (45 s), no connection or a non-JSON reply.
   async function readDoc(file){
-    if (!file) { const b = await (await fetch(SAMPLE_A)).blob(); file = new File([b], SAMPLE_A.split('/').pop(), { type: 'application/pdf' }); }
-    const r = await fetch('/api/read', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: file.name, type: file.type, data: await toBase64(file) }) });
-    return r.json();
+    const ctl = new AbortController(), limit = setTimeout(() => ctl.abort(), 45000);
+    try {
+      if (!file) { const b = await (await fetch(SAMPLE_A, { signal: ctl.signal })).blob(); file = new File([b], SAMPLE_A.split('/').pop(), { type: 'application/pdf' }); }
+      const r = await fetch('/api/read', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: file.name, type: file.type, data: await toBase64(file) }), signal: ctl.signal });
+      return await r.json();
+    } catch (e) {
+      return { error: e.name === 'AbortError' ? 'timeout' : navigator.onLine ? 'ai_unavailable' : 'offline' };
+    } finally { clearTimeout(limit); }
   }
   // Rules check, in code: each order's requiredDocs from data/rules.json vs. what the document has.
   function findGaps(x, rules, today = new Date()){
@@ -2227,16 +2257,21 @@ html{overflow-x:hidden}
 
   async function startExtract(file){
     if (S.stage !== 'intake') return;
-    S.stage = 'extract'; S.exN = 0; S.reading = true; S.gaps = null; S.x = null; render();
-    try {
-      const j = await readDoc(file); console.log('/api/read', j);
-      if (j.extracted) { S.x = j.extracted; console.log(JSON.stringify(j.extracted, null, 2)); }
-    }
-    catch (e) { console.log('/api/read error', e); }
-    // Until step 6 adds a friendly error, a failed read falls back to sample A's saved result.
-    if (!S.x) { S.x = SAMPLE_X; console.log('/api/read failed · using sample A'); }
-    try { S.rules = S.rules || await (await fetch('data/rules.json')).json(); } catch (e) { console.log('rules error', e); }
-    S.gaps = S.rules ? findGaps(S.x, S.rules) : []; console.log('gaps', S.gaps);
+    const run = S.run = (S.run || 0) + 1;
+    S.stage = 'extract'; S.exN = 0; S.gaps = null; S.x = null; S.err = null; S.saved = false; S.slow = false;
+    const bad = file && checkFile(file);
+    if (bad) { S.err = bad; render(); return; }
+    S.reading = true; render();
+    setTimeout(() => { if (S.run === run && S.reading) { S.slow = true; render(); } }, 10000);
+    const j = await readDoc(file); console.log('/api/read', j);
+    if (S.run !== run) return;
+    if (j.extracted) { S.x = j.extracted; console.log(JSON.stringify(j.extracted, null, 2)); }
+    // "Usar ejemplo" never fails: if the live read didn't work, use the saved result of a real run on sample A.
+    else if (!file) { S.x = SAMPLE_X; S.saved = true; console.log('/api/read failed (' + j.error + ') · using the saved result for sample A'); }
+    // A real upload never falls back to María: show a friendly error instead.
+    else { S.err = j.error || 'unreadable'; S.reading = false; render(); return; }
+    S.rules = RULES || RULES_BACKUP;
+    S.gaps = findGaps(S.x, S.rules); console.log('gaps', S.gaps);
     buildSteps(); ensureDrafts(); log('h.up');
     S.reading = false; render();
     const step = () => {
@@ -2390,6 +2425,7 @@ const STEPK = () => S.steps.map(s => s.k), STEPL = k => stepLabel(S.steps.find(s
     if ((el = q('[data-act]'))) {
       const a = el.dataset.act;
       if (a === 'enter') return enterPlan();
+      if (a === 'retry' || a === 'sample') { S.stage = 'intake'; S.err = null; if (a === 'sample') return startExtract(); render(); return; }
       if (a === 'sim' && S.pending) { const pd = S.pending; S.pending = null; S.stage = pd.next; log(pd.histK); if (pd.extraLog) log(pd.extraLog); toast(pd.toastK); render(); const b = $('#xView [data-act="open"]'); if (b) b.focus(); return; }
       // Simulated denial: drop the pending approval, start drafting the appeal.
       if (a === 'deny' && S.stage === 'waitPlan') { clearTimeout(timer); S.pending = null; S.denied = true; S.stage = 'denied'; log('h.denied'); ensureDrafts(); toast('t.denied'); render(); const b = $('#xView [data-act="open"]'); if (b) b.focus(); return; }
