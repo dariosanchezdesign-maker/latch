@@ -94,14 +94,33 @@ Done when: each letter names the right doctor, date and procedure.
 
 ## Todo
 
-- [ ] 1. New server function `netlify/functions/draft.mjs` at `/api/draft`. Input: `{ kind: 'request' | 'packet', lang: 'es' | 'en', facts }`,
+- [x] 1. New server function `netlify/functions/draft.mjs` at `/api/draft`. Input: `{ kind: 'request' | 'packet', lang: 'es' | 'en', facts }`,
       where facts are only what the letter needs (patient, date of birth, doctor, clinic, visit date, plan + member ID, the main order's detail, what's missing, caregiver name).
-- [ ] 2. Same pattern as `/api/read`: Claude API with a forced tool (`write_draft` → `{ paragraphs[] }`), JSON validated.
+- [x] 2. Same pattern as `/api/read`: Claude API with a forced tool (`write_draft` → `{ paragraphs[] }`), JSON validated.
       **Code check:** the letter must contain the doctor's surname, the visit's day number and the procedure (e.g. "MRI"). If not, retry once; then return an error.
-- [ ] 3. Page: when the plan opens on María's or Roberto's path, ask for the draft in the background (current language). Cache it per kind + language; switching language fetches the other one.
-- [ ] 4. Request panel ("Ver mensaje"): shows the generated letter. While it's being written: "Latch está escribiendo el borrador…". If it fails: today's template letter, so the demo never breaks. Your own edits still win.
-- [ ] 5. Packet panel: add a "Ver resumen" section (same look as "Ver mensaje") with the generated summary for the plan's reviewer.
-- [ ] 6. Spanish first, English keys next to each.
-- [ ] 7. Test live: A's request letter names Dr. Luis Rivera, 18 sep 2026 and the cardiac MRI; B's packet summary names Dr. Pedro Santiago Ruiz, 25 sep 2026 and the knee MRI; both in ES and EN. Commit "Step 5: generated drafts" and push.
+- [x] 3. Page: when the plan opens on María's or Roberto's path, ask for the draft in the background (current language). Cache it per kind + language; switching language fetches the other one.
+- [x] 4. Request panel ("Ver mensaje"): shows the generated letter. While it's being written: "Latch está escribiendo el borrador…". If it fails: today's template letter, so the demo never breaks. Your own edits still win.
+- [x] 5. Packet panel: add a "Ver resumen" section (same look as "Ver mensaje") with the generated summary for the plan's reviewer.
+- [x] 6. Spanish first, English keys next to each.
+- [x] 7. Test live: A's request letter names Dr. Luis Rivera, 18 sep 2026 and the cardiac MRI; B's packet summary names Dr. Pedro Santiago Ruiz, 25 sep 2026 and the knee MRI; both in ES and EN. Commit "Step 5: generated drafts" and push.
 
 Not in this step: Carmen's path needs no plan approval, so it has no letter to draft.
+
+## Review
+
+Done-check passed on the live site (real drafts, Oct 8):
+
+| Draft | Language | Doctor | Date | Procedure |
+| --- | --- | --- | --- | --- |
+| A · clinic request | ES | Dr. Luis Rivera | 18 de septiembre de 2026 | Resonancia magnética (MRI) cardíaca con contraste, CPT 75561 |
+| A · clinic request | EN | Dr. Luis Rivera | September 18, 2026 | cardiac MRI with contrast (CPT 75561) |
+| A · packet summary | ES | Dr. Luis Rivera | 18 de septiembre de 2026 | MRI cardíaca, CPT 75561 (3 of 3 runs passed the check) |
+| B · packet summary | ES | Dr. Pedro Santiago Ruiz | 25 de septiembre de 2026 | MRI de rodilla derecha, CPT 73721 |
+| B · packet summary | EN | Dr. Pedro Santiago Ruiz | September 25, 2026 | MRI of the right knee, CPT 73721 |
+
+What changed:
+- `netlify/functions/draft.mjs` (`/api/draft`): forced tool call → paragraphs; a code check (language, doctor's surname, day + month, procedure) with one retry; on failure it returns `{ error: 'draft_check', missing: [...] }`.
+- `index.html`: drafts start in the background right after reading (usually ready when the panel opens), cached per kind + language. The request panel shows the draft (your edits still win; template if it fails). The packet panel has a new "Ver resumen" section. A note says the draft was written by Latch.
+- Bug found while testing: the notes' source was passed as an English phrase, so Spanish summaries sometimes copied it and failed the language check. Now it's a neutral code (`clinic` / `visit_summary`).
+
+Notes: B's English summary keeps the procedure in Spanish, as the document wrote it.
