@@ -1594,48 +1594,56 @@ html{overflow-x:hidden}
     es: {
       tag:'Demo · datos ficticios', 'nav.hoy':'Hoy', 'nav.plan':'Plan', 'nav.fam':'Familia', 'nav.aria':'Principal', pending:'Algo pendiente',
       'menu.open':'Más opciones', 'menu.dark':'Modo oscuro', 'menu.light':'Modo claro', 'menu.reset':'Reiniciar demo',
-      'who.pt':'Paciente · Carolina', 'who.you':'Tú · hija y cuidadora',
-      ft1:'Prototipo con datos ficticios. María Santos, sus médicos, las clínicas, los centros de imágenes y el plan médico son inventados. Los pueblos y calles son lugares reales de Puerto Rico.',
+      'who.pt':'Paciente · {town}', 'who.you':'Cuidador(a)',
+      ft1:'Prototipo con datos ficticios. Los pacientes, médicos, clínicas, centros de imágenes y planes médicos son inventados. Los pueblos y calles son lugares reales de Puerto Rico.',
       ft2:'Latch ayuda a coordinar la logística del cuidado. No ofrece consejos médicos ni reemplaza a tu proveedor de salud.',
       // intake
       'in.k':'Empieza aquí', 'in.h':'El médico dio un plan. Latch lo pone en marcha.',
       'in.p':'Sube el resumen de la visita. Latch lo convierte en pasos, encuentra lo que falta y te dice qué hacer, una cosa a la vez.',
       'in.drop':'Arrastra aquí el resumen de visita', 'in.dropP':'PDF o foto del celular', 'in.choose':'Elegir archivo',
       'in.sample':'Resumen de visita · Dr. Rivera', 'in.sampleS':'Ejemplo · Clínica Costa Norte, Santurce · 18 sep 2026', 'in.use':'Usar ejemplo',
-      'in.note':'Demo: cualquier archivo se procesa como el resumen de visita de María.',
+      'in.note':'Demo: no subas récords reales. Usa los resúmenes de ejemplo ficticios.',
       'ex.h':'Latch está leyendo el documento',
       'ex.reading':'Leyendo el documento…',
+      'ex.0':'Documento identificado', 'ex.0s':'Resumen de visita · {drFull} · {dateFull}', 'ex.1':'{n} órdenes encontradas', 'ex.1one':'1 orden encontrada', 'ex.2':'Plan médico encontrado', 'ex.2s':'{plan} · miembro {member}', 'ex.3':'Requisitos revisados', 'ex.3s':'Necesita aprobación del plan: {Proc}', 'ex.3n':'Ninguna orden necesita aprobación del plan',
+      'ot.mri':'MRI', 'ot.specialist_referral':'Referido a especialista', 'ot.ref':'Referido a {spec}', 'ot.lab_work':'Análisis de laboratorio', 'ot.follow_up':'Seguimiento', 'ot.other':'Otra orden', 'n.mri':'la MRI', 'n.other':'la orden',
+      'b.todo':'Por agendar', 'r.todo':'Te toca pedir la cita', 'r.none':'Nada por ahora', 'f.you':'Tú',
+      's.review.p0':'El resumen ya trae lo que pide el plan: la orden, las notas clínicas y la información del plan. Latch armó el paquete; revísalo antes de enviarlo a {plan}.',
+      'p.mri.review0':'El resumen trae las notas clínicas. La autorización está lista para que la revises.', 'pk.notesIn':'Incluidas en el resumen de visita · {notes}',
+      's.clear.p':'Ninguna orden de este resumen necesita aprobación de {plan}. Puedes pedir las citas directamente.',
+      'todo.specialist_referral':'Agendar la cita de {spec}', 'todo.lab_work':'Hacerse los análisis de laboratorio', 'todo.other':'Seguir con la orden del médico',
+      'p.todo.specialist_referral':'No necesita aprobación del plan. Te toca pedir la cita con el especialista.', 'p.todo.lab_work':'No necesita aprobación del plan. Lleva la orden al laboratorio.', 'p.todo.follow_up':'Latch lo organiza cuando estén los resultados de las otras órdenes.', 'p.todo.other':'Pregunta en la oficina del médico cómo seguir.', 'p.miss':'Falta: {docs}.',
       'ex.miss':'Falta algo', 'ex.missFor':'Lo pide:', 'ex.ok':'No falta nada', 'ex.okS':'El documento trae todo lo que piden las órdenes',
       ex:[['Documento identificado','Resumen de visita · Dr. Luis Rivera · 18 sep 2026'],['4 órdenes encontradas','Referido a cardiología · MRI · análisis de sangre · seguimiento'],['Plan médico verificado','Plan Salud Coquí · miembro activo'],['Requisitos revisados','La MRI necesita aprobación del plan'],['Falta algo','El plan pide notas clínicas recientes que no están en el expediente']],
-      'ex.go':'Ver el plan de María',
+      'ex.go':'Ver el plan de {pt}',
       // hoy
-      hello:'Hola, Ana', title:'El plan de María', sub:'Del resumen de visita del Dr. Rivera · 18 sep',
+      hello:'Hola', title:'El plan de {pt}', sub:'Resumen de visita · {dr} · {date}',
       'k.act':'Lo que toca ahora', 'k.clinic':'Esperando a la clínica', 'k.plan':'Esperando al plan', 'k.done':'Todo listo',
       'why':'¿Por qué?', safe:'Nada se envía sin tu aprobación',
-      's.request.t':'Pedir las notas de la visita a Clínica Costa Norte',
-      's.request.p':'Plan Salud Coquí necesita notas clínicas recientes para aprobar la MRI de María. Latch ya preparó la solicitud; solo tienes que revisarla.',
-      's.request.w':'Sin estas notas, el plan no puede aprobar la MRI y no se puede dar la cita.',
+      's.request.t':'Pedir las notas de la visita a {clinic}',
+      's.request.p':'{plan} necesita notas clínicas recientes para aprobar {proc} de {pt}. Latch ya preparó la solicitud; solo tienes que revisarla.',
+      's.request.w':'Sin estas notas, el plan no puede aprobar {proc} y no se puede dar la cita.',
       's.request.b':'Revisar y enviar solicitud',
-      's.waitClinic.t':'Latch está esperando las notas de Clínica Costa Norte',
+      's.waitClinic.t':'Latch está esperando las notas de {clinic}',
       's.waitClinic.p':'No tienes que hacer nada ahora. Cuando lleguen, Latch arma la autorización y te la muestra antes de enviarla al plan.',
       's.waitClinic.f':'Solicitud enviada hoy · la clínica suele contestar en 1 a 2 días',
-      's.review.t':'Revisar la autorización de la MRI',
-      's.review.p':'Llegaron las notas. Latch armó el paquete con la orden, las notas y la información del plan. Revísalo antes de enviarlo a Plan Salud Coquí.',
-      's.review.w':'El plan solo puede aprobar la MRI si recibe los tres documentos juntos.',
+      's.review.t':'Revisar la autorización de {proc}',
+      's.review.p':'Llegaron las notas. Latch armó el paquete con la orden, las notas y la información del plan. Revísalo antes de enviarlo a {plan}.',
+      's.review.w':'El plan solo puede aprobar {proc} si recibe los tres documentos juntos.',
       's.review.b':'Revisar y enviar al plan',
-      's.waitPlan.t':'Plan Salud Coquí está revisando la autorización',
-      's.waitPlan.p':'No tienes que hacer nada ahora. Cuando el plan conteste, Latch busca horarios para la MRI.',
+      's.waitPlan.t':'{plan} está revisando la autorización',
+      's.waitPlan.p':'No tienes que hacer nada ahora. Cuando el plan conteste, Latch busca horarios para {proc}.',
       's.waitPlan.f':'Enviada hoy · el plan suele contestar en 2 a 3 días',
-      's.schedule.t':'Escoger la cita para la MRI',
-      's.schedule.p':'El plan aprobó la MRI (PA-48213). Latch encontró horarios cerca de Carolina en centros que aceptan el plan de María.',
+      's.schedule.t':'Escoger la cita para {proc}',
+      's.schedule.p':'El plan aprobó {proc} (PA-48213, simulado). Latch encontró horarios en centros que aceptan el plan de {pt}.',
       's.schedule.b':'Ver horarios',
-      's.done.t':'La MRI de María es el {day} a las {time}',
-      's.done.p':'{where}. Latch le avisó a Ana para la transportación.',
+      's.done.t':'{Proc} de {pt} es el {day} a las {time}',
+      's.done.p':'{where}.',
       's.done.w':'Para ese día: lleguen 30 minutos antes con la tarjeta del plan y una identificación. Sigan las instrucciones del centro.',
       'w.day':'Ese día',
-      plan:'El plan', ready:'{n} de 5 en orden', all:'Ver todo',
+      plan:'El plan', ready:'{n} de {total} listos', all:'Ver todo',
       'rq.how':'Cómo se envía', 'rq.howV':'Fax seguro a Récords Médicos · (787) 555-0141', 'rq.view':'Ver mensaje',
-      'pk.how':'Cómo se envía', 'pk.howV':'Portal de autorizaciones de Plan Salud Coquí',
+      'pk.how':'Cómo se envía', 'pk.howV':'Portal de autorizaciones de {plan}',
       undo:'Deshacer envío', 'undo.s':'Puedes deshacerlo durante unos segundos.', 't.undo':'Envío deshecho',
       'notify.line':'Te avisamos por {ch} cuando haya noticias.', 'f.notify':'Avisos', 'f.notifyS':'Cómo te avisa Latch cuando algo cambia.',
       'ch.wa':'WhatsApp', 'ch.sms':'SMS', 'ch.mail':'correo', 'chL.mail':'Correo', 'chL.wa':'WhatsApp', 'chL.sms':'SMS',
@@ -1643,111 +1651,114 @@ html{overflow-x:hidden}
       'as.k':'Nuevo documento', 'as.t':'¿A qué paso pertenece?', 'as.ok':'Añadir al plan',
       'iv.perm':'Permiso', 'iv.perms':['Puede aprobar envíos','Solo puede ver'],
       sim:'Simular respuesta', simNote:'Demo: tú decides cuándo llega la respuesta.',
-      'k.next':'Lo próximo · nada que hacer hoy', 'nx.t':'{what}: {day} a las {time}', 'nx.mri':'MRI', 'nx.lab':'Análisis de sangre', 'nx.ref':'Cardiología',
+      'k.next':'Lo próximo · nada que hacer hoy', 'nx.t':'{what}: {day} a las {time}', 'nx.mri':'{Proc}', 
       'nx.mri.p':'{where}. Lleguen 30 minutos antes con la tarjeta del plan y una identificación.',
-      'nx.lab.p':'Laboratorio en Carolina. María va en ayunas: nada de comer de 8 a 12 horas antes. Latch le manda un recordatorio la noche antes.',
-      'nx.ref.p':'Corazón Isla Cardiología con el Dr. Rafael Méndez. Ana lleva a María.',
-      'done.strip':'Listo: la MRI quedó aprobada y agendada para el {when} en {name}. Latch le avisó a Ana para la transportación.',
-      'o.you':'Te toca', 'o.youPick':'Te toca escoger', 'o.latchPrep':'Lo prepara Latch', 'o.latchFind':'Lo busca Latch', 'o.clinic':'Espera a: clínica', 'o.plan':'Espera a: plan médico', 'o.planDecides':'Lo decide el plan', 'o.maria':'María · Latch le recuerda',
-      'rq.inc':'Se incluye', 'rq.incB':'Autorización de María', 'rq.incS':'Permite compartir sus récords con Ana · firmada el 18 sep',
-      'f.consent':'María la autorizó a pedir y recibir sus récords · 18 sep',
-      waiting:'Esperando', next:'Lo próximo', history:'Lo que pasó',
+      
+      'done.strip':'Listo: {proc} quedó aprobada y agendada para el {when} en {name}.',
+      'o.you':'Te toca', 'o.youPick':'Te toca escoger', 'o.latchPrep':'Lo prepara Latch', 'o.latchFind':'Lo busca Latch', 'o.clinic':'Espera a: clínica', 'o.plan':'Espera a: plan médico', 'o.planDecides':'Lo decide el plan', 'o.maria':'{pt} · Latch le recuerda',
+      'rq.inc':'Se incluye', 'rq.incB':'Autorización de {pt}', 'rq.incS':'Permite compartir sus récords contigo · firmada el {date}',
+      'f.consent':'{pt} te autorizó a pedir y recibir sus récords · {date}',
+      waiting:'Pendiente', next:'Lo próximo', history:'Lo que pasó',
       // steps
-      'st.visit':'Visita médica', 'st.ref':'Referido a cardiología', 'st.mri':'MRI', 'st.lab':'Análisis de sangre', 'st.fu':'Seguimiento',
-      'st.fuL':'Seguimiento con cardiología',
-      'm.visit':'18 sep · Listo', 'm.ref':'Cita el 2 oct', 'm.lab':'Mié 30 sep', 'm.fu':'Después de la MRI',
+      'st.visit':'Visita médica', 
+      'm.visit':'{date} · Listo', 
       'mri.request':'Falta algo', 'mri.waitClinic':'Esperando notas', 'mri.review':'Lista para enviar', 'mri.waitPlan':'En revisión del plan', 'mri.schedule':'Escoger cita',
       'b.done':'Listo', 'b.sched':'Agendado', 'b.later':'Más adelante', 'b.act':'Falta algo', 'b.wait':'Esperando', 'b.ready':'Te toca',
-      'r.lab':'Miércoles 30 sep · 7:45 a. m. · Laboratorio en Carolina', 'r.ref':'Viernes 2 oct · 10:30 a. m. · Ana lleva a María', 'r.refT':'Cardiología',
-      'r.mriNext':'Latch busca horarios cuando el plan la apruebe', 'r.mriT':'Cita para la MRI', 'r.fu':'Después de tener los resultados de la MRI',
+      'r.mriNext':'Latch busca horarios cuando el plan la apruebe', 'r.mriT':'Cita para {proc}', 'r.fu':'Después de tener los resultados',
       // plan view
-      'p.h':'Plan', 'p.p':'Cada paso del resumen de visita del Dr. Rivera, con lo que falta y sus documentos.',
-      'p.visit':'María vio al Dr. Rivera. Latch sacó 4 órdenes de su resumen de visita.', 'p.visitS':'Dr. Rivera · 18 sep · Santurce',
-      'p.ref':'El referido fue aceptado. Ana lleva a María a la cita.', 'p.refS':'Cita viernes 2 oct · 10:30 a. m.',
+      'p.h':'Plan', 'p.p':'Cada paso del resumen de visita, con lo que falta y sus documentos.',
+      'p.visit':'{pt} tuvo su visita con {elDr}. Latch sacó {n} órdenes del resumen.', 'p.visitS':'{dr} · {date} · {clinic}',
       'p.mriS':'El plan médico tiene que aprobarla primero',
-      'p.mri.request':'Plan Salud Coquí necesita notas clínicas recientes antes de aprobar la MRI.',
-      'p.mri.waitClinic':'Ya se pidieron las notas a Clínica Costa Norte. Cuando lleguen, sigue la autorización.',
+      'p.mri.request':'{plan} necesita notas clínicas recientes antes de aprobar {proc}.',
+      'p.mri.waitClinic':'Ya se pidieron las notas a {clinic}. Cuando lleguen, sigue la autorización.',
       'p.mri.review':'Las notas llegaron. La autorización está lista para que la revises.',
-      'p.mri.waitPlan':'La autorización está con Plan Salud Coquí.',
-      'p.mri.schedule':'El plan aprobó la MRI. Falta escoger la cita.',
-      'p.mri.done':'La MRI está agendada.',
-      'c.order':'Orden de MRI del Dr. Rivera', 'c.notes':'Notas clínicas recientes', 'c.notesW':'Notas clínicas · pedidas, esperando', 'c.send':'Enviar la autorización al plan', 'c.appr':'Aprobación del plan', 'c.apprW':'Aprobación del plan · en revisión', 'c.appt':'Escoger la cita', 'c.prep':'Preparación para el día de la MRI',
-      'd.order':'Orden de MRI', 'd.card':'Tarjeta del plan', 'd.notes':'Notas clínicas', 'd.avs':'Resumen de visita', 'd.ref':'Referido a cardiología', 'd.labo':'Orden de laboratorio',
-      'p.lab':'María tiene que ir en ayunas. Latch le manda un recordatorio la noche antes.', 'p.labS':'Miércoles 30 sep · 7:45 a. m. · Carolina',
-      'p.fu':'Latch lo organiza cuando la MRI esté hecha.', 'p.fuS':'Después de tener los resultados de la MRI',
+      'p.mri.waitPlan':'La autorización está con {plan}.',
+      'p.mri.schedule':'El plan aprobó {proc}. Falta escoger la cita.',
+      'p.mri.done':'La cita de {proc} está agendada.',
+      'c.order':'Orden de {Proc} · {dr}', 'c.notes':'Notas clínicas recientes', 'c.notesW':'Notas clínicas · pedidas, esperando', 'c.send':'Enviar la autorización al plan', 'c.appr':'Aprobación del plan', 'c.apprW':'Aprobación del plan · en revisión', 'c.appt':'Escoger la cita', 'c.prep':'Preparación para el día de {proc}',
+      'd.order':'Orden de {Proc}', 'd.card':'Tarjeta del plan', 'd.notes':'Notas clínicas', 'd.avs':'Resumen de visita', 
+      
       'up.t':'¿Tienes otro documento?', 'up.s':'Una orden, un referido o una foto. Latch lo pone en el paso que va.', 'up.b':'Subir documento',
       // familia
-      'f.h':'Familia', 'f.p':'Quién ayuda a María y qué puede hacer Latch con su información.', 'f.who':'Quién ayuda', 'f.info':'Su información',
-      'f.pt':'Paciente · Carolina', 'f.ana':'Hija · coordina citas y transporte', 'f.dr':'Medicina primaria · Clínica Costa Norte',
+      'f.h':'Familia', 'f.p':'Quién ayuda a {pt} y qué puede hacer Latch con su información.', 'f.who':'Quién ayuda', 'f.info':'Su información',
+      'f.pt':'Paciente · {town}', 'f.ana':'Cuidador(a) · coordina citas y transporte', 'f.dr':'Médico · {clinic}',
       'f.r.pt':'Ve todo', 'f.r.ana':'Aprueba envíos', 'f.r.dr':'Proveedor', 'f.r.inv':'Invitación enviada',
       'f.invite':'Invitar a alguien de la familia',
       'f.yes':'Latch sí', 'f.no':'Latch no',
       'f.y':['Pide documentos y prepara solicitudes','Busca citas y manda recordatorios','Pide permiso antes de enviar algo'],
       'f.n':['Da consejos médicos','Cambia tratamientos o medicamentos','Comparte datos sin aprobación'],
-      'f.del':'Borrar los datos de María', 'f.delS':'Se borra el plan, los documentos y el historial.', 'f.delB':'Borrar datos',
+      'f.del':'Borrar los datos de {pt}', 'f.delS':'Se borra el plan, los documentos y el historial.', 'f.delB':'Borrar datos',
       // drawers
       close:'Cerrar', 'dw.k':'Revisar antes de enviar',
-      'rq.t':'Solicitud de notas clínicas', 'rq.to':'Para', 'rq.toV':'Clínica Costa Norte · Récords médicos', 'rq.what':'Qué se pide', 'rq.whatV':'Notas de la visita del 18 sep, firmadas por el Dr. Rivera', 'rq.for':'Para qué', 'rq.forV':'Autorización de MRI · Plan Salud Coquí', 'rq.msg':'Mensaje',
-      'rq.letter':'<p>Saludos, equipo de récords:</p><p>Solicito las notas clínicas de la visita de María Santos del 18 de septiembre con el Dr. Luis Rivera. Plan Salud Coquí las necesita para la preautorización de una MRI. Se adjunta la autorización firmada de María.</p><p>Gracias,<br>Ana Santos, hija y cuidadora</p>',
+      'rq.t':'Solicitud de notas clínicas', 'rq.to':'Para', 'rq.toV':'{clinic} · Récords médicos', 'rq.what':'Qué se pide', 'rq.whatV':'Notas de la visita del {date}, firmadas por {elDr}', 'rq.for':'Para qué', 'rq.forV':'Autorización de {Proc} · {plan}', 'rq.msg':'Mensaje',
+      'rq.letter':'<p>Saludos, equipo de récords:</p><p>Solicito las notas clínicas de la visita de {ptFull} del {date} con {elDrFull}. {plan} las necesita para la preautorización de {proc}. Se adjunta la autorización firmada de {pt}.</p><p>Gracias,<br>Cuidador(a) de {ptFull}</p>',
       'rq.edit':'Editar mensaje', 'rq.editDone':'Listo', 'rq.send':'Enviar solicitud', 'rq.safe':'Solo se envía cuando tocas este botón',
       'rq.okT':'Solicitud enviada', 'rq.okP':'La clínica suele contestar en 1 a 2 días. Latch te avisa cuando lleguen las notas.',
-      'pk.t':'Autorización de MRI', 'pk.to':'Para', 'pk.toV':'Plan Salud Coquí · Autorizaciones', 'pk.inc':'Se envía', 'pk.member':'Información del plan', 'pk.memberS':'PSC-4471902 · miembro activo', 'pk.orderS':'Dr. Rivera · 18 sep', 'pk.notesS':'Clínica Costa Norte · 6 págs. · llegaron hoy',
+      'pk.t':'Autorización de {Proc}', 'pk.to':'Para', 'pk.toV':'{plan} · Autorizaciones', 'pk.inc':'Se envía', 'pk.member':'Información del plan', 'pk.memberS':'Núm. de miembro {member}', 'pk.orderS':'{dr} · {date}', 'pk.notesS':'{clinic} · 6 págs. · llegaron hoy',
       'pk.send':'Enviar al plan', 'pk.okT':'Autorización enviada', 'pk.okP':'El plan suele contestar en 2 a 3 días. Latch busca horarios cuando la aprueben.',
-      'ap.k':'Escoger cita', 'ap.t':'Cita para la MRI', 'ap.intro':'Centros cerca de Carolina que aceptan Plan Salud Coquí.', 'ap.soon':'Más pronto', 'ap.ok':'Confirmar cita', 'ap.okT':'Cita confirmada', 'ap.okP':'Latch le avisó a Ana para la transportación y les manda un recordatorio el día antes.',
-      'iv.k':'Familia', 'iv.t':'Invitar a alguien', 'iv.name':'Nombre', 'iv.rel':'Relación con María', 'iv.contact':'Celular o correo', 'iv.send':'Enviar invitación', 'iv.rels':['Hijo','Hija','Pareja','Amistad','Otro'],
+      'ap.k':'Escoger cita', 'ap.t':'Cita para {proc}', 'ap.intro':'Centros que aceptan {plan} (horarios simulados).', 'ap.soon':'Más pronto', 'ap.ok':'Confirmar cita', 'ap.okT':'Cita confirmada', 'ap.okP':'Latch les manda un recordatorio el día antes.',
+      'iv.k':'Familia', 'iv.t':'Invitar a alguien', 'iv.name':'Nombre', 'iv.rel':'Relación con {pt}', 'iv.contact':'Celular o correo', 'iv.send':'Enviar invitación', 'iv.rels':['Hijo','Hija','Pareja','Amistad','Otro'],
       'iv.note':'Demo: no se envía ningún mensaje real.',
-      'dl.k':'Su información', 'dl.t':'¿Borrar los datos de María?', 'dl.p':'Se borra el plan, los documentos y el historial. No se puede deshacer.', 'dl.ok':'Sí, borrar todo', 'dl.no':'Cancelar', 'dl.done':'Se borraron los datos de María',
+      'dl.k':'Su información', 'dl.t':'¿Borrar los datos de {pt}?', 'dl.p':'Se borra el plan, los documentos y el historial. No se puede deshacer.', 'dl.ok':'Sí, borrar todo', 'dl.no':'Cancelar', 'dl.done':'Se borraron los datos de {pt}',
       back:'Volver a Hoy',
       // history + toasts
-      'h.up':'Subiste el resumen de visita del Dr. Rivera', 'h.ex':'Latch sacó 4 órdenes del resumen de visita', 'h.plan':'Latch confirmó que el plan de María está activo', 'h.miss':'Latch encontró que la MRI necesita notas clínicas recientes',
-      'h.req':'Aprobaste y Latch pidió las notas a la clínica', 'h.notes':'Clínica Costa Norte envió las notas (6 págs.)', 'h.pack':'Latch armó la autorización con 3 documentos',
-      'h.sent':'Aprobaste y Latch envió la autorización al plan', 'h.appr':'Plan Salud Coquí aprobó la MRI · PA-48213', 'h.appt':'Confirmaste la MRI: {when}', 'h.doc':'Subiste {f}', 'h.inv':'Invitaste a {n}',
-      't.notes':'Llegaron las notas de Clínica Costa Norte', 't.appr':'Plan Salud Coquí aprobó la MRI', 't.doc':'Documento añadido al plan', 't.inv':'Invitación enviada',
+      'h.up':'Subiste el resumen de visita · {dr}', 'h.ex':'Latch sacó {n} órdenes del resumen de visita', 'h.plan':'Latch leyó el plan médico de {pt}: {plan}', 'h.miss':'Latch encontró que {proc} necesita notas clínicas recientes',
+      'h.req':'Aprobaste y Latch pidió las notas a la clínica', 'h.notes':'{clinic} envió las notas (6 págs.)', 'h.pack':'Latch armó la autorización con 3 documentos',
+      'h.sent':'Aprobaste y Latch envió la autorización al plan', 'h.appr':'{plan} aprobó {proc} · PA-48213', 'h.appt':'Confirmaste la MRI: {when}', 'h.doc':'Subiste {f}', 'h.inv':'Invitaste a {n}',
+      't.notes':'Llegaron las notas de {clinic}', 't.appr':'{plan} aprobó {proc}', 't.doc':'Documento añadido al plan', 't.inv':'Invitación enviada',
       at:'{d} · {t}'
     },
     en: {
       tag:'Demo · synthetic data', 'nav.hoy':'Today', 'nav.plan':'Plan', 'nav.fam':'Family', 'nav.aria':'Main', pending:'Something to do',
       'menu.open':'More options', 'menu.dark':'Dark mode', 'menu.light':'Light mode', 'menu.reset':'Restart demo',
-      'who.pt':'Patient · Carolina', 'who.you':'You · daughter and caregiver',
-      ft1:'Prototype with synthetic data. María Santos, her doctors, the clinics, the imaging centers and the health plan are made up. The towns and streets are real places in Puerto Rico.',
+      'who.pt':'Patient · {town}', 'who.you':'Caregiver',
+      ft1:'Prototype with synthetic data. The patients, doctors, clinics, imaging centers and health plans are made up. The towns and streets are real places in Puerto Rico.',
       ft2:'Latch helps coordinate care logistics. It does not provide medical advice or replace your healthcare provider.',
       'in.k':'Start here', 'in.h':'The doctor gave a plan. Latch gets it moving.',
       'in.p':'Upload the visit summary. Latch turns it into steps, finds what’s missing and tells you what to do, one thing at a time.',
       'in.drop':'Drop the visit summary here', 'in.dropP':'PDF or a phone photo', 'in.choose':'Choose file',
       'in.sample':'Visit summary · Dr. Rivera', 'in.sampleS':'Example · Clínica Costa Norte, Santurce · Sep 18, 2026', 'in.use':'Use example',
-      'in.note':'Demo: any file is processed as María’s visit summary.',
+      'in.note':'Demo: don’t upload real records. Use the fictional sample summaries.',
       'ex.h':'Latch is reading the document',
       'ex.reading':'Reading the document…',
+      'ex.0':'Document identified', 'ex.0s':'Visit summary · {drFull} · {dateFull}', 'ex.1':'{n} orders found', 'ex.1one':'1 order found', 'ex.2':'Health plan found', 'ex.2s':'{plan} · member {member}', 'ex.3':'Requirements checked', 'ex.3s':'The {Proc} needs the plan’s approval', 'ex.3n':'No order needs the plan’s approval',
+      'ot.mri':'MRI', 'ot.specialist_referral':'Specialist referral', 'ot.ref':'Referral · {spec}', 'ot.lab_work':'Lab work', 'ot.follow_up':'Follow-up', 'ot.other':'Other order', 'n.mri':'the MRI', 'n.other':'the order',
+      'b.todo':'To book', 'r.todo':'Yours to book', 'r.none':'Nothing right now', 'f.you':'You',
+      's.review.p0':'The summary already has what the plan asks for: the order, the clinical notes and the plan information. Latch put the packet together; review it before it goes to {plan}.',
+      'p.mri.review0':'The summary includes the clinical notes. The authorization is ready for you to review.', 'pk.notesIn':'Included in the visit summary · {notes}',
+      's.clear.p':'None of the orders in this summary need approval from {plan}. You can book the appointments directly.',
+      'todo.specialist_referral':'Book the {spec} appointment', 'todo.lab_work':'Get the lab work done', 'todo.other':'Follow up on the doctor’s order',
+      'p.todo.specialist_referral':'No plan approval needed. It’s your turn to book the specialist.', 'p.todo.lab_work':'No plan approval needed. Take the order to the lab.', 'p.todo.follow_up':'Latch sets it up once the other results are in.', 'p.todo.other':'Ask the doctor’s office how to proceed.', 'p.miss':'Missing: {docs}.',
       'ex.miss':'Something’s missing', 'ex.missFor':'Needed for:', 'ex.ok':'Nothing missing', 'ex.okS':'The document has everything the orders need',
       ex:[['Document identified','Visit summary · Dr. Luis Rivera · Sep 18, 2026'],['4 orders found','Cardiology referral · MRI · blood work · follow-up'],['Health plan verified','Plan Salud Coquí · active member'],['Requirements checked','The MRI needs the plan’s approval'],['Something’s missing','The plan needs recent clinical notes that aren’t on file']],
-      'ex.go':'See María’s plan',
-      hello:'Hi, Ana', title:'María’s plan', sub:'From Dr. Rivera’s visit summary · Sep 18',
+      'ex.go':'See {pt}’s plan',
+      hello:'Hi', title:'{pt}’s plan', sub:'From {dr}’s visit summary · {date}',
       'k.act':'What to do now', 'k.clinic':'Waiting on the clinic', 'k.plan':'Waiting on the plan', 'k.done':'All set',
       'why':'Why?', safe:'Nothing is sent without your approval',
-      's.request.t':'Ask Clínica Costa Norte for the visit notes',
-      's.request.p':'Plan Salud Coquí needs recent clinical notes to approve María’s MRI. Latch already drafted the request; you just need to review it.',
-      's.request.w':'Without these notes, the plan can’t approve the MRI and the appointment can’t be booked.',
+      's.request.t':'Ask {clinic} for the visit notes',
+      's.request.p':'{plan} needs recent clinical notes to approve {pt}’s {Proc}. Latch already drafted the request; you just need to review it.',
+      's.request.w':'Without these notes, the plan can’t approve {proc} and the appointment can’t be booked.',
       's.request.b':'Review and send request',
-      's.waitClinic.t':'Latch is waiting for the notes from Clínica Costa Norte',
+      's.waitClinic.t':'Latch is waiting for the notes from {clinic}',
       's.waitClinic.p':'Nothing to do right now. When they arrive, Latch builds the authorization and shows it to you before it goes to the plan.',
       's.waitClinic.f':'Request sent today · the clinic usually replies in 1–2 days',
-      's.review.t':'Review the MRI authorization',
-      's.review.p':'The notes arrived. Latch put together the order, the notes and the plan information. Review it before it goes to Plan Salud Coquí.',
-      's.review.w':'The plan can only approve the MRI when it gets all three documents together.',
+      's.review.t':'Review the {Proc} authorization',
+      's.review.p':'The notes arrived. Latch put together the order, the notes and the plan information. Review it before it goes to {plan}.',
+      's.review.w':'The plan can only approve {proc} when it gets all three documents together.',
       's.review.b':'Review and send to the plan',
-      's.waitPlan.t':'Plan Salud Coquí is reviewing the authorization',
-      's.waitPlan.p':'Nothing to do right now. When the plan answers, Latch looks for MRI times.',
+      's.waitPlan.t':'{plan} is reviewing the authorization',
+      's.waitPlan.p':'Nothing to do right now. When the plan answers, Latch looks for {Proc} times.',
       's.waitPlan.f':'Sent today · the plan usually answers in 2–3 days',
-      's.schedule.t':'Choose the MRI appointment',
-      's.schedule.p':'The plan approved the MRI (PA-48213). Latch found times near Carolina at centers that take María’s plan.',
+      's.schedule.t':'Choose the {Proc} appointment',
+      's.schedule.p':'The plan approved {proc} (PA-48213, simulated). Latch found times at centers that take {pt}’s plan.',
       's.schedule.b':'See times',
-      's.done.t':'María’s MRI is {day} at {time}',
-      's.done.p':'{where}. Latch let Ana know about the ride.',
+      's.done.t':'{pt}’s {Proc} is {day} at {time}',
+      's.done.p':'{where}.',
       's.done.w':'On the day: arrive 30 minutes early with the plan card and an ID. Follow the center’s instructions.',
       'w.day':'On the day',
-      plan:'The plan', ready:'{n} of 5 on track', all:'See all',
+      plan:'The plan', ready:'{n} of {total} done', all:'See all',
       'rq.how':'How it’s sent', 'rq.howV':'Secure fax to Medical Records · (787) 555-0141', 'rq.view':'View message',
-      'pk.how':'How it’s sent', 'pk.howV':'Plan Salud Coquí authorization portal',
+      'pk.how':'How it’s sent', 'pk.howV':'{plan} authorization portal',
       undo:'Undo send', 'undo.s':'You can undo this for a few seconds.', 't.undo':'Send undone',
       'notify.line':'We’ll let you know by {ch} when there’s news.', 'f.notify':'Updates', 'f.notifyS':'How Latch lets you know when something changes.',
       'ch.wa':'WhatsApp', 'ch.sms':'text message', 'ch.mail':'email', 'chL.mail':'Email', 'chL.wa':'WhatsApp', 'chL.sms':'SMS',
@@ -1755,67 +1766,63 @@ html{overflow-x:hidden}
       'as.k':'New document', 'as.t':'Which step is it for?', 'as.ok':'Add to plan',
       'iv.perm':'Permission', 'iv.perms':['Can approve sends','View only'],
       sim:'Simulate reply', simNote:'Demo: you decide when the reply arrives.',
-      'k.next':'Up next · nothing to do today', 'nx.t':'{what}: {day} at {time}', 'nx.mri':'MRI', 'nx.lab':'Blood work', 'nx.ref':'Cardiology',
+      'k.next':'Up next · nothing to do today', 'nx.t':'{what}: {day} at {time}', 'nx.mri':'{Proc}', 
       'nx.mri.p':'{where}. Arrive 30 minutes early with the plan card and an ID.',
-      'nx.lab.p':'Lab in Carolina. María needs to fast: no food for 8 to 12 hours before. Latch sends her a reminder the night before.',
-      'nx.ref.p':'Corazón Isla Cardiología with Dr. Rafael Méndez. Ana drives María.',
-      'done.strip':'Done: the MRI is approved and booked for {when} at {name}. Latch let Ana know about the ride.',
-      'o.you':'Your turn', 'o.youPick':'Your pick', 'o.latchPrep':'Latch prepares it', 'o.latchFind':'Latch finds times', 'o.clinic':'Waiting on: clinic', 'o.plan':'Waiting on: health plan', 'o.planDecides':'The plan decides', 'o.maria':'María · Latch reminds her',
-      'rq.inc':'Included', 'rq.incB':'María’s authorization', 'rq.incS':'Lets her records be shared with Ana · signed Sep 18',
-      'f.consent':'María authorized her to request and receive her records · Sep 18',
+      
+      'done.strip':'Done: {proc} is approved and booked for {when} at {name}.',
+      'o.you':'Your turn', 'o.youPick':'Your pick', 'o.latchPrep':'Latch prepares it', 'o.latchFind':'Latch finds times', 'o.clinic':'Waiting on: clinic', 'o.plan':'Waiting on: health plan', 'o.planDecides':'The plan decides', 'o.maria':'{pt} · Latch reminds them',
+      'rq.inc':'Included', 'rq.incB':'{pt}’s authorization', 'rq.incS':'Lets their records be shared with you · signed {date}',
+      'f.consent':'{pt} authorized you to request and receive their records · {date}',
       waiting:'Coming up', next:'After that', history:'What happened',
-      'st.visit':'Doctor visit', 'st.ref':'Cardiology referral', 'st.mri':'MRI', 'st.lab':'Blood work', 'st.fu':'Follow-up',
-      'st.fuL':'Cardiology follow-up',
-      'm.visit':'Sep 18 · Done', 'm.ref':'Visit on Oct 2', 'm.lab':'Wed Sep 30', 'm.fu':'After the MRI',
+      'st.visit':'Doctor visit', 
+      'm.visit':'{date} · Done', 
       'mri.request':'Something’s missing', 'mri.waitClinic':'Waiting on notes', 'mri.review':'Ready to send', 'mri.waitPlan':'Plan reviewing', 'mri.schedule':'Pick a time',
       'b.done':'Done', 'b.sched':'Scheduled', 'b.later':'Later', 'b.act':'Something’s missing', 'b.wait':'Waiting', 'b.ready':'Your turn',
-      'r.lab':'Wednesday Sep 30 · 7:45 AM · Lab in Carolina', 'r.ref':'Friday Oct 2 · 10:30 AM · Ana drives María', 'r.refT':'Cardiology',
-      'r.mriNext':'Latch looks for times once the plan approves it', 'r.mriT':'MRI appointment', 'r.fu':'After the MRI results are in',
-      'p.h':'Plan', 'p.p':'Every step from Dr. Rivera’s visit summary, with what’s missing and its documents.',
-      'p.visit':'María saw Dr. Rivera. Latch pulled 4 orders from the visit summary.', 'p.visitS':'Dr. Rivera · Sep 18 · Santurce',
-      'p.ref':'The referral was accepted. Ana drives María to the visit.', 'p.refS':'Visit Friday Oct 2 · 10:30 AM',
+      'r.mriNext':'Latch looks for times once the plan approves it', 'r.mriT':'{Proc} appointment', 'r.fu':'After the results are in',
+      'p.h':'Plan', 'p.p':'Every step from {dr}’s visit summary, with what’s missing and its documents.',
+      'p.visit':'{pt} saw {dr}. Latch pulled {n} orders from the visit summary.', 'p.visitS':'{dr} · {date} · {clinic}',
       'p.mriS':'The health plan has to approve it first',
-      'p.mri.request':'Plan Salud Coquí needs recent clinical notes before approving the MRI.',
-      'p.mri.waitClinic':'The notes were requested from Clínica Costa Norte. The authorization continues once they arrive.',
+      'p.mri.request':'{plan} needs recent clinical notes before approving {proc}.',
+      'p.mri.waitClinic':'The notes were requested from {clinic}. The authorization continues once they arrive.',
       'p.mri.review':'The notes arrived. The authorization is ready for you to review.',
-      'p.mri.waitPlan':'The authorization is with Plan Salud Coquí.',
-      'p.mri.schedule':'The plan approved the MRI. Just pick a time.',
-      'p.mri.done':'The MRI is scheduled.',
-      'c.order':'MRI order from Dr. Rivera', 'c.notes':'Recent clinical notes', 'c.notesW':'Clinical notes · requested, waiting', 'c.send':'Send the authorization to the plan', 'c.appr':'Plan approval', 'c.apprW':'Plan approval · in review', 'c.appt':'Pick the appointment', 'c.prep':'Getting ready for MRI day',
-      'd.order':'MRI order', 'd.card':'Plan card', 'd.notes':'Clinical notes', 'd.avs':'Visit summary', 'd.ref':'Cardiology referral', 'd.labo':'Lab order',
-      'p.lab':'María needs to fast. Latch sends a reminder the night before.', 'p.labS':'Wednesday Sep 30 · 7:45 AM · Carolina',
-      'p.fu':'Latch sets it up once the MRI is done.', 'p.fuS':'After the MRI results are in',
+      'p.mri.waitPlan':'The authorization is with {plan}.',
+      'p.mri.schedule':'The plan approved {proc}. Just pick a time.',
+      'p.mri.done':'The {Proc} appointment is booked.',
+      'c.order':'{Proc} order from {dr}', 'c.notes':'Recent clinical notes', 'c.notesW':'Clinical notes · requested, waiting', 'c.send':'Send the authorization to the plan', 'c.appr':'Plan approval', 'c.apprW':'Plan approval · in review', 'c.appt':'Pick the appointment', 'c.prep':'Getting ready for {Proc} day',
+      'd.order':'{Proc} order', 'd.card':'Plan card', 'd.notes':'Clinical notes', 'd.avs':'Visit summary', 
+      
       'up.t':'Have another document?', 'up.s':'An order, a referral or a photo. Latch files it under the right step.', 'up.b':'Upload document',
-      'f.h':'Family', 'f.p':'Who’s helping María and what Latch can do with her information.', 'f.who':'Who’s helping', 'f.info':'Her information',
-      'f.pt':'Patient · Carolina', 'f.ana':'Daughter · handles appointments and rides', 'f.dr':'Primary care · Clínica Costa Norte',
+      'f.h':'Family', 'f.p':'Who’s helping {pt} and what Latch can do with their information.', 'f.who':'Who’s helping', 'f.info':'Her information',
+      'f.pt':'Patient · {town}', 'f.ana':'Caregiver · handles appointments and rides', 'f.dr':'Doctor · {clinic}',
       'f.r.pt':'Sees everything', 'f.r.ana':'Approves sends', 'f.r.dr':'Provider', 'f.r.inv':'Invite sent',
       'f.invite':'Invite a family member',
       'f.yes':'Latch does', 'f.no':'Latch doesn’t',
       'f.y':['Request documents and prepare forms','Find appointments and send reminders','Ask before sending anything'],
       'f.n':['Give medical advice','Change treatments or medications','Share data without approval'],
-      'f.del':'Delete María’s data', 'f.delS':'Removes the plan, documents and history.', 'f.delB':'Delete data',
+      'f.del':'Delete {pt}’s data', 'f.delS':'Removes the plan, documents and history.', 'f.delB':'Delete data',
       close:'Close', 'dw.k':'Review before sending',
-      'rq.t':'Clinical notes request', 'rq.to':'To', 'rq.toV':'Clínica Costa Norte · Medical records', 'rq.what':'Requesting', 'rq.whatV':'Notes from the Sep 18 visit, signed by Dr. Rivera', 'rq.for':'For', 'rq.forV':'MRI authorization · Plan Salud Coquí', 'rq.msg':'Message',
-      'rq.letter':'<p>Hello, records team:</p><p>I’m requesting the clinical notes from María Santos’s September 18 visit with Dr. Luis Rivera. Plan Salud Coquí needs them for an MRI prior authorization. María’s signed authorization is attached.</p><p>Thank you,<br>Ana Santos, daughter and caregiver</p>',
+      'rq.t':'Clinical notes request', 'rq.to':'To', 'rq.toV':'{clinic} · Medical records', 'rq.what':'Requesting', 'rq.whatV':'Notes from the {date} visit, signed by {dr}', 'rq.for':'For', 'rq.forV':'{Proc} authorization · {plan}', 'rq.msg':'Message',
+      'rq.letter':'<p>Hello, records team:</p><p>I’m requesting the clinical notes from {ptFull}’s {date} visit with {drFull}. {plan} needs them for {proc} prior authorization. {pt}’s signed authorization is attached.</p><p>Thank you,<br>{ptFull}’s caregiver</p>',
       'rq.edit':'Edit message', 'rq.editDone':'Done', 'rq.send':'Send request', 'rq.safe':'It’s only sent when you tap this button',
       'rq.okT':'Request sent', 'rq.okP':'The clinic usually replies in 1–2 days. Latch lets you know when the notes arrive.',
-      'pk.t':'MRI authorization', 'pk.to':'To', 'pk.toV':'Plan Salud Coquí · Authorizations', 'pk.inc':'Included', 'pk.member':'Plan information', 'pk.memberS':'PSC-4471902 · active member', 'pk.orderS':'Dr. Rivera · Sep 18', 'pk.notesS':'Clínica Costa Norte · 6 pages · arrived today',
+      'pk.t':'{Proc} authorization', 'pk.to':'To', 'pk.toV':'{plan} · Authorizations', 'pk.inc':'Included', 'pk.member':'Plan information', 'pk.memberS':'Member ID {member}', 'pk.orderS':'{dr} · {date}', 'pk.notesS':'{clinic} · 6 pages · arrived today',
       'pk.send':'Send to the plan', 'pk.okT':'Authorization sent', 'pk.okP':'The plan usually answers in 2–3 days. Latch looks for times once it’s approved.',
-      'ap.k':'Pick a time', 'ap.t':'MRI appointment', 'ap.intro':'Centers near Carolina that take Plan Salud Coquí.', 'ap.soon':'Soonest', 'ap.ok':'Confirm appointment', 'ap.okT':'Appointment confirmed', 'ap.okP':'Latch let Ana know about the ride and will send you both a reminder the day before.',
-      'iv.k':'Family', 'iv.t':'Invite someone', 'iv.name':'Name', 'iv.rel':'Relationship to María', 'iv.contact':'Phone or email', 'iv.send':'Send invite', 'iv.rels':['Son','Daughter','Partner','Friend','Other'],
+      'ap.k':'Pick a time', 'ap.t':'{Proc} appointment', 'ap.intro':'Centers that take {plan} (simulated times).', 'ap.soon':'Soonest', 'ap.ok':'Confirm appointment', 'ap.okT':'Appointment confirmed', 'ap.okP':'Latch will send you a reminder the day before.',
+      'iv.k':'Family', 'iv.t':'Invite someone', 'iv.name':'Name', 'iv.rel':'Relationship to {pt}', 'iv.contact':'Phone or email', 'iv.send':'Send invite', 'iv.rels':['Son','Daughter','Partner','Friend','Other'],
       'iv.note':'Demo: no real message is sent.',
-      'dl.k':'Her information', 'dl.t':'Delete María’s data?', 'dl.p':'This removes the plan, documents and history. It can’t be undone.', 'dl.ok':'Yes, delete everything', 'dl.no':'Cancel', 'dl.done':'María’s data was deleted',
+      'dl.k':'Her information', 'dl.t':'Delete {pt}’s data?', 'dl.p':'This removes the plan, documents and history. It can’t be undone.', 'dl.ok':'Yes, delete everything', 'dl.no':'Cancel', 'dl.done':'{pt}’s data was deleted',
       back:'Back to Today',
-      'h.up':'You uploaded Dr. Rivera’s visit summary', 'h.ex':'Latch pulled 4 orders from the visit summary', 'h.plan':'Latch confirmed María’s plan is active', 'h.miss':'Latch found the MRI needs recent clinical notes',
-      'h.req':'You approved and Latch requested the notes from the clinic', 'h.notes':'Clínica Costa Norte sent the notes (6 pages)', 'h.pack':'Latch built the authorization with 3 documents',
-      'h.sent':'You approved and Latch sent the authorization to the plan', 'h.appr':'Plan Salud Coquí approved the MRI · PA-48213', 'h.appt':'You confirmed the MRI: {when}', 'h.doc':'You uploaded {f}', 'h.inv':'You invited {n}',
-      't.notes':'The notes from Clínica Costa Norte arrived', 't.appr':'Plan Salud Coquí approved the MRI', 't.doc':'Document added to the plan', 't.inv':'Invite sent',
+      'h.up':'You uploaded {dr}’s visit summary', 'h.ex':'Latch pulled {n} orders from the visit summary', 'h.plan':'Latch read {pt}’s health plan: {plan}', 'h.miss':'Latch found {proc} needs recent clinical notes',
+      'h.req':'You approved and Latch requested the notes from the clinic', 'h.notes':'{clinic} sent the notes (6 pages)', 'h.pack':'Latch built the authorization with 3 documents',
+      'h.sent':'You approved and Latch sent the authorization to the plan', 'h.appr':'{plan} approved {proc} · PA-48213', 'h.appt':'You confirmed the MRI: {when}', 'h.doc':'You uploaded {f}', 'h.inv':'You invited {n}',
+      't.notes':'The notes from {clinic} arrived', 't.appr':'{plan} approved {proc}', 't.doc':'Document added to the plan', 't.inv':'Invite sent',
       at:'{d} · {t}'
     }
   };
   let lang = 'es';
   try { const s = localStorage.getItem('latch-lang'); if (s === 'en' || s === 'es') lang = s; } catch(_) {}
-  const t = (k, v) => { let s = D[lang][k] ?? D.es[k] ?? k; if (v && typeof s === 'string') for (const x in v) s = s.replace('{'+x+'}', v[x]); return s; };
+  // {pt}, {clinic}, {plan}… are filled from the extracted visit summary (ctx); v adds or overrides.
+  const t = (k, v) => { let s = D[lang][k] ?? D.es[k] ?? k; if (typeof s === 'string' && s.includes('{')) { const c = { ...ctx(), ...v }; s = s.replace(/\{(\w+)\}/g, (m, x) => x in c ? c[x] : m); } return s; };
 
   // ---------- Simulated time (Puerto Rico, AST) ----------
   const MES = { es:['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'], en:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'] };
@@ -1840,6 +1847,55 @@ html{overflow-x:hidden}
   function fresh(){ return { notify:'wa', stage:'intake', tab:'hoy', hist:[], slot:null, extra:[], invited:[], clock:{h:10,mi:29}, exN:0 }; }
   S = fresh();
   const after = st => ORDER.indexOf(S.stage) >= ORDER.indexOf(st);
+
+  // ---------- Plan from data ----------
+  // Saved result of a real run on sample A; used only if reading fails.
+  const SAMPLE_X = {"isVisitSummary":true,"patient":{"name":"María Santos Rivera","dob":"1954-03-14","town":"Carolina"},"visit":{"date":"2026-09-18","doctor":"Dr. Luis Rivera","clinic":"Clínica Costa Norte"},"plan":{"name":"Plan Salud Coquí","memberId":"PSC-4471902"},"orders":[{"type":"specialist_referral","detail":"Referido a Cardiología - Corazón Isla Cardiología, Dr. Rafael Méndez. Prioridad: rutina (dentro de 3 semanas)"},{"type":"mri","detail":"Resonancia magnética (MRI) cardíaca con contraste. Código CPT 75561. Requiere preautorización del plan médico"},{"type":"lab_work","detail":"Hemograma completo (CBC), panel metabólico completo (CMP) y panel lipídico. Requiere ayuno de 8 a 12 horas"},{"type":"follow_up","detail":"Medicina primaria con el Dr. Rivera en 4 semanas, después de los resultados"}],"docsPresent":["order","plan_card","referral","lab_order"]};
+  const X = () => S.x || SAMPLE_X;
+  const fDate = (iso, year) => { const [y, m, d] = String(iso || '').split('-').map(Number); if (!m) return iso || ''; const s = lang === 'en' ? `${MES.en[m-1]} ${d}` : `${d} ${MES.es[m-1]}`; return year ? `${s}${lang === 'en' ? ',' : ''} ${y}` : s; };
+  // "Dr. Luis Rivera" → "Dr. Rivera"; "Dra. Ana Colón Rosa" → "Dra. Colón" (first surname).
+  const drShort = full => { const w = String(full || '').split(/\s+/); if (w.length < 3) return full || ''; const n = w.slice(1); return `${w[0]} ${n.length >= 3 ? n[1] : n[n.length-1]}`; };
+  const spec = o => (String(o.detail).match(/\p{Lu}\p{Ll}+(?:logía|pedia|iatría)/u) || [''])[0];
+  function ctx(){
+    const x = X(), p = x.patient || {}, v = x.visit || {}, pl = x.plan || {}, L = D[lang];
+    const ap = S.steps && S.steps.find(s => s.k === S.apK), ty = ap ? ap.o.type : 'other';
+    const art = lang === 'es' ? (/^Dra\b/.test(v.doctor || '') ? 'la ' : 'el ') : '';
+    const c = { pt: String(p.name || '').split(/\s+/)[0], ptFull: p.name || '', town: p.town || '', dr: drShort(v.doctor), drFull: v.doctor || '', clinic: v.clinic || '',
+      elDr: art + drShort(v.doctor), elDrFull: art + (v.doctor || ''),
+      plan: pl.name || '', member: pl.memberId || '', date: fDate(v.date), dateFull: fDate(v.date, true), notes: fDate(x.clinicalNotesDate),
+      proc: L['n.' + ty] ?? L['n.other'], Proc: L['ot.' + ty] ?? L['ot.other'] };
+    for (const k in c) c[k] = esc(c[k]);
+    return c;
+  }
+  function exRows(){
+    const n = (X().orders || []).length;
+    return [
+      [t('ex.0'), t('ex.0s')],
+      [n === 1 ? t('ex.1one') : t('ex.1', { n }), (S.steps || []).slice(1).map(stepLabel).join(' · ')],
+      [t('ex.2'), t('ex.2s')],
+      [t('ex.3'), S.apK ? t('ex.3s') : t('ex.3n')],
+      gapRow(D[lang].ex[4])
+    ];
+  }
+  function stepLabel(s){
+    if (!s || s.k === 'visit') return t('st.visit');
+    const sp = spec(s.o);
+    return s.o.type === 'specialist_referral' && sp ? t('ot.ref', { spec: esc(sp) }) : t('ot.' + s.o.type);
+  }
+  // One step for the visit, then one per order. The first order that needs the plan's approval runs the approval flow (ORDER).
+  function buildSteps(){
+    const x = X(), R = S.rules ? S.rules.orderTypes : {};
+    let ap = null;
+    S.steps = [{ k:'visit' }].concat((x.orders || []).map((o, i) => {
+      const rule = R[o.type], s = { k:'o'+i, o, rule, gaps:(S.gaps || []).filter(g => g.order === o.type) };
+      if (rule && rule.needsPriorAuth && !ap) { ap = s; s.auth = true; }
+      else if (o.type === 'follow_up') s.later = true;
+      else s.todo = true;
+      return s;
+    }));
+    S.apK = ap ? ap.k : null;
+    S.noGap = !!ap && !ap.gaps.length;
+  }
   const tick = (m=2) => { S.clock.mi += m; while (S.clock.mi >= 60) { S.clock.mi -= 60; S.clock.h++; } return { ...S.clock }; };
   const log = (k, v) => S.hist.unshift({ k, v, time:tick(1 + Math.floor(Math.random()*3)) });
   let timer = null;
@@ -1870,8 +1926,8 @@ html{overflow-x:hidden}
       ${ex ? `
         <div class="x-card">
           <div class="x-sech" style="margin-bottom:6px"><h3>${t('ex.h')}</h3></div>
-          ${S.reading ? `<p class="x-note" id="xReading" role="status">${t('ex.reading')}</p>` : ''}
-          <ol class="x-extract" id="xEx">${D[lang].ex.map((r,i) => { const al = i===4 && !(S.gaps && !S.gaps.length); r = i===4 ? gapRow(r) : r; return `<li class="${i < S.exN ? 'on' : ''} ${al?'s-alert':''}">${node(al?'s-act':'s-done', al?'!':check)}<div><b>${r[0]}</b><span>${r[1]}</span></div></li>`; }).join('')}</ol>
+          ${S.reading ? `<p class="x-note" id="xReading" role="status">${t('ex.reading')}</p>` : `
+          <ol class="x-extract" id="xEx">${exRows().map((r,i) => { const al = i===4 && !(S.gaps && !S.gaps.length); return `<li class="${i < S.exN ? 'on' : ''} ${al?'s-alert':''}">${node(al?'s-act':'s-done', al?'!':check)}<div><b>${r[0]}</b><span>${r[1]}</span></div></li>`; }).join('')}</ol>`}
           <div class="x-acts" id="xExGo" ${S.exN < 5 ? 'hidden' : ''}><button class="x-btn dark" data-act="enter" id="exGo">${t('ex.go')} ${ic('i-arrow')}</button></div>
         </div>` : `
         <label class="x-drop" id="xDrop">
@@ -1892,7 +1948,7 @@ html{overflow-x:hidden}
       <section class="x-now" aria-labelledby="xNowT">
         <span class="x-kick"><i></i>${t('k.act')}</span>
         <h2 id="xNowT">${t('s.'+st+'.t')}</h2>
-        <p>${t('s.'+st+'.p')}</p>
+        <p>${t('s.'+st+'.p' + (st === 'review' && S.noGap ? '0' : ''))}</p>
         ${D[lang]['s.'+st+'.w'] ? `<div class="x-why">${ic('i-info')}<span><b>${t('why')}</b> ${t('s.'+st+'.w')}</span></div>` : ''}
         <div class="x-acts"><button class="x-btn go" data-act="open">${ic(st==='schedule'?'i-cal':'i-send')}${actionLabel()}</button>
         <span class="x-fine">${ic('i-shield')}${t('safe')}</span></div>
@@ -1906,9 +1962,20 @@ html{overflow-x:hidden}
         <p class="x-notify">${ic('i-send')}${t('notify.line', { ch: t('ch.' + S.notify) })}</p>
         <div class="x-sim"><button class="x-btn ghost sm" type="button" data-act="sim">${ic('i-arrow')}${t('sim')}</button><span>${t('simNote')}</span></div>
       </section>`;
-    const sl = S.slot, key = x => ((x.m * 40 + x.d) * 24 + x.h) * 60 + x.mi;
-    const evs = [{ k:'mri', when:sl.when, p:t('nx.mri.p', { where:`${sl.name} · ${sl.place[lang]}` }) }, { k:'lab', when:at(9,30,7,45), p:t('nx.lab.p') }, { k:'ref', when:at(10,2,10,30), p:t('nx.ref.p') }].sort((a, b) => key(a.when) - key(b.when));
-    const nx = evs[0];
+    if (st === 'clear') {
+      const f = S.steps.find(s => s.todo), r = f && f.rule, sp = f ? esc(spec(f.o).toLowerCase()) : '';
+      const why = r && (r.note || r.dayOfPrep);
+      return `
+      <section class="x-now" aria-labelledby="xNowT">
+        <span class="x-kick"><i></i>${t('k.act')}</span>
+        <h2 id="xNowT">${f ? t('todo.' + (D[lang]['todo.' + f.o.type] ? f.o.type : 'other'), { spec: sp || t('ot.specialist_referral').toLowerCase() }) : t('k.done')}</h2>
+        <p>${t('s.clear.p')}</p>
+        ${f ? `<p class="x-fine">${esc(f.o.detail)}</p>` : ''}
+        ${why ? `<div class="x-why">${ic('i-info')}<span><b>${t('why')}</b> ${esc(why[lang])}</span></div>` : ''}
+      </section>`;
+    }
+    const sl = S.slot;
+    const nx = { k:'mri', when:sl.when, p:t('nx.mri.p', { where:`${sl.name} · ${sl.place[lang]}` }) };
     return `
       <section class="x-now s-ok" aria-labelledby="xNowT">
         <span class="x-kick"><i></i>${t('k.next')}</span>
@@ -1919,24 +1986,24 @@ html{overflow-x:hidden}
   }
 
   function viewHoy(){
-    const m = mriState();
-    const track = [
-      ['s-done', node('', check), t('st.visit'), t('m.visit')],
-      ['s-done', node('', check), t('st.ref'), t('m.ref')],
-      [m.cls, node('', m.nd), t('st.mri'), m.label],
-      ['s-sched', node('', cal), t('st.lab'), t('m.lab')],
-      ['', node(''), t('st.fu'), t('m.fu')]
-    ];
+    const m = S.apK ? mriState() : null;
+    const track = S.steps.map(s =>
+      s.k === 'visit' ? ['s-done', node('', check), t('st.visit'), t('m.visit')]
+      : s.k === S.apK ? [m.cls, node('', m.nd), stepLabel(s), m.label]
+      : s.gaps.length ? ['s-act', node('', '!'), stepLabel(s), t('b.act')]
+      : ['', node(''), stepLabel(s), t(s.later ? 'b.later' : 'b.todo')]);
     const done = S.stage === 'done';
+    const none = [ic('i-check'), t('r.none'), ''];
     const waitRows = [
       done ? [cal, t('r.mriT'), `${fWhen(S.slot.when)} · ${S.slot.name}`] : null,
-      [cal, t('st.lab'), t('r.lab')],
-      [ic('i-pin'), t('r.refT'), t('r.ref')]
+      ...S.steps.filter(s => s.todo).map(s => [ic('i-pin'), stepLabel(s), t('r.todo')])
     ].filter(Boolean);
     const nextRows = [
-      done ? null : [clock, t('r.mriT'), t('r.mriNext')],
-      [clock, t('st.fuL'), t('r.fu')]
+      S.apK && !done ? [clock, t('r.mriT'), t('r.mriNext')] : null,
+      ...S.steps.filter(s => s.later).map(s => [clock, stepLabel(s), t('r.fu')])
     ].filter(Boolean);
+    if (!waitRows.length) waitRows.push(none);
+    if (!nextRows.length) nextRows.push(none);
     const row = r => `<div class="x-row"><span class="ic">${r[0]}</span><div><b>${r[1]}</b><span>${r[2]}</span></div></div>`;
     return `
       <p class="x-hello">${t('hello')}</p>
@@ -1944,7 +2011,7 @@ html{overflow-x:hidden}
       <p class="x-sub">${t('sub')}</p>
       ${nowCard()}
       <section class="x-sec" aria-labelledby="xPlanT">
-        <div class="x-sech"><h3 id="xPlanT">${t('plan')}</h3><small>${t('ready', { n: S.stage === 'done' ? 4 : 3 })}</small><button class="x-link" data-tab="plan">${t('all')} ${ic('i-arrow')}</button></div>
+        <div class="x-sech"><h3 id="xPlanT">${t('plan')}</h3><small>${t('ready', { n: 1 + (done ? 1 : 0), total: S.steps.length })}</small><button class="x-link" data-tab="plan">${t('all')} ${ic('i-arrow')}</button></div>
         <ol class="x-track">${track.map(r => `<li class="${r[0]}">${r[1].replace('x-nd ', 'x-nd ')}<b>${r[2]}</b><span>${r[3]}</span></li>`).join('')}</ol>
       </section>
       <section class="x-sec">
@@ -1960,7 +2027,7 @@ html{overflow-x:hidden}
   }
 
   function viewPlan(){
-    const m = mriState(), st = S.stage;
+    const m = S.apK ? mriState() : null, st = S.stage, c = ctx(), have = new Set(X().docsPresent || []);
     const ck = (cls, txt, own) => `<li class="${cls}"><i>${cls==='y'?'✓':cls==='n'?'!':''}</i><span>${txt}</span>${own ? `<em class="x-own ${cls}">${t(own)}</em>` : ''}</li>`;
     const notes = after('review') ? ck('y', t('c.notes')) : st==='waitClinic' ? ck('w', t('c.notesW'), 'o.clinic') : ck('n', t('c.notes'), 'o.you');
     const send = after('waitPlan') ? ck('y', t('c.send')) : st==='review' ? ck('n', t('c.send'), 'o.you') : ck('o', t('c.send'), 'o.latchPrep');
@@ -1976,18 +2043,28 @@ html{overflow-x:hidden}
       <h1 class="x-h1">${t('p.h')}</h1>
       <p class="x-sub">${t('p.p')}</p>
       <ol class="x-steps">
-        ${step('', node('s-done', check), t('st.visit'), t('p.visitS'), ['s-done', t('b.done')], `<p>${t('p.visit')}</p><div class="x-docs">${doc(t('d.avs'), 'Clínica Costa Norte · 18 sep', 'visit')}</div>${xtra('visit')}`)}
-        ${step('', node('s-done', check), t('st.ref'), t('p.refS'), ['s-done', t('b.done')], `<p>${t('p.ref')}</p><div class="x-docs">${doc(t('d.ref'), 'Dr. Luis Rivera · 18 sep', 'ref')}</div>${xtra('ref')}`)}
-        ${step(m.cls === 's-act' ? 's-act' : '', node(m.cls, m.nd), t('st.mri'), st==='done' ? `${fWhen(S.slot.when)} · ${S.slot.name}` : t('p.mriS'), m.badge,
-          `<p>${t('p.mri.'+st)}</p><ul class="x-check">${ck('y', t('c.order'))}${notes}${send}${appr}${appt}${ck('o', t('c.prep'), 'o.maria')}</ul><div class="x-docs">${docs.map(d => doc(d, d === t('d.card') ? 'Plan Salud Coquí · PSC-4471902' : d === t('d.notes') ? 'Clínica Costa Norte · ' + t('pk.notesS').split(' · ').slice(1).join(' · ') : 'Dr. Luis Rivera · 18 sep', 'mri')).join('')}</div>${xtra('mri')}${ACTION.includes(st) ? `<button class="x-btn go sm" data-act="open">${ic(st==='schedule'?'i-cal':'i-send')}${actionLabel()}</button>` : ''}`, S.open.mri)}
-        ${step('', node('s-sched', cal), t('st.lab'), t('p.labS'), ['s-sched', t('b.sched')], `<p>${t('p.lab')}</p><div class="x-docs">${doc(t('d.labo'), 'Dr. Luis Rivera · 18 sep', 'lab')}</div>${xtra('lab')}`, S.open.lab)}
-        ${step('', node(''), t('st.fuL'), t('p.fuS'), ['', t('b.later')], `<p>${t('p.fu')}</p>${xtra('fu')}`, S.open.fu)}
+        ${S.steps.map(s => {
+          const k = s.k, from = `${c.dr} · ${c.date}`;
+          if (k === 'visit') return step('', node('s-done', check), t('st.visit'), t('p.visitS'), ['s-done', t('b.done')], `<p>${t('p.visit', { n: S.steps.length - 1 })}</p><div class="x-docs">${doc(t('d.avs'), `${c.clinic} · ${c.date}`, k)}</div>${xtra(k)}`, S.open[k]);
+          if (k === S.apK) {
+            const notesSrc = S.noGap ? t('pk.notesIn') : t('pk.notesS');
+            return step(m.cls === 's-act' ? 's-act' : '', node(m.cls, m.nd), stepLabel(s), st==='done' ? `${fWhen(S.slot.when)} · ${S.slot.name}` : t('p.mriS'), m.badge,
+              `<p>${t('p.mri.'+st + (st === 'review' && S.noGap ? '0' : ''))}</p><ul class="x-check">${ck('y', t('c.order'))}${notes}${send}${appr}${appt}${ck('o', t('c.prep'), 'o.maria')}</ul><div class="x-docs">${docs.map(d => doc(d, d === t('d.card') ? `${c.plan} · ${c.member}` : d === t('d.notes') ? notesSrc : from, k)).join('')}</div>${xtra(k)}${ACTION.includes(st) ? `<button class="x-btn go sm" data-act="open">${ic(st==='schedule'?'i-cal':'i-send')}${actionLabel()}</button>` : ''}`, S.open[k]);
+          }
+          const g = s.gaps.length, ty = D[lang]['p.todo.' + s.o.type] ? s.o.type : 'other';
+          const prep = s.rule && (s.rule.dayOfPrep || s.rule.note);
+          const sdocs = (s.rule ? s.rule.requiredDocs : []).filter(d => have.has(d)).map(d => doc(S.rules.docTypes[d][lang], from, k));
+          const txt = g ? t('p.miss', { docs: s.gaps.map(x => S.rules.docTypes[x.missing][lang].toLowerCase()).join(', ') }) : t('p.todo.' + (s.later ? 'follow_up' : ty));
+          return step(g ? 's-act' : '', node(g ? 's-act' : '', g ? '!' : ''), stepLabel(s), esc(s.o.detail), g ? ['s-act', t('b.act')] : ['', t(s.later ? 'b.later' : 'b.todo')],
+            `<p>${txt}</p>${prep ? `<p>${esc(prep[lang])}</p>` : ''}${sdocs.length ? `<div class="x-docs">${sdocs.join('')}</div>` : ''}${xtra(k)}`, S.open[k]);
+        }).join('')}
       </ol>
       <div class="x-upload">${ic('i-upload')}<div><b>${t('up.t')}</b><small>${t('up.s')}</small></div><label><input type="file" id="xFile" accept=".pdf,.png,.jpg,.jpeg,.heic,.doc,.docx"><span class="x-btn ghost sm">${t('up.b')}</span></label></div>`;
   }
 
+  const initials = n => String(n).split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
   function viewFam(){
-    const rel = D[lang]['iv.rels'];
+    const rel = D[lang]['iv.rels'], c = ctx();
     return `
       <p class="x-hello">${t('title')}</p>
       <h1 class="x-h1">${t('f.h')}</h1>
@@ -1995,9 +2072,9 @@ html{overflow-x:hidden}
       <div class="x-card">
         <div class="x-sech" style="margin:0 0 6px"><h3>${t('f.who')}</h3></div>
         <ul class="x-team">
-          <li><span class="x-av">MS</span><div><b>María Santos</b><span>${t('f.pt')}</span></div><span class="x-role">${t('f.r.pt')}</span></li>
-          <li><span class="x-av cg">AS</span><div><b>Ana Santos ${lang==='en'?'(you)':'(tú)'}</b><span>${t('f.ana')}</span><span class="x-consent">${ic('i-shield')}${t('f.consent')}</span></div><span class="x-role">${t('f.r.ana')}</span></li>
-          <li><span class="x-av dr">LR</span><div><b>Dr. Luis Rivera</b><span>${t('f.dr')}</span></div><span class="x-role">${t('f.r.dr')}</span></li>
+          <li><span class="x-av">${initials(c.ptFull)}</span><div><b>${c.ptFull}</b><span>${t('f.pt')}</span></div><span class="x-role">${t('f.r.pt')}</span></li>
+          <li><span class="x-av cg">${t('f.you')}</span><div><b>${t('f.you')}</b><span>${t('f.ana')}</span><span class="x-consent">${ic('i-shield')}${t('f.consent')}</span></div><span class="x-role">${t('f.r.ana')}</span></li>
+          <li><span class="x-av dr">${initials(c.drFull.replace(/^Dra?\.\s*/, ''))}</span><div><b>${c.drFull}</b><span>${t('f.dr')}</span></div><span class="x-role">${t('f.r.dr')}</span></li>
           ${S.invited.map(p => `<li><span class="x-av cg">${esc(p.name.split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase())}</span><div><b>${esc(p.name)}</b><span>${rel[p.rel]} · ${t('f.r.inv')}</span></div><span class="x-role">${D[lang]['iv.perms'][p.perm || 0]}</span></li>`).join('')}
         </ul>
         <button class="x-btn dark sm" style="margin-top:10px" data-act="invite">${ic('i-plus')}${t('f.invite')}</button>
@@ -2027,7 +2104,8 @@ html{overflow-x:hidden}
     const nav = $('#xNav'), bar = $('#xTabbar');
     nav.innerHTML = pre ? '' : navBtns; nav.setAttribute('aria-label', t('nav.aria'));
     bar.innerHTML = navBtns; bar.hidden = pre; bar.setAttribute('aria-label', t('nav.aria'));
-    $('#xWho').innerHTML = pre ? '' : `<div class="x-person"><span class="x-av">MS</span><div><b>María Santos</b><span>${t('who.pt')}</span></div></div><div class="x-person"><span class="x-av cg">AS</span><div><b>Ana Santos</b><span>${t('who.you')}</span></div></div>`;
+    const c = ctx();
+    $('#xWho').innerHTML = pre ? '' : `<div class="x-person"><span class="x-av">${initials(c.ptFull)}</span><div><b>${c.ptFull}</b><span>${t('who.pt')}</span></div></div><div class="x-person"><span class="x-av cg">${t('f.you')}</span><div><b>${t('f.you')}</b><span>${t('who.you')}</span></div></div>`;
     $('#xTag').textContent = t('tag');
     $$('#xLang [data-lang]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
     $('#xMenuBtn').setAttribute('aria-label', t('menu.open'));
@@ -2048,12 +2126,12 @@ html{overflow-x:hidden}
     }
     const sample = $('#sampleAvs'); if (sample) sample.addEventListener('click', () => startExtract());
     const f = $('#xFile');
-    if (f) f.addEventListener('change', () => { const file = f.files[0]; if (!file) return; S.newFile = file.name; S.assign = 'mri'; f.value = ''; openDrawer('assign'); });
+    if (f) f.addEventListener('change', () => { const file = f.files[0]; if (!file) return; S.newFile = file.name; S.assign = S.apK || STEPK()[0]; f.value = ''; openDrawer('assign'); });
     const h = $('.x-hist'); if (h) h.addEventListener('toggle', () => S.histOpen = h.open);
     $$('.x-step>button').forEach((b, i) => b.addEventListener('click', () => {
       const li = b.parentElement, on = !li.classList.contains('open');
       li.classList.toggle('open', on); b.setAttribute('aria-expanded', String(on));
-      const key = ['visit','ref','mri','lab','fu'][i]; if (key) S.open[key] = on;
+      const key = STEPK()[i]; if (key) S.open[key] = on;
     }));
   }
 
@@ -2089,26 +2167,28 @@ html{overflow-x:hidden}
   }
   async function startExtract(file){
     if (S.stage !== 'intake') return;
-    S.stage = 'extract'; S.exN = 0; S.reading = true; S.gaps = null; log('h.up'); render();
+    S.stage = 'extract'; S.exN = 0; S.reading = true; S.gaps = null; S.x = null; render();
     try {
       const j = await readDoc(file); console.log('/api/read', j);
-      if (j.extracted) {
-        console.log(JSON.stringify(j.extracted, null, 2));
-        S.rules = S.rules || await (await fetch('data/rules.json')).json();
-        S.gaps = findGaps(j.extracted, S.rules); console.log('gaps', S.gaps);
-      }
+      if (j.extracted) { S.x = j.extracted; console.log(JSON.stringify(j.extracted, null, 2)); }
     }
     catch (e) { console.log('/api/read error', e); }
+    // Until step 6 adds a friendly error, a failed read falls back to sample A's saved result.
+    if (!S.x) { S.x = SAMPLE_X; console.log('/api/read failed · using sample A'); }
+    try { S.rules = S.rules || await (await fetch('data/rules.json')).json(); } catch (e) { console.log('rules error', e); }
+    S.gaps = S.rules ? findGaps(S.x, S.rules) : []; console.log('gaps', S.gaps);
+    buildSteps(); log('h.up');
     S.reading = false; render();
     const step = () => {
       S.exN++;
       const li = $$('#xEx li')[S.exN-1]; if (li) li.classList.add('on');
       if (S.exN < 5) setTimeout(step, reduce() ? 80 : 650);
-      else { log('h.ex'); log('h.plan'); if (!S.gaps || S.gaps.length) log('h.miss'); const g = $('#xExGo'); if (g) { g.hidden = false; $('#exGo').focus(); } }
+      else { log('h.ex', { n: S.steps.length - 1 }); log('h.plan'); if (S.gaps.length) log('h.miss'); const g = $('#xExGo'); if (g) { g.hidden = false; $('#exGo').focus(); } }
     };
     setTimeout(step, reduce() ? 50 : 500);
   }
-  function enterPlan(){ S.stage = 'request'; S.tab = 'hoy'; S.open = { mri:true }; render(); window.scrollTo(0,0); }
+  // Where the plan starts: missing docs → ask the clinic; nothing missing → review the packet; no approval needed → 'clear'.
+  function enterPlan(){ S.stage = S.apK ? (S.noGap ? 'review' : 'request') : 'clear'; S.tab = 'hoy'; S.open = S.apK ? { [S.apK]:true } : {}; render(); window.scrollTo(0,0); }
   function advance(next, histK, toastK, extraLog){
     clearTimeout(timer);
     S.pending = { next, histK, toastK, extraLog };
@@ -2123,7 +2203,7 @@ html{overflow-x:hidden}
   const fld = (l, v) => `<div class="x-fld"><div class="lb">${l}</div><div class="v">${v}</div></div>`;
   const doneBody = (h, p) => { const u = S.undo && Date.now() < S.undo.until; return `<div class="x-db"><div class="x-sent"><div class="big">${ic('i-check')}</div><h3>${h}</h3><p>${p}</p>${u ? `<p class="x-undo"><button class="x-textbtn" type="button" data-undo>${ic('i-reset')}${t('undo')}</button><span>${t('undo.s')}</span></p>` : ''}</div></div><div class="x-df"><button class="x-btn dark" type="button" data-close data-backhome>${t('back')}</button></div>`; };
   const armUndo = (prev, histLen, pending) => { S.undo = { prev, histLen, pending, until: Date.now() + 8000 }; setTimeout(() => { if (dwOpen && dwDone) renderDrawer(); }, 8100); };
-const STEPK = ['visit','ref','mri','lab','fu'], STEPL = k => t({ visit:'st.visit', ref:'st.ref', mri:'st.mri', lab:'st.lab', fu:'st.fuL' }[k]);
+const STEPK = () => S.steps.map(s => s.k), STEPL = k => stepLabel(S.steps.find(s => s.k === k));
   function renderDrawer(){
     const dw = $('#xDrawer'); let h = '';
     if (dwOpen === 'request') {
@@ -2136,7 +2216,7 @@ const STEPK = ['visit','ref','mri','lab','fu'], STEPL = k => t({ visit:'st.visit
       const item = (b, s) => `<li>${ic('i-doc')}<div><b>${b}</b><span>${s}</span></div><span class="ok">${ic('i-check')}</span></li>`;
       h = head(t('dw.k'), t('pk.t')) + (dwDone ? doneBody(t('pk.okT'), t('pk.okP')) : `
         <div class="x-db">${fld(t('pk.to'), t('pk.toV'))}${fld(t('pk.how'), t('pk.howV'))}
-          <div class="x-fld"><div class="lb">${t('pk.inc')}</div><ul class="x-pack">${item(t('d.order'), t('pk.orderS'))}${item(t('d.notes'), t('pk.notesS'))}${item(t('pk.member'), t('pk.memberS'))}</ul></div></div>
+          <div class="x-fld"><div class="lb">${t('pk.inc')}</div><ul class="x-pack">${item(t('d.order'), t('pk.orderS'))}${item(t('d.notes'), t(S.noGap ? 'pk.notesIn' : 'pk.notesS'))}${item(t('pk.member'), t('pk.memberS'))}</ul></div></div>
         <div class="x-df"><button class="x-btn go" type="button" data-confirm>${ic('i-send')}${t('pk.send')}</button><span class="x-fine">${ic('i-shield')}${t('rq.safe')}</span></div>`);
     } else if (dwOpen === 'schedule') {
       h = head(t('ap.k'), t('ap.t')) + (dwDone ? doneBody(t('ap.okT'), t('ap.okP')) : `
@@ -2151,7 +2231,7 @@ const STEPK = ['visit','ref','mri','lab','fu'], STEPL = k => t({ visit:'st.visit
         <div class="x-df"><button class="x-btn dark" type="button" data-close>${t('close')}</button></div>`;
     } else if (dwOpen === 'assign') {
       h = head(t('as.k'), t('as.t')) + `<div class="x-db"><p style="margin:0 0 14px;color:var(--ink-2)">${ic('i-doc')} ${esc(S.newFile || '')}</p>
-        <div class="x-slots" role="radiogroup">${STEPK.map(k => `<button type="button" class="x-slot" role="radio" aria-checked="${S.assign===k}" aria-pressed="${S.assign===k}" data-assign="${k}"><span class="rd"></span><span><b>${STEPL(k)}</b></span></button>`).join('')}</div></div>
+        <div class="x-slots" role="radiogroup">${STEPK().map(k => `<button type="button" class="x-slot" role="radio" aria-checked="${S.assign===k}" aria-pressed="${S.assign===k}" data-assign="${k}"><span class="rd"></span><span><b>${STEPL(k)}</b></span></button>`).join('')}</div></div>
         <div class="x-df"><button class="x-btn pri" type="button" data-confirm>${ic('i-plus')}${t('as.ok')}</button></div>`;
     } else if (dwOpen === 'invite') {
       const rel = D[lang]['iv.rels'];
@@ -2398,7 +2478,7 @@ const STEPK = ['visit','ref','mri','lab','fu'], STEPL = k => t({ visit:'st.visit
   function route(){
     root.dataset.route = isApp(location.hash) ? 'app' : 'landing';
     land.classList.remove('leaving');
-    document.title = root.dataset.route === 'app' ? (root.lang==='en'?'Latch · María’s plan':'Latch · El plan de María') : t('title');
+    document.title = root.dataset.route === 'app' ? (root.lang==='en'?'Latch · Care plan':'Latch · Plan de cuidado') : t('title');
   }
   function runExample(){
     history.replaceState(null, '', '#app');            // a reload won't re-run the example
