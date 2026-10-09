@@ -9,7 +9,7 @@
     { "type": "lab_work", "detail": "CBC, CMP y panel lipídico · ayuno 8–12 h" },
     { "type": "follow_up", "detail": "Dr. Rivera en 4 semanas" }
   ],
-  "docsPresent": ["order", "plan_card"],
+  "docsPresent": ["order", "plan_card", "referral", "lab_order"],
   "expectedGaps": [ { "order": "mri", "missing": "clinical_notes", "why": "Las notas firmadas no están en el resumen; se completarán en el expediente de la clínica." } ],
   "expectedFirstAction": "Pedir las notas clínicas a Clínica Costa Norte"
 }
