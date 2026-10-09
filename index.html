@@ -1613,6 +1613,18 @@ html{overflow-x:hidden}
       'ex.0':'Documento identificado', 'ex.0s':'Resumen de visita · {drFull} · {vdateFull}', 'ex.1':'{n} órdenes encontradas', 'ex.1one':'1 orden encontrada', 'ex.2':'Plan médico encontrado', 'ex.2s':'{plan} · miembro {member}', 'ex.3':'Requisitos revisados', 'ex.3s':'La MRI necesita aprobación del plan', 'ex.3n':'Ninguna orden necesita aprobación del plan',
       'ot.mri':'MRI', 'ot.specialist_referral':'Referido a especialista', 'ot.ref':'Referido a {spec}', 'ot.lab_work':'Análisis de laboratorio', 'ot.follow_up':'Seguimiento', 'ot.other':'Otra orden',
       'm.coord':'Latch lo coordina',
+      // appeal (step 5b)
+      'sim.deny':'Simular negación',
+      's.denied.t':'El plan negó la {mainN}', 's.denied.p':'Esto pasa mucho, y no es el final: 8 de cada 10 apelaciones ganan. Latch ya preparó la apelación con los datos del caso.', 's.denied.b':'Revisar y enviar apelación',
+      's.waitAppeal.t':'El plan está revisando la apelación', 's.waitAppeal.p':'No tienes que hacer nada ahora. Cuando el plan conteste, Latch busca horarios para la {mainN}.', 's.waitAppeal.f':'Apelación enviada hoy · suele contestar en 30 días o menos',
+      'mri.denied':'Negada · Te toca', 'mri.waitAppeal':'Apelación en revisión',
+      'p.mri.denied':'{plan} negó la {mainN}. Latch preparó la apelación; revísala antes de enviarla.', 'p.mri.waitAppeal':'La apelación está con {plan}.',
+      'c.apprDenied':'Aprobación del plan · negada', 'c.appeal':'Apelación · en revisión',
+      'al.t':'Apelación de la {mainN}', 'al.to':'Para', 'al.toV':'{plan} · Apelaciones', 'al.what':'Qué se apela', 'al.whatV':'La negación de la {mainN} ordenada por {elDr} el {vdate}', 'al.inc':'Se incluye', 'al.view':'Ver apelación', 'al.writing':'Redactando…',
+      'al.letter':'<p>Saludos, equipo de apelaciones de {plan}:</p><p>Solicito que reconsideren la negación de la {mainN} de {ptFull} (miembro {member}), ordenada por {elDrFull} en la visita del {vdate}. Se enviaron todos los documentos requeridos: la orden del médico, las notas clínicas y la información del plan.</p><p>Gracias,<br>{cgFull}, hija y cuidadora</p>',
+      'al.send':'Enviar apelación', 'al.okT':'Apelación enviada', 'al.okP':'El plan suele contestar en 30 días o menos. Latch te avisa cuando haya respuesta.',
+      'h.denied':'El plan negó la {mainN}', 'h.appeal':'Enviaste la apelación a {plan}', 'h.apprAppeal':'El plan aprobó la apelación · PA-48213',
+      't.denied':'{plan} negó la {mainN}', 't.apprAppeal':'{plan} aprobó la apelación',
       'dr.writing':'Latch está escribiendo el borrador…', 'dr.by':'Borrador escrito por Latch con los datos del resumen. Revísalo antes de enviar.', 'pk.view':'Ver resumen', 'dr.rel':'hija y cuidadora',
       's.review.p.doc':'Las notas clínicas ya vinieron en el resumen de visita. Latch armó el paquete con la orden, las notas y la información del plan. Revísalo antes de enviarlo a {plan}.',
       'p.mri.review.doc':'Las notas vinieron en el resumen. La autorización está lista para que la revises.', 'pk.notesS.doc':'Vinieron en el resumen de visita · {notes}',
@@ -1733,6 +1745,17 @@ html{overflow-x:hidden}
       'ex.0':'Document identified', 'ex.0s':'Visit summary · {drFull} · {vdateFull}', 'ex.1':'{n} orders found', 'ex.1one':'1 order found', 'ex.2':'Health plan found', 'ex.2s':'{plan} · member {member}', 'ex.3':'Requirements checked', 'ex.3s':'The MRI needs the plan’s approval', 'ex.3n':'No order needs the plan’s approval',
       'ot.mri':'MRI', 'ot.specialist_referral':'Specialist referral', 'ot.ref':'Referral · {spec}', 'ot.lab_work':'Lab work', 'ot.follow_up':'Follow-up', 'ot.other':'Other order',
       'm.coord':'Latch coordinates it',
+      'sim.deny':'Simulate denial',
+      's.denied.t':'The plan denied the {mainN}', 's.denied.p':'This happens a lot, and it’s not the end: 8 in 10 appeals win. Latch already prepared the appeal with the case details.', 's.denied.b':'Review and send appeal',
+      's.waitAppeal.t':'The plan is reviewing the appeal', 's.waitAppeal.p':'Nothing to do right now. When the plan answers, Latch looks for {mainN} times.', 's.waitAppeal.f':'Appeal sent today · it usually answers in 30 days or less',
+      'mri.denied':'Denied · Your turn', 'mri.waitAppeal':'Appeal in review',
+      'p.mri.denied':'{plan} denied the {mainN}. Latch prepared the appeal; review it before it goes out.', 'p.mri.waitAppeal':'The appeal is with {plan}.',
+      'c.apprDenied':'Plan approval · denied', 'c.appeal':'Appeal · in review',
+      'al.t':'{mainN} appeal', 'al.to':'To', 'al.toV':'{plan} · Appeals', 'al.what':'Appealing', 'al.whatV':'The denial of the {mainN} ordered by {dr} on {vdate}', 'al.inc':'Included', 'al.view':'View appeal', 'al.writing':'Drafting…',
+      'al.letter':'<p>Hello, {plan} appeals team:</p><p>I’m asking you to reconsider the denial of the {mainN} for {ptFull} (member {member}), ordered by {drFull} at the {vdate} visit. All the required documents were submitted: the doctor’s order, the clinical notes and the plan information.</p><p>Thank you,<br>{cgFull}, daughter and caregiver</p>',
+      'al.send':'Send appeal', 'al.okT':'Appeal sent', 'al.okP':'The plan usually answers in 30 days or less. Latch lets you know when there’s an answer.',
+      'h.denied':'The plan denied the {mainN}', 'h.appeal':'You sent the appeal to {plan}', 'h.apprAppeal':'The plan approved the appeal · PA-48213',
+      't.denied':'{plan} denied the {mainN}', 't.apprAppeal':'{plan} approved the appeal',
       'dr.writing':'Latch is writing the draft…', 'dr.by':'Draft written by Latch from the visit summary. Review it before sending.', 'pk.view':'View summary', 'dr.rel':'daughter and caregiver',
       's.review.p.doc':'The clinical notes already came in the visit summary. Latch put together the order, the notes and the plan information. Review it before it goes to {plan}.',
       'p.mri.review.doc':'The notes came in the summary. The authorization is ready for you to review.', 'pk.notesS.doc':'Came in the visit summary · {notes}',
@@ -1854,8 +1877,8 @@ html{overflow-x:hidden}
   ];
 
   // ---------- State ----------
-  const ACTION = ['request','review','schedule'];
-  const ORDER = ['request','waitClinic','review','waitPlan','schedule','done'];
+  const ACTION = ['request','review','denied','schedule'];
+  const ORDER = ['request','waitClinic','review','waitPlan','denied','waitAppeal','schedule','done'];
   let S;
   function fresh(){ return { notify:'wa', stage:'intake', tab:'hoy', hist:[], slot:null, extra:[], invited:[], clock:{h:10,mi:29}, exN:0, drafts:{} }; }
   S = fresh();
@@ -1884,7 +1907,7 @@ html{overflow-x:hidden}
     const c = { pt: String(p.name || '').split(/\s+/)[0], ptFull: p.name || '', town: p.town || '', cg: 'Ana', cgFull: `Ana ${surname(p.name)}`.trim(),
       dr, drFull, delDr: de + dr, alDr: al + dr, elDr: el + dr, delDrFull: de + drFull, alDrFull: al + drFull, elDrFull: el + drFull,
       clinic: v.clinic || '', plan: pl.name || '', member: pl.memberId || '', vdate: fDate(v.date), vdateFull: fDate(v.date, true), notes: fDate(x.clinicalNotesDate),
-      n: (x.orders || []).length, m: S.steps ? S.steps.length : 0,
+      n: (x.orders || []).length, m: S.steps ? S.steps.length : 0, mainN: main ? D[lang]['ot.' + main.o.type] || '' : '',
       Spec, specL: Spec.toLowerCase(), specDr, elSpecDr: arts(/^Dra\b/.test(specDr))[2] + specDr, practice };
     for (const k in c) c[k] = esc(c[k]);
     return c;
@@ -1927,7 +1950,8 @@ html{overflow-x:hidden}
     switch (S.stage) {
       case 'request': return { cls:'s-act', nd:'!', label:t('mri.request'), badge:['s-act', t('b.act')] };
       case 'review': case 'schedule': return { cls:'s-act', nd:'!', label:t('mri.'+S.stage), badge:['s-act', t('b.ready')] };
-      case 'waitClinic': case 'waitPlan': return { cls:'s-wait', nd:clock, label:t('mri.'+S.stage), badge:['s-wait', t('b.wait')] };
+      case 'denied': return { cls:'s-act', nd:'!', label:t('mri.denied'), badge:['s-act', t('b.ready')] };
+      case 'waitClinic': case 'waitPlan': case 'waitAppeal': return { cls:'s-wait', nd:clock, label:t('mri.'+S.stage), badge:['s-wait', t('b.wait')] };
       default: return { cls:'s-sched', nd:cal, label:fDay(S.slot.when), badge:['s-sched', t('b.sched')] };
     }
   }
@@ -1973,14 +1997,14 @@ html{overflow-x:hidden}
         <div class="x-acts"><button class="x-btn go" data-act="open">${ic(st==='schedule'?'i-cal':'i-send')}${actionLabel()}</button>
         <span class="x-fine">${ic('i-shield')}${t('safe')}</span></div>
       </section>`;
-    if (st === 'waitClinic' || st === 'waitPlan') return `
+    if (st === 'waitClinic' || st === 'waitPlan' || st === 'waitAppeal') return `
       <section class="x-now s-wait" aria-labelledby="xNowT">
         <span class="x-kick"><i></i>${t(st==='waitClinic'?'k.clinic':'k.plan')}</span>
         <h2 id="xNowT">${t('s.'+st+'.t')}</h2>
         <p>${t('s.'+st+'.p')}</p>
         <div class="x-acts"><span class="x-fine">${ic('i-clock')}${t('s.'+st+'.f')}</span></div>
         <p class="x-notify">${ic('i-send')}${t('notify.line', { ch: t('ch.' + S.notify) })}</p>
-        <div class="x-sim"><button class="x-btn ghost sm" type="button" data-act="sim">${ic('i-arrow')}${t('sim')}</button><span>${t('simNote')}</span></div>
+        <div class="x-sim"><button class="x-btn ghost sm" type="button" data-act="sim">${ic('i-arrow')}${t('sim')}</button>${st === 'waitPlan' ? `<button class="x-btn ghost sm" type="button" data-act="deny">${ic('i-x')}${t('sim.deny')}</button>` : ''}<span>${t('simNote')}</span></div>
       </section>`;
     const sl = S.slot;
     const nx = { k:'mri', when:sl.when, p:t('nx.mri.p', { where:`${sl.name} · ${sl.place[lang]}` }) };
@@ -2037,7 +2061,7 @@ html{overflow-x:hidden}
     const ck = (cls, txt, own) => `<li class="${cls}"><i>${cls==='y'?'✓':cls==='n'?'!':''}</i><span>${txt}</span>${own ? `<em class="x-own ${cls}">${t(own)}</em>` : ''}</li>`;
     const notes = after('review') ? ck('y', t('c.notes')) : st==='waitClinic' ? ck('w', t('c.notesW'), 'o.clinic') : ck('n', t('c.notes'), 'o.you');
     const send = after('waitPlan') ? ck('y', t('c.send')) : st==='review' ? ck('n', t('c.send'), 'o.you') : ck('o', t('c.send'), 'o.latchPrep');
-    const appr = after('schedule') ? ck('y', t('c.appr')+' · PA-48213') : st==='waitPlan' ? ck('w', t('c.apprW'), 'o.plan') : ck('o', t('c.appr'), 'o.planDecides');
+    const appr = after('schedule') ? ck('y', t('c.appr')+' · PA-48213') : st==='waitPlan' ? ck('w', t('c.apprW'), 'o.plan') : st==='denied' ? ck('n', t('c.apprDenied'), 'o.you') : st==='waitAppeal' ? ck('w', t('c.appeal'), 'o.plan') : ck('o', t('c.appr'), 'o.planDecides');
     const appt = st==='done' ? ck('y', `${t('c.appt')} · ${fWhen(S.slot.when)}`) : st==='schedule' ? ck('n', t('c.appt'), 'o.youPick') : ck('o', t('c.appt'), 'o.latchFind');
     const docs = [t('d.order'), t('d.card')].concat(after('review') && !ref ? [t('d.notes')] : []);
     const doc = (d, src, stepK) => `<button type="button" class="x-doc" data-doc="${esc(d)}" data-src="${esc(src || t('dv.mine'))}" data-step="${stepK}"><em>PDF</em>${esc(d)}</button>`;
@@ -2175,7 +2199,7 @@ html{overflow-x:hidden}
 
   // ---------- Drafts (written by the model via /api/draft) ----------
   // gap path: the clinic request and, later, the packet summary; doc path: the packet summary; ref path: nothing to send.
-  const draftKinds = () => S.path === 'gap' ? ['request', 'packet'] : S.path === 'doc' ? ['packet'] : [];
+  const draftKinds = () => (S.path === 'gap' ? ['request', 'packet'] : S.path === 'doc' ? ['packet'] : []).concat(S.denied ? ['appeal'] : []);
   function draftFacts(){
     const x = X(), p = x.patient || {}, v = x.visit || {}, pl = x.plan || {}, main = S.steps.find(s => s.k === S.mainK);
     return { patient: p.name, dob: p.dob, doctor: v.doctor, clinic: v.clinic, visitDate: v.date, plan: pl.name, memberId: pl.memberId,
@@ -2245,6 +2269,14 @@ const STEPK = () => S.steps.map(s => s.k), STEPL = k => stepLabel(S.steps.find(s
     const gen = !S.letter && dq.status === 'ok';
     return `<div class="x-letter" id="xLetter" ${editing?'contenteditable="true"':''}>${S.letter || (gen ? dq.html : t('rq.letter'))}</div>${gen ? `<p class="x-note">${t('dr.by')}</p>` : ''}${editBtn}`;
   }
+  // The appeal letter works like the request letter: your edits, then the draft, "Redactando…" while it loads, template as fallback.
+  const letterKey = () => dwOpen === 'appeal' ? 'appealLetter' : 'letter';
+  function appealLetter(){
+    const dq = draft('appeal'), editBtn = `<button class="x-textbtn" type="button" data-edit>${editing ? t('rq.editDone') : t('rq.edit')}</button>`;
+    if (!S.appealLetter && dq.status === 'loading') return `<p class="x-note" role="status">${t('al.writing')}</p>`;
+    const gen = !S.appealLetter && dq.status === 'ok';
+    return `<div class="x-letter" id="xLetter" ${editing?'contenteditable="true"':''}>${S.appealLetter || (gen ? dq.html : t('al.letter'))}</div>${gen ? `<p class="x-note">${t('dr.by')}</p>` : ''}${editBtn}`;
+  }
   function packetSummary(){
     const dq = draft('packet');
     if (dq.status === 'fail') return '';
@@ -2259,6 +2291,13 @@ const STEPK = () => S.steps.map(s => s.k), STEPL = k => stepLabel(S.steps.find(s
           <div class="x-fld"><div class="lb">${t('rq.inc')}</div><ul class="x-pack"><li>${ic('i-shield')}<div><b>${t('rq.incB')}</b><span>${t('rq.incS')}</span></div><span class="ok">${ic('i-check')}</span></li></ul></div>
           <details class="x-fld x-msg"${editing || S.msgOpen ? ' open' : ''}><summary>${ic('i-chev')}${t('rq.view')}</summary>${requestLetter()}</details></div>
         <div class="x-df"><button class="x-btn go" type="button" data-confirm>${ic('i-send')}${t('rq.send')}</button><span class="x-fine">${ic('i-shield')}${t('rq.safe')}</span></div>`);
+    } else if (dwOpen === 'appeal') {
+      const item = (b, s) => `<li>${ic('i-doc')}<div><b>${b}</b><span>${s}</span></div><span class="ok">${ic('i-check')}</span></li>`;
+      h = head(t('dw.k'), t('al.t')) + (dwDone ? doneBody(t('al.okT'), t('al.okP')) : `
+        <div class="x-db">${fld(t('al.to'), t('al.toV'))}${fld(t('al.what'), t('al.whatV'))}
+          <div class="x-fld"><div class="lb">${t('al.inc')}</div><ul class="x-pack">${item(t('d.order'), t('pk.orderS'))}${item(t('d.notes'), t('pk.notesS'))}${item(t('pk.member'), t('pk.memberS'))}</ul></div>
+          <details class="x-fld x-msg" open><summary>${ic('i-chev')}${t('al.view')}</summary>${appealLetter()}</details></div>
+        <div class="x-df"><button class="x-btn go" type="button" data-confirm>${ic('i-send')}${t('al.send')}</button><span class="x-fine">${ic('i-shield')}${t('rq.safe')}</span></div>`);
     } else if (dwOpen === 'review') {
       const item = (b, s) => `<li>${ic('i-doc')}<div><b>${b}</b><span>${s}</span></div><span class="ok">${ic('i-check')}</span></li>`;
       h = head(t('dw.k'), t('pk.t')) + (dwDone ? doneBody(t('pk.okT'), t('pk.okP')) : `
@@ -2300,7 +2339,8 @@ const STEPK = () => S.steps.map(s => s.k), STEPL = k => stepLabel(S.steps.find(s
   }
   function confirmDrawer(){
     const k = dwOpen;
-    if (k === 'request') { const l = $('#xLetter'); if (l && editing) S.letter = l.innerHTML; armUndo('request', S.hist.length, S.pending); S.stage = 'waitClinic'; log('h.req'); dwDone = true; advance('review', 'h.notes', 't.notes', 'h.pack'); }
+    if (k === 'appeal') { const l = $('#xLetter'); if (l && editing) S.appealLetter = l.innerHTML; armUndo('denied', S.hist.length, S.pending); S.stage = 'waitAppeal'; log('h.appeal'); dwDone = true; advance('schedule', 'h.apprAppeal', 't.apprAppeal'); }
+    else if (k === 'request') { const l = $('#xLetter'); if (l && editing) S.letter = l.innerHTML; armUndo('request', S.hist.length, S.pending); S.stage = 'waitClinic'; log('h.req'); dwDone = true; advance('review', 'h.notes', 't.notes', 'h.pack'); }
     else if (k === 'review') { armUndo('review', S.hist.length, S.pending); S.stage = 'waitPlan'; log('h.sent'); dwDone = true; advance('schedule', 'h.appr', 't.appr'); }
     else if (k === 'schedule') { S.slot = slots().find(s => s.id === pick); S.stage = 'done'; log('h.appt', { when: () => fWhen(S.slot.when) }); dwDone = true; }
     else if (k === 'assign') { S.extra.push({ name:S.newFile, step:S.assign }); S.open[S.assign] = true; log('h.doc', { f:S.newFile }); closeDrawer(); toast('t.doc'); render(); return; }
@@ -2349,13 +2389,15 @@ const STEPK = () => S.steps.map(s => s.k), STEPL = k => stepLabel(S.steps.find(s
       const a = el.dataset.act;
       if (a === 'enter') return enterPlan();
       if (a === 'sim' && S.pending) { const pd = S.pending; S.pending = null; S.stage = pd.next; log(pd.histK); if (pd.extraLog) log(pd.extraLog); toast(pd.toastK); render(); const b = $('#xView [data-act="open"]'); if (b) b.focus(); return; }
-      if (a === 'open') return openDrawer(S.stage);
+      // Simulated denial: drop the pending approval, start drafting the appeal.
+      if (a === 'deny' && S.stage === 'waitPlan') { clearTimeout(timer); S.pending = null; S.denied = true; S.stage = 'denied'; log('h.denied'); ensureDrafts(); toast('t.denied'); render(); const b = $('#xView [data-act="open"]'); if (b) b.focus(); return; }
+      if (a === 'open') return openDrawer(S.stage === 'denied' ? 'appeal' : S.stage);
       if (a === 'invite' || a === 'delete') return openDrawer(a);
     }
     if (q('[data-close]')) { const home = q('[data-backhome]'); closeDrawer(); if (home && S.tab !== 'hoy') { S.tab = 'hoy'; render(); window.scrollTo(0,0); } return; }
     if (q('#xScrim')) { closeDrawer(); return; }
     if (q('[data-confirm]')) { confirmDrawer(); return; }
-    if ((el = q('[data-edit]'))) { const l = $('#xLetter'); if (editing && l) S.letter = l.innerHTML; editing = !editing; renderDrawer(); if (editing) $('#xLetter').focus(); return; }
+    if ((el = q('[data-edit]'))) { const l = $('#xLetter'); if (editing && l) S[letterKey()] = l.innerHTML; editing = !editing; renderDrawer(); if (editing) $('#xLetter').focus(); return; }
     if ((el = q('[data-undo]')) && S.undo) { const u = S.undo; S.undo = null; S.stage = u.prev; S.hist.splice(0, S.hist.length - u.histLen); S.pending = u.pending; dwDone = false; render(); renderDrawer(); toast('t.undo'); const c = $('#xDrawer [data-confirm]'); if (c) c.focus(); return; }
     if ((el = q('[data-notify]'))) { S.notify = el.dataset.notify; render(); const b = $(`[data-notify="${S.notify}"]`); if (b) b.focus(); return; }
     if ((el = q('[data-doc]'))) { S.docView = { name:el.dataset.doc, src:el.dataset.src, step:el.dataset.step }; openDrawer('doc'); return; }

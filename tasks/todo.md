@@ -124,3 +124,15 @@ What changed:
 - Bug found while testing: the notes' source was passed as an English phrase, so Spanish summaries sometimes copied it and failed the language check. Now it's a neutral code (`clinic` / `visit_summary`).
 
 Notes: B's English summary keeps the procedure in Spanish, as the document wrote it.
+
+---
+
+# Step 5b · Appeal a denial in one tap (spec from the user)
+
+- [x] 1. 'waitPlan' card: "Simular negación" (ghost) next to "Simular respuesta" → new 'denied' stage.
+- [x] 2. 'denied' is an action stage: "El plan negó la {mainN}", the 8-in-10 line, "Revisar y enviar apelación". Hoy track: "Negada · Te toca".
+- [x] 3. 'appeal' drawer: To {plan} · Apelaciones, what is appealed, documents included, and a letter from `/api/draft` with kind "appeal" ("Redactando…" while loading; editable; template fallback).
+- [x] 4. Sending → 'waitAppeal' ("El plan está revisando la apelación", "suele contestar en 30 días o menos", "Simular respuesta") → approved → 'schedule'.
+- [x] 5. History entries and English copy.
+
+`ORDER` now: request → waitClinic → review → waitPlan → (denied → waitAppeal) → schedule → done. The appeal draft starts as soon as the denial is simulated.

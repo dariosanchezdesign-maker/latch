@@ -1,7 +1,8 @@
-// POST /api/draft  { kind: 'request' | 'packet', lang: 'es' | 'en', facts }  →  { ok: true, paragraphs } | { error }
+// POST /api/draft  { kind: 'request' | 'packet' | 'appeal', lang: 'es' | 'en', facts }  →  { ok: true, paragraphs } | { error }
 // request: letter to the clinic's records team asking for the visit's clinical notes.
 // packet:  short summary for the health plan's prior-authorization reviewer.
-const KINDS = ['request', 'packet'];
+// appeal:  brief appeal to the plan after a (simulated) denial.
+const KINDS = ['request', 'packet', 'appeal'];
 const LANGS = ['es', 'en'];
 const FIELDS = ['patient', 'dob', 'doctor', 'clinic', 'visitDate', 'plan', 'memberId', 'orderType', 'procedure', 'notesDate', 'notesSource', 'caregiver', 'relation'];
 const MONTHS = {
@@ -18,6 +19,10 @@ const TASK = {
   packet: {
     es: 'Escribe un resumen corto para la persona del plan médico que revisa la preautorización: quién es el paciente y su número de miembro, qué procedimiento ordenó el médico (con el código CPT si aparece), cuándo fue la visita, y qué documentos se incluyen (la orden, las notas clínicas y la información del plan). Pide que revisen la preautorización.',
     en: 'Write a short summary for the health plan’s prior-authorization reviewer: who the patient is and their member ID, which procedure the doctor ordered (with the CPT code if given), when the visit was, and which documents are included (the order, the clinical notes and the plan information). Ask them to review the prior authorization.'
+  },
+  appeal: {
+    es: 'El plan médico negó la preautorización del procedimiento. Escribe una apelación respetuosa y breve al departamento de apelaciones del plan: identifica al paciente y su número de miembro, cita la orden del médico (nombre del médico y fecha de la visita) y el procedimiento, di que se enviaron todos los documentos requeridos (la orden, las notas clínicas y la información del plan) y pide que reconsideren la decisión.',
+    en: 'The health plan denied the procedure’s prior authorization. Write a respectful, brief appeal to the plan’s appeals department: identify the patient and their member ID, cite the doctor’s order (the doctor’s name and the visit date) and the procedure, say that all the required documents were submitted (the order, the clinical notes and the plan information), and ask them to reconsider the decision.'
   }
 };
 
