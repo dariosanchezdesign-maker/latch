@@ -1604,6 +1604,7 @@ html{overflow-x:hidden}
       'in.sample':'Resumen de visita · Dr. Rivera', 'in.sampleS':'Ejemplo · Clínica Costa Norte, Santurce · 18 sep 2026', 'in.use':'Usar ejemplo',
       'in.note':'Demo: cualquier archivo se procesa como el resumen de visita de María.',
       'ex.h':'Latch está leyendo el documento',
+      'ex.reading':'Leyendo el documento…',
       ex:[['Documento identificado','Resumen de visita · Dr. Luis Rivera · 18 sep 2026'],['4 órdenes encontradas','Referido a cardiología · MRI · análisis de sangre · seguimiento'],['Plan médico verificado','Plan Salud Coquí · miembro activo'],['Requisitos revisados','La MRI necesita aprobación del plan'],['Falta algo','El plan pide notas clínicas recientes que no están en el expediente']],
       'ex.go':'Ver el plan de María',
       // hoy
@@ -1715,6 +1716,7 @@ html{overflow-x:hidden}
       'in.sample':'Visit summary · Dr. Rivera', 'in.sampleS':'Example · Clínica Costa Norte, Santurce · Sep 18, 2026', 'in.use':'Use example',
       'in.note':'Demo: any file is processed as María’s visit summary.',
       'ex.h':'Latch is reading the document',
+      'ex.reading':'Reading the document…',
       ex:[['Document identified','Visit summary · Dr. Luis Rivera · Sep 18, 2026'],['4 orders found','Cardiology referral · MRI · blood work · follow-up'],['Health plan verified','Plan Salud Coquí · active member'],['Requirements checked','The MRI needs the plan’s approval'],['Something’s missing','The plan needs recent clinical notes that aren’t on file']],
       'ex.go':'See María’s plan',
       hello:'Hi, Ana', title:'María’s plan', sub:'From Dr. Rivera’s visit summary · Sep 18',
@@ -1866,6 +1868,7 @@ html{overflow-x:hidden}
       ${ex ? `
         <div class="x-card">
           <div class="x-sech" style="margin-bottom:6px"><h3>${t('ex.h')}</h3></div>
+          ${S.reading ? `<p class="x-note" id="xReading" role="status">${t('ex.reading')}</p>` : ''}
           <ol class="x-extract" id="xEx">${D[lang].ex.map((r,i) => `<li class="${i < S.exN ? 'on' : ''} ${i===4?'s-alert':''}">${node(i===4?'s-act':'s-done', i===4?'!':check)}<div><b>${r[0]}</b><span>${r[1]}</span></div></li>`).join('')}</ol>
           <div class="x-acts" id="xExGo" ${S.exN < 5 ? 'hidden' : ''}><button class="x-btn dark" data-act="enter" id="exGo">${t('ex.go')} ${ic('i-arrow')}</button></div>
         </div>` : `
@@ -2038,10 +2041,10 @@ html{overflow-x:hidden}
     if (drop) {
       ['dragenter','dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('over'); }));
       ['dragleave','drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('over'); }));
-      drop.addEventListener('drop', e => { if (e.dataTransfer.files[0]) startExtract(); });
-      f0.addEventListener('change', () => { if (f0.files[0]) startExtract(); });
+      drop.addEventListener('drop', e => { if (e.dataTransfer.files[0]) startExtract(e.dataTransfer.files[0]); });
+      f0.addEventListener('change', () => { if (f0.files[0]) startExtract(f0.files[0]); });
     }
-    const sample = $('#sampleAvs'); if (sample) sample.addEventListener('click', startExtract);
+    const sample = $('#sampleAvs'); if (sample) sample.addEventListener('click', () => startExtract());
     const f = $('#xFile');
     if (f) f.addEventListener('change', () => { const file = f.files[0]; if (!file) return; S.newFile = file.name; S.assign = 'mri'; f.value = ''; openDrawer('assign'); });
     const h = $('.x-hist'); if (h) h.addEventListener('toggle', () => S.histOpen = h.open);
@@ -2053,10 +2056,21 @@ html{overflow-x:hidden}
   }
 
   // ---------- Flow ----------
-  function startExtract(){
+  const SAMPLE_A = 'samples/A_resumen_maria_santos.pdf';
+  function toBase64(blob){
+    return new Promise((ok, bad) => { const r = new FileReader(); r.onload = () => ok(String(r.result).split(',')[1]); r.onerror = bad; r.readAsDataURL(blob); });
+  }
+  async function readDoc(file){
+    if (!file) { const b = await (await fetch(SAMPLE_A)).blob(); file = new File([b], SAMPLE_A.split('/').pop(), { type: 'application/pdf' }); }
+    const r = await fetch('/api/read', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: file.name, type: file.type, data: await toBase64(file) }) });
+    return r.json();
+  }
+  async function startExtract(file){
     if (S.stage !== 'intake') return;
-    fetch('/api/read', { method: 'POST' }).then(r => r.json()).then(j => console.log('/api/read', j)).catch(e => console.log('/api/read error', e));
-    S.stage = 'extract'; S.exN = 0; log('h.up'); render();
+    S.stage = 'extract'; S.exN = 0; S.reading = true; log('h.up'); render();
+    try { const j = await readDoc(file); console.log('/api/read', j); if (j.extracted) console.log(JSON.stringify(j.extracted, null, 2)); }
+    catch (e) { console.log('/api/read error', e); }
+    S.reading = false; const rd = $('#xReading'); if (rd) rd.remove();
     const step = () => {
       S.exN++;
       const li = $$('#xEx li')[S.exN-1]; if (li) li.classList.add('on');
