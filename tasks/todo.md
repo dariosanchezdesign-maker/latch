@@ -57,3 +57,30 @@ What changed in `index.html`:
 - Removed 23 unused María-only text entries (es + en). Upload note now says "Demo: no subas récords reales".
 
 Still simulated (unchanged): clinic reply, PA number, appointment centers and times. The clinic letter is a template until step 5.
+
+---
+
+# Step 4 rework · "the plan comes from the document" (detailed spec from the user)
+
+Replaces the first version above where they differ. The caregiver decision is reversed by this spec: the caregiver is "Ana" + the patient's first surname.
+
+- [x] 1. Dictionary rebuilt from the original design copy (pre-step-4), with the case data swapped for tokens:
+      `{ptFull} {pt} {cgFull} {cg} {drFull} {dr} {delDr} {alDr} {elDr} {clinic} {plan} {member} {vdate} {town} {n} {m}`.
+      `t()` fills them from the current case (`ctx()`); "Dr./Dra." gets "del / de la", "al / a la", "el / la" in Spanish.
+- [x] 2. Three paths (`S.path`) in `enterPlan()`: `gap` → 'request' (María), `doc` → 'review' (Roberto, "the notes came in the summary"),
+      `ref` → 'schedule' (Carmen: main order = first non-follow-up order; schedule drawer offers simulated times with the specialist from the order's detail).
+      Variant keys like `s.review.p.doc`, `s.schedule.t.ref`; `t()` uses `key.path` when it exists.
+- [x] 3. Hoy track: visit + one node per order; main order shows its real status, others "Latch lo coordina", follow-ups "Más adelante".
+      Columns via `--cols` (fixes the 5-column track for 3 or 4 steps). "Esperando" / "Lo próximo" built from the orders; empty cards are hidden.
+- [x] 4. Plan: one step per order; the main order keeps its checklist (no notes / send / approval items on the `ref` path); others show detail + prep note from rules.json.
+- [x] 5. Sidebar and Familia: names and initials from the case.
+
+Review (local walkthrough of all three cases to "done", ES and EN; no unfilled `{token}` anywhere):
+
+| Sample | Starts at | Hoy card | Track (cols) |
+| --- | --- | --- | --- |
+| A · María | request | Pedir las notas de la visita a Clínica Costa Norte | 5 · "3 de 5 en orden" |
+| B · Roberto | review | Revisar la autorización de la MRI ("Las notas clínicas ya vinieron en el resumen…") | 3 · "Esperando" hidden |
+| C · Carmen | schedule | Escoger la cita de endocrinología (times with el Dr. Jorge Medina) | 4 |
+
+Known, unchanged: the MRI imaging centers are the simulated Carolina-area list for every case.
