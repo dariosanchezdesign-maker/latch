@@ -2055,6 +2055,7 @@ html{overflow-x:hidden}
   // ---------- Flow ----------
   function startExtract(){
     if (S.stage !== 'intake') return;
+    fetch('/api/read', { method: 'POST' }).then(r => r.json()).then(j => console.log('/api/read', j)).catch(e => console.log('/api/read error', e));
     S.stage = 'extract'; S.exN = 0; log('h.up'); render();
     const step = () => {
       S.exN++;
