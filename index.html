@@ -1605,6 +1605,7 @@ html{overflow-x:hidden}
       'in.note':'Demo: cualquier archivo se procesa como el resumen de visita de María.',
       'ex.h':'Latch está leyendo el documento',
       'ex.reading':'Leyendo el documento…',
+      'ex.miss':'Falta algo', 'ex.missFor':'Lo pide:', 'ex.ok':'No falta nada', 'ex.okS':'El documento trae todo lo que piden las órdenes',
       ex:[['Documento identificado','Resumen de visita · Dr. Luis Rivera · 18 sep 2026'],['4 órdenes encontradas','Referido a cardiología · MRI · análisis de sangre · seguimiento'],['Plan médico verificado','Plan Salud Coquí · miembro activo'],['Requisitos revisados','La MRI necesita aprobación del plan'],['Falta algo','El plan pide notas clínicas recientes que no están en el expediente']],
       'ex.go':'Ver el plan de María',
       // hoy
@@ -1717,6 +1718,7 @@ html{overflow-x:hidden}
       'in.note':'Demo: any file is processed as María’s visit summary.',
       'ex.h':'Latch is reading the document',
       'ex.reading':'Reading the document…',
+      'ex.miss':'Something’s missing', 'ex.missFor':'Needed for:', 'ex.ok':'Nothing missing', 'ex.okS':'The document has everything the orders need',
       ex:[['Document identified','Visit summary · Dr. Luis Rivera · Sep 18, 2026'],['4 orders found','Cardiology referral · MRI · blood work · follow-up'],['Health plan verified','Plan Salud Coquí · active member'],['Requirements checked','The MRI needs the plan’s approval'],['Something’s missing','The plan needs recent clinical notes that aren’t on file']],
       'ex.go':'See María’s plan',
       hello:'Hi, Ana', title:'María’s plan', sub:'From Dr. Rivera’s visit summary · Sep 18',
@@ -1869,7 +1871,7 @@ html{overflow-x:hidden}
         <div class="x-card">
           <div class="x-sech" style="margin-bottom:6px"><h3>${t('ex.h')}</h3></div>
           ${S.reading ? `<p class="x-note" id="xReading" role="status">${t('ex.reading')}</p>` : ''}
-          <ol class="x-extract" id="xEx">${D[lang].ex.map((r,i) => `<li class="${i < S.exN ? 'on' : ''} ${i===4?'s-alert':''}">${node(i===4?'s-act':'s-done', i===4?'!':check)}<div><b>${r[0]}</b><span>${r[1]}</span></div></li>`).join('')}</ol>
+          <ol class="x-extract" id="xEx">${D[lang].ex.map((r,i) => { const al = i===4 && !(S.gaps && !S.gaps.length); r = i===4 ? gapRow(r) : r; return `<li class="${i < S.exN ? 'on' : ''} ${al?'s-alert':''}">${node(al?'s-act':'s-done', al?'!':check)}<div><b>${r[0]}</b><span>${r[1]}</span></div></li>`; }).join('')}</ol>
           <div class="x-acts" id="xExGo" ${S.exN < 5 ? 'hidden' : ''}><button class="x-btn dark" data-act="enter" id="exGo">${t('ex.go')} ${ic('i-arrow')}</button></div>
         </div>` : `
         <label class="x-drop" id="xDrop">
@@ -2065,17 +2067,44 @@ html{overflow-x:hidden}
     const r = await fetch('/api/read', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: file.name, type: file.type, data: await toBase64(file) }) });
     return r.json();
   }
+  // Rules check, in code: each order's requiredDocs from data/rules.json vs. what the document has.
+  function findGaps(x, rules, today = new Date()){
+    const have = new Set(x.docsPresent || []), gaps = [];
+    for (const o of x.orders || []) {
+      const rule = rules.orderTypes[o.type]; if (!rule) continue;
+      for (const d of rule.requiredDocs) {
+        const old = d === 'clinical_notes' && have.has(d) && rule.clinicalNotesMaxAgeDays && x.clinicalNotesDate
+          && (today - new Date(x.clinicalNotesDate)) / 864e5 > rule.clinicalNotesMaxAgeDays;
+        if ((!have.has(d) || old) && !gaps.some(g => g.order === o.type && g.missing === d)) gaps.push({ order: o.type, missing: d, old: !!old });
+      }
+    }
+    return gaps;
+  }
+  function gapRow(r){
+    if (!S.gaps) return r;
+    if (!S.gaps.length) return [t('ex.ok'), t('ex.okS')];
+    const docs = [...new Set(S.gaps.map(g => S.rules.docTypes[g.missing][lang]))].join(', ').toLowerCase();
+    const who = [...new Set(S.gaps.map(g => S.rules.orderTypes[g.order].label[lang]))].join(', ');
+    return [`${t('ex.miss')}: ${docs}`, `${t('ex.missFor')} ${who}`];
+  }
   async function startExtract(file){
     if (S.stage !== 'intake') return;
-    S.stage = 'extract'; S.exN = 0; S.reading = true; log('h.up'); render();
-    try { const j = await readDoc(file); console.log('/api/read', j); if (j.extracted) console.log(JSON.stringify(j.extracted, null, 2)); }
+    S.stage = 'extract'; S.exN = 0; S.reading = true; S.gaps = null; log('h.up'); render();
+    try {
+      const j = await readDoc(file); console.log('/api/read', j);
+      if (j.extracted) {
+        console.log(JSON.stringify(j.extracted, null, 2));
+        S.rules = S.rules || await (await fetch('data/rules.json')).json();
+        S.gaps = findGaps(j.extracted, S.rules); console.log('gaps', S.gaps);
+      }
+    }
     catch (e) { console.log('/api/read error', e); }
-    S.reading = false; const rd = $('#xReading'); if (rd) rd.remove();
+    S.reading = false; render();
     const step = () => {
       S.exN++;
       const li = $$('#xEx li')[S.exN-1]; if (li) li.classList.add('on');
       if (S.exN < 5) setTimeout(step, reduce() ? 80 : 650);
-      else { log('h.ex'); log('h.plan'); log('h.miss'); const g = $('#xExGo'); if (g) { g.hidden = false; $('#exGo').focus(); } }
+      else { log('h.ex'); log('h.plan'); if (!S.gaps || S.gaps.length) log('h.miss'); const g = $('#xExGo'); if (g) { g.hidden = false; $('#exGo').focus(); } }
     };
     setTimeout(step, reduce() ? 50 : 500);
   }
