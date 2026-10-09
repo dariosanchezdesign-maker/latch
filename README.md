@@ -19,20 +19,27 @@ Built for the Caribbean AI Summit Hackathon (Oct 8–10, 2026). Solo entry by Da
 - Pitch deck
 
 **Built during the hackathon (core functionality)**
-- Server function that keeps the API key secret
-- AI reading of the visit summary (PDF or photo) into structured data
-- Rules check that finds what each order is missing
-- Plan, statuses and Hoy card generated from the real document
-- AI-drafted clinic requests in Spanish or English
+- Server functions that keep the API key secret (`/api/read`, `/api/draft`)
+- AI reading of the visit summary (PDF or photo) into structured data, checked against the answer key in `expected/`
+- Rules check, in code, that finds what each order is missing (`data/rules.json`)
+- Plan, statuses and Hoy card generated from the real document, with three paths: something missing (ask the clinic), nothing missing (send to the plan), nothing needs approval (book the specialist)
+- AI-drafted letters in Spanish or English: the request to the clinic, the summary for the plan's reviewer, and an appeal if the plan denies. Code checks that each letter names the right doctor, date and procedure, with a template as fallback.
+- Appeal a denial in one tap
+- Demo hardening: friendly errors, file checks, a 45-second limit on reading, and **Usar ejemplo** falls back to a saved result from a real read when offline
 
-See the commit history for the timeline.
+See the commit history for the timeline, and `tasks/todo.md` for each step's plan and test results.
 
 ## Working vs. simulated
 
 | Working | Simulated (labeled on screen) |
 | --- | --- |
-| Reading the document, finding gaps, building the plan, drafting requests | Clinic reply, health-plan approval, appointment times |
+| Reading the document, finding gaps, building the plan, drafting the clinic request, plan summary and appeal | Clinic reply, health-plan approval or denial ("Simular respuesta" / "Simular negación"), approval number, appointment times and centers |
 
 ## Stack
 
 Plain HTML/CSS/JS, Netlify Functions, Claude API (Anthropic).
+
+## Setup notes
+
+- Netlify environment variables: `ANTHROPIC_API_KEY` (required, secret) and `ANTHROPIC_MODEL` (optional, defaults to `claude-sonnet-4-5`). The functions force a tool call to get strict JSON, so keep a model that supports forced `tool_choice`.
+- `index.html` has a built-in copy of `data/rules.json` for offline use (`RULES_BACKUP`). If you edit the rules, update both.
