@@ -15,16 +15,16 @@ Done when: two different samples produce two different plans.
 
 ## Todo
 
-- [ ] 1. Keep the extracted data (`S.x`) and build the list of steps with their statuses (`S.steps`).
-- [ ] 2. Reading card: lines 1–4 (doctor and date, orders found, health plan, what needs approval) come from the data.
-- [ ] 3. Hoy screen: the greeting, title ("El plan de Roberto"), subtitle (doctor + date), the main card, the step track and the Waiting / Next columns come from the steps.
-- [ ] 4. Main-card text (ask the clinic → wait → review → wait for the plan → pick a date) uses the real clinic, plan, procedure and patient name.
-- [ ] 5. Plan screen: one expandable item per step. The approval step keeps its checklist; its documents come from `docsPresent`.
-- [ ] 6. Pop-up panels (request to clinic, packet to plan, pick a date) use the real names. The letter stays a simple template for now (step 5 has the model write it).
-- [ ] 7. Header and Familia: patient name, town and doctor come from the data.
-- [ ] 8. Upload screen note becomes "Demo: no subas récords reales" (a hard rule in CLAUDE.md; the current note says every file is treated as María's).
-- [ ] 9. Spanish first, with English keys added next to each.
-- [ ] 10. Test on the live site: A, B and C each give a different plan. Commit "Step 4: plan from data" and push.
+- [x] 1. Keep the extracted data (`S.x`) and build the list of steps with their statuses (`S.steps`).
+- [x] 2. Reading card: lines 1–4 (doctor and date, orders found, health plan, what needs approval) come from the data.
+- [x] 3. Hoy screen: the greeting, title ("El plan de Roberto"), subtitle (doctor + date), the main card, the step track and the Waiting / Next columns come from the steps.
+- [x] 4. Main-card text (ask the clinic → wait → review → wait for the plan → pick a date) uses the real clinic, plan, procedure and patient name.
+- [x] 5. Plan screen: one expandable item per step. The approval step keeps its checklist; its documents come from `docsPresent`.
+- [x] 6. Pop-up panels (request to clinic, packet to plan, pick a date) use the real names. The letter stays a simple template for now (step 5 has the model write it).
+- [x] 7. Header and Familia: patient name, town and doctor come from the data.
+- [x] 8. Upload screen note becomes "Demo: no subas récords reales" (a hard rule in CLAUDE.md; the current note says every file is treated as María's).
+- [x] 9. Spanish first, with English keys added next to each.
+- [x] 10. Test on the live site: A, B and C each give a different plan. Commit "Step 4: plan from data" and push.
 
 ## Stays simulated (labeled as today)
 
@@ -36,6 +36,24 @@ Clinic reply, plan approval number, appointment times (the "Simular respuesta" b
    Proposal: greet with just "Hola" and show "Tú · cuidador(a)" in the header.
 2. **If reading fails.** Proposal: for now, fall back to María's sample data so the demo still runs. The friendly error comes in step 6.
 
+Both decisions approved: greet with "Hola" / "Tú · cuidador(a)", and fall back to sample A if reading fails.
+
 ## Review
 
-(filled in at the end)
+Done-check passed on the live site with real reads (Oct 8):
+
+| Sample | Title | First task (Hoy card) | Steps |
+| --- | --- | --- | --- |
+| A · María | El plan de María | Pedir las notas de la visita a Clínica Costa Norte | Visita · Referido a Cardiología · MRI (falta algo) · Laboratorio · Seguimiento |
+| B · Roberto | El plan de Roberto | Revisar la autorización de la MRI | Visita · MRI (lista para enviar) · Seguimiento |
+| C · Carmen | El plan de Carmen | Agendar la cita de endocrinología | Visita · Referido a Endocrinología · Laboratorio · Seguimiento |
+
+What changed in `index.html`:
+- Text uses placeholders (`{pt}`, `{clinic}`, `{plan}`, `{dr}`, `{proc}`…) that `t()` fills from the extracted data (`ctx()`). Values are HTML-escaped.
+- `buildSteps()` turns the orders + rules + gaps into steps; `enterPlan()` picks the starting point (request / review / clear).
+- New "clear" state for summaries where nothing needs approval; its card shows the first order to book and the rule's note.
+- Reading card, Hoy track and columns, Plan list, Familia, header and pop-up panels all read from the steps.
+- `SAMPLE_X` (a saved real result for sample A) is used if reading fails.
+- Removed 23 unused María-only text entries (es + en). Upload note now says "Demo: no subas récords reales".
+
+Still simulated (unchanged): clinic reply, PA number, appointment centers and times. The clinic letter is a template until step 5.
