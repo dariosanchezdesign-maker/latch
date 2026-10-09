@@ -1255,6 +1255,8 @@ button.x-doc:hover{border-color:var(--signal-line);background:var(--signal-soft)
 .x-slot[aria-pressed="true"] .rd{border:6px solid var(--signal)}
 .x-slot b{display:block;font-size:15px}
 .x-slot span{font-size:13px;color:var(--muted)}
+.x-slot[aria-pressed="true"] b,.x-slot[aria-pressed="true"] span{color:var(--ink)}
+:root:not([data-look="light"]) .x-slot[aria-pressed="true"] b,:root:not([data-look="light"]) .x-slot[aria-pressed="true"] span{color:#fff}
 .x-slot em{margin-left:auto;font-style:normal;font-size:12px;font-weight:600;color:var(--signal);background:var(--signal-soft);padding:2px 8px;border-radius:20px;white-space:nowrap}
 .x-sent{text-align:center;padding:40px 10px}
 .x-sent .big{width:64px;height:64px;border-radius:50%;margin:0 auto 18px;display:grid;place-items:center;background:var(--signal);color:#fff}
