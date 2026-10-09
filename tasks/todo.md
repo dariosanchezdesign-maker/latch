@@ -84,3 +84,24 @@ Review (local walkthrough of all three cases to "done", ES and EN; no unfilled `
 | C · Carmen | schedule | Escoger la cita de endocrinología (times with el Dr. Jorge Medina) | 4 |
 
 Known, unchanged: the MRI imaging centers are the simulated Carolina-area list for every case.
+
+---
+
+# Step 5 · Generated drafts
+
+Goal (from CLAUDE.md): the model writes the clinic request and the packet summary from the extracted details, in Spanish or English.
+Done when: each letter names the right doctor, date and procedure.
+
+## Todo
+
+- [ ] 1. New server function `netlify/functions/draft.mjs` at `/api/draft`. Input: `{ kind: 'request' | 'packet', lang: 'es' | 'en', facts }`,
+      where facts are only what the letter needs (patient, date of birth, doctor, clinic, visit date, plan + member ID, the main order's detail, what's missing, caregiver name).
+- [ ] 2. Same pattern as `/api/read`: Claude API with a forced tool (`write_draft` → `{ paragraphs[] }`), JSON validated.
+      **Code check:** the letter must contain the doctor's surname, the visit's day number and the procedure (e.g. "MRI"). If not, retry once; then return an error.
+- [ ] 3. Page: when the plan opens on María's or Roberto's path, ask for the draft in the background (current language). Cache it per kind + language; switching language fetches the other one.
+- [ ] 4. Request panel ("Ver mensaje"): shows the generated letter. While it's being written: "Latch está escribiendo el borrador…". If it fails: today's template letter, so the demo never breaks. Your own edits still win.
+- [ ] 5. Packet panel: add a "Ver resumen" section (same look as "Ver mensaje") with the generated summary for the plan's reviewer.
+- [ ] 6. Spanish first, English keys next to each.
+- [ ] 7. Test live: A's request letter names Dr. Luis Rivera, 18 sep 2026 and the cardiac MRI; B's packet summary names Dr. Pedro Santiago Ruiz, 25 sep 2026 and the knee MRI; both in ES and EN. Commit "Step 5: generated drafts" and push.
+
+Not in this step: Carmen's path needs no plan approval, so it has no letter to draft.

@@ -1613,6 +1613,7 @@ html{overflow-x:hidden}
       'ex.0':'Documento identificado', 'ex.0s':'Resumen de visita · {drFull} · {vdateFull}', 'ex.1':'{n} órdenes encontradas', 'ex.1one':'1 orden encontrada', 'ex.2':'Plan médico encontrado', 'ex.2s':'{plan} · miembro {member}', 'ex.3':'Requisitos revisados', 'ex.3s':'La MRI necesita aprobación del plan', 'ex.3n':'Ninguna orden necesita aprobación del plan',
       'ot.mri':'MRI', 'ot.specialist_referral':'Referido a especialista', 'ot.ref':'Referido a {spec}', 'ot.lab_work':'Análisis de laboratorio', 'ot.follow_up':'Seguimiento', 'ot.other':'Otra orden',
       'm.coord':'Latch lo coordina',
+      'dr.writing':'Latch está escribiendo el borrador…', 'dr.by':'Borrador escrito por Latch con los datos del resumen. Revísalo antes de enviar.', 'pk.view':'Ver resumen', 'dr.rel':'hija y cuidadora',
       's.review.p.doc':'Las notas clínicas ya vinieron en el resumen de visita. Latch armó el paquete con la orden, las notas y la información del plan. Revísalo antes de enviarlo a {plan}.',
       'p.mri.review.doc':'Las notas vinieron en el resumen. La autorización está lista para que la revises.', 'pk.notesS.doc':'Vinieron en el resumen de visita · {notes}',
       's.schedule.t.ref':'Escoger la cita de {specL}', 's.schedule.p.ref':'Este referido no necesita aprobación de {plan}. Latch encontró horarios con {elSpecDr}.',
@@ -1732,6 +1733,7 @@ html{overflow-x:hidden}
       'ex.0':'Document identified', 'ex.0s':'Visit summary · {drFull} · {vdateFull}', 'ex.1':'{n} orders found', 'ex.1one':'1 order found', 'ex.2':'Health plan found', 'ex.2s':'{plan} · member {member}', 'ex.3':'Requirements checked', 'ex.3s':'The MRI needs the plan’s approval', 'ex.3n':'No order needs the plan’s approval',
       'ot.mri':'MRI', 'ot.specialist_referral':'Specialist referral', 'ot.ref':'Referral · {spec}', 'ot.lab_work':'Lab work', 'ot.follow_up':'Follow-up', 'ot.other':'Other order',
       'm.coord':'Latch coordinates it',
+      'dr.writing':'Latch is writing the draft…', 'dr.by':'Draft written by Latch from the visit summary. Review it before sending.', 'pk.view':'View summary', 'dr.rel':'daughter and caregiver',
       's.review.p.doc':'The clinical notes already came in the visit summary. Latch put together the order, the notes and the plan information. Review it before it goes to {plan}.',
       'p.mri.review.doc':'The notes came in the summary. The authorization is ready for you to review.', 'pk.notesS.doc':'Came in the visit summary · {notes}',
       's.schedule.t.ref':'Choose the {specL} appointment', 's.schedule.p.ref':'This referral doesn’t need approval from {plan}. Latch found times with {specDr}.',
@@ -1855,7 +1857,7 @@ html{overflow-x:hidden}
   const ACTION = ['request','review','schedule'];
   const ORDER = ['request','waitClinic','review','waitPlan','schedule','done'];
   let S;
-  function fresh(){ return { notify:'wa', stage:'intake', tab:'hoy', hist:[], slot:null, extra:[], invited:[], clock:{h:10,mi:29}, exN:0 }; }
+  function fresh(){ return { notify:'wa', stage:'intake', tab:'hoy', hist:[], slot:null, extra:[], invited:[], clock:{h:10,mi:29}, exN:0, drafts:{} }; }
   S = fresh();
   const after = st => ORDER.indexOf(S.stage) >= ORDER.indexOf(st);
 
@@ -2170,6 +2172,33 @@ html{overflow-x:hidden}
     const who = [...new Set(S.gaps.map(g => S.rules.orderTypes[g.order].label[lang]))].join(', ');
     return [`${t('ex.miss')}: ${docs}`, `${t('ex.missFor')} ${who}`];
   }
+
+  // ---------- Drafts (written by the model via /api/draft) ----------
+  // gap path: the clinic request and, later, the packet summary; doc path: the packet summary; ref path: nothing to send.
+  const draftKinds = () => S.path === 'gap' ? ['request', 'packet'] : S.path === 'doc' ? ['packet'] : [];
+  function draftFacts(){
+    const x = X(), p = x.patient || {}, v = x.visit || {}, pl = x.plan || {}, main = S.steps.find(s => s.k === S.mainK);
+    return { patient: p.name, dob: p.dob, doctor: v.doctor, clinic: v.clinic, visitDate: v.date, plan: pl.name, memberId: pl.memberId,
+      orderType: main && main.o.type, procedure: main && main.o.detail, notesDate: x.clinicalNotesDate,
+      notesSource: S.path === 'doc' ? 'included in the visit summary' : 'requested from the clinic',
+      caregiver: `Ana ${surname(p.name)}`.trim(), relation: D[lang]['dr.rel'] };
+  }
+  // Starts any missing draft for the current language; cached per kind + language. The drawer re-renders when one arrives.
+  function ensureDrafts(){
+    const store = S.drafts;
+    for (const kind of draftKinds()) {
+      const id = kind + '.' + lang;
+      if (store[id]) continue;
+      store[id] = { status:'loading' };
+      fetch('/api/draft', { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify({ kind, lang, facts: draftFacts() }) })
+        .then(r => r.json())
+        .then(j => { store[id] = j.ok ? { status:'ok', html: j.paragraphs.map(p => `<p>${esc(p).replace(/\n/g, '<br>')}</p>`).join('') } : { status:'fail' }; console.log('/api/draft', id, j.ok ? 'ok' : j.error); })
+        .catch(e => { store[id] = { status:'fail' }; console.log('/api/draft error', e); })
+        .finally(() => { if (dwOpen && !editing && S.drafts === store) renderDrawer(); });
+    }
+  }
+  const draft = kind => S.drafts[kind + '.' + lang] || { status:'fail' };
+
   async function startExtract(file){
     if (S.stage !== 'intake') return;
     S.stage = 'extract'; S.exN = 0; S.reading = true; S.gaps = null; S.x = null; render();
@@ -2182,7 +2211,7 @@ html{overflow-x:hidden}
     if (!S.x) { S.x = SAMPLE_X; console.log('/api/read failed · using sample A'); }
     try { S.rules = S.rules || await (await fetch('data/rules.json')).json(); } catch (e) { console.log('rules error', e); }
     S.gaps = S.rules ? findGaps(S.x, S.rules) : []; console.log('gaps', S.gaps);
-    buildSteps(); log('h.up');
+    buildSteps(); ensureDrafts(); log('h.up');
     S.reading = false; render();
     const step = () => {
       S.exN++;
@@ -2209,19 +2238,32 @@ html{overflow-x:hidden}
   const doneBody = (h, p) => { const u = S.undo && Date.now() < S.undo.until; return `<div class="x-db"><div class="x-sent"><div class="big">${ic('i-check')}</div><h3>${h}</h3><p>${p}</p>${u ? `<p class="x-undo"><button class="x-textbtn" type="button" data-undo>${ic('i-reset')}${t('undo')}</button><span>${t('undo.s')}</span></p>` : ''}</div></div><div class="x-df"><button class="x-btn dark" type="button" data-close data-backhome>${t('back')}</button></div>`; };
   const armUndo = (prev, histLen, pending) => { S.undo = { prev, histLen, pending, until: Date.now() + 8000 }; setTimeout(() => { if (dwOpen && dwDone) renderDrawer(); }, 8100); };
 const STEPK = () => S.steps.map(s => s.k), STEPL = k => stepLabel(S.steps.find(s => s.k === k));
+  // Your own edits win; then the model's draft; while it's being written, a status line; if it failed, the template letter.
+  function requestLetter(){
+    const dq = draft('request'), editBtn = `<button class="x-textbtn" type="button" data-edit>${editing ? t('rq.editDone') : t('rq.edit')}</button>`;
+    if (!S.letter && dq.status === 'loading') return `<p class="x-note" role="status">${t('dr.writing')}</p>`;
+    const gen = !S.letter && dq.status === 'ok';
+    return `<div class="x-letter" id="xLetter" ${editing?'contenteditable="true"':''}>${S.letter || (gen ? dq.html : t('rq.letter'))}</div>${gen ? `<p class="x-note">${t('dr.by')}</p>` : ''}${editBtn}`;
+  }
+  function packetSummary(){
+    const dq = draft('packet');
+    if (dq.status === 'fail') return '';
+    return `<details class="x-fld x-msg"><summary>${ic('i-chev')}${t('pk.view')}</summary>${dq.status === 'loading' ? `<p class="x-note" role="status">${t('dr.writing')}</p>` : `<div class="x-letter">${dq.html}</div><p class="x-note">${t('dr.by')}</p>`}</details>`;
+  }
   function renderDrawer(){
     const dw = $('#xDrawer'); let h = '';
+    const keepOpen = dw.dataset.kind === dwOpen ? $$('#xDrawer details.x-msg').map(d => d.open) : [];
     if (dwOpen === 'request') {
       h = head(t('dw.k'), t('rq.t')) + (dwDone ? doneBody(t('rq.okT'), t('rq.okP')) : `
         <div class="x-db">${fld(t('rq.to'), t('rq.toV'))}${fld(t('rq.what'), t('rq.whatV'))}${fld(t('rq.for'), t('rq.forV'))}${fld(t('rq.how'), t('rq.howV'))}
           <div class="x-fld"><div class="lb">${t('rq.inc')}</div><ul class="x-pack"><li>${ic('i-shield')}<div><b>${t('rq.incB')}</b><span>${t('rq.incS')}</span></div><span class="ok">${ic('i-check')}</span></li></ul></div>
-          <details class="x-fld x-msg"${editing || S.msgOpen ? ' open' : ''}><summary>${ic('i-chev')}${t('rq.view')}</summary><div class="x-letter" id="xLetter" ${editing?'contenteditable="true"':''}>${S.letter || t('rq.letter')}</div><button class="x-textbtn" type="button" data-edit>${editing ? t('rq.editDone') : t('rq.edit')}</button></details></div>
+          <details class="x-fld x-msg"${editing || S.msgOpen ? ' open' : ''}><summary>${ic('i-chev')}${t('rq.view')}</summary>${requestLetter()}</details></div>
         <div class="x-df"><button class="x-btn go" type="button" data-confirm>${ic('i-send')}${t('rq.send')}</button><span class="x-fine">${ic('i-shield')}${t('rq.safe')}</span></div>`);
     } else if (dwOpen === 'review') {
       const item = (b, s) => `<li>${ic('i-doc')}<div><b>${b}</b><span>${s}</span></div><span class="ok">${ic('i-check')}</span></li>`;
       h = head(t('dw.k'), t('pk.t')) + (dwDone ? doneBody(t('pk.okT'), t('pk.okP')) : `
         <div class="x-db">${fld(t('pk.to'), t('pk.toV'))}${fld(t('pk.how'), t('pk.howV'))}
-          <div class="x-fld"><div class="lb">${t('pk.inc')}</div><ul class="x-pack">${item(t('d.order'), t('pk.orderS'))}${item(t('d.notes'), t('pk.notesS'))}${item(t('pk.member'), t('pk.memberS'))}</ul></div></div>
+          <div class="x-fld"><div class="lb">${t('pk.inc')}</div><ul class="x-pack">${item(t('d.order'), t('pk.orderS'))}${item(t('d.notes'), t('pk.notesS'))}${item(t('pk.member'), t('pk.memberS'))}</ul></div>${packetSummary()}</div>
         <div class="x-df"><button class="x-btn go" type="button" data-confirm>${ic('i-send')}${t('pk.send')}</button><span class="x-fine">${ic('i-shield')}${t('rq.safe')}</span></div>`);
     } else if (dwOpen === 'schedule') {
       h = head(t('ap.k'), t('ap.t')) + (dwDone ? doneBody(t('ap.okT'), t('ap.okP')) : `
@@ -2253,7 +2295,8 @@ const STEPK = () => S.steps.map(s => s.k), STEPL = k => stepLabel(S.steps.find(s
       h = head(t('dl.k'), t('dl.t')) + `<div class="x-db"><p style="margin:0;color:var(--ink-2)">${t('dl.p')}</p></div>
         <div class="x-df"><button class="x-btn go" type="button" data-confirm>${t('dl.ok')}</button><button class="x-btn ghost" type="button" data-close>${t('dl.no')}</button></div>`;
     }
-    dw.innerHTML = h;
+    dw.innerHTML = h; dw.dataset.kind = dwOpen || '';
+    $$('#xDrawer details.x-msg').forEach((d, i) => { if (keepOpen[i]) d.open = true; });
   }
   function confirmDrawer(){
     const k = dwOpen;
@@ -2273,7 +2316,7 @@ const STEPK = () => S.steps.map(s => s.k), STEPL = k => stepLabel(S.steps.find(s
   function toast(k){ toastK = k; paintToast(); const el = $('#xToast'); el.classList.add('on'); clearTimeout(tt); tt = setTimeout(() => { el.classList.remove('on'); toastK = null; }, 2800); }
 
   // ---------- Language + look ----------
-  function setLang(l){ if (l === lang) return; lang = l; try { localStorage.setItem('latch-lang', l); } catch(_) {} render(); }
+  function setLang(l){ if (l === lang) return; lang = l; try { localStorage.setItem('latch-lang', l); } catch(_) {} if (S.steps) ensureDrafts(); render(); }
   function setLook(l, remember){
     if (l === 'light') root.dataset.look = 'light'; else delete root.dataset.look;
     if (remember) { try { localStorage.setItem('latch-theme', l); } catch(_) {} }
