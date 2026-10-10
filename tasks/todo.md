@@ -247,3 +247,17 @@ CSS plus two tiny JS touches in `index.html`: the `cur` class on the main track 
 ## Review
 
 Local runs at 390px: María flow twice end to end, all three confirmations animated, scrollWidth 390 throughout. Error case (uploaded non-medical picture, local `/api` failing): scan stopped 7ms after the response, error card shown, no rows. Not changed: the API call itself, copy, layout, final states.
+
+---
+
+# Motion · appointment celebration
+
+- [x] "Cita confirmada": circle 0.6 → 1.08 → 1 (350ms), check draws over 600ms.
+- [x] Two rings after the check (#6D4AFF, then #E65BBE +120ms), scale 1 → 2.2, opacity .35 → 0, 700ms; pseudo-elements, absolutely positioned.
+- [x] Burst: 10 dots (6–8px, #5B8CFF / #E65BBE / #6D4AFF) at 36° steps, 40–70px out from the circle edge, gone by 900ms; markup removed 2s after confirming. Not rendered with reduced motion.
+- [ ] Stepper line fill to the MRI step: not done. At "done" no step between the visit and the MRI is marked done, so the line doesn't change; animating a fill would change the final look. Asked.
+- [x] Confirmation animations now survive re-renders (e.g. a draft arriving): `sent = { k, at }` and a negative `--t` delay resume the animation; after 2s re-renders are static. Replaces the one-shot `sentIn`.
+
+## Review
+
+Two full María runs at 390px. Frame-by-frame (Web Animations API, paused and seeked, since the pane reported `hidden` and throttled live timing) matched the spec. Final state: scale 1, rings at 0, check drawn, burst out of the DOM, scrollWidth 390, dots stay >120px inside the drawer. The three "enviada" confirmations keep the regular check.

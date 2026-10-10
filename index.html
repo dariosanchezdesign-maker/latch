@@ -1279,9 +1279,15 @@ button.x-doc:hover{border-color:var(--signal-line);background:var(--signal-soft)
   .x-extract li.s-alert.on .x-nd{animation:xpop .3s ease both,xpulse .6s ease-in-out .3s 1}
   .x-card.x-scan{position:relative;overflow:hidden}
   .x-card.x-scan::after{content:"";position:absolute;left:0;right:0;top:0;height:40%;pointer-events:none;background:linear-gradient(180deg,transparent,color-mix(in srgb,var(--signal) 10%,transparent),transparent);animation:xscan 1.4s ease-in-out infinite}
-  .x-sent.x-in .big{animation:xgrow .2s ease-out both}
-  .x-sent.x-in .big path{stroke-dasharray:1;animation:xdraw .4s ease-out .2s both}
+  .x-sent.x-in .big{animation:xgrow .2s ease-out var(--t,0ms) both}
+  .x-sent.x-in .big path{stroke-dasharray:1;animation:xdraw .4s ease-out calc(var(--t,0ms) + .2s) both}
   .x-btn.x-fly svg.i:first-child{animation:xfly .3s ease-in forwards}
+  .x-sent.x-cele .big{position:relative;animation:xbig .35s ease-out var(--t,0ms) both}
+  .x-sent.x-cele .big path{stroke-dasharray:1;animation:xdraw .6s ease-out calc(var(--t,0ms) + .35s) both}
+  .x-sent.x-cele .big::before,.x-sent.x-cele .big::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid #6D4AFF;opacity:0;pointer-events:none;animation:xripple .7s ease-out calc(var(--t,0ms) + .95s) forwards}
+  .x-sent.x-cele .big::after{border-color:#E65BBE;animation-delay:calc(var(--t,0ms) + 1.07s)}
+  .x-burst{position:absolute;left:50%;top:50%;width:0;height:0;pointer-events:none}
+  .x-burst i{position:absolute;left:calc(var(--s) / -2);top:calc(var(--s) / -2);width:var(--s);height:var(--s);border-radius:50%;background:var(--c);opacity:0;animation:xburst .9s ease-out calc(var(--t,0ms) + .95s) forwards}
   .x-track li.cur>.x-nd{--hc:color-mix(in srgb,var(--signal) 25%,transparent);--nb:0 0 0 0 transparent;--h0:0px;--h1:6px;animation:xhalo 2s ease-in-out infinite}
   .x-track li.cur.s-act>.x-nd{--hc:color-mix(in srgb,var(--crit) 25%,transparent);--nb:0 0 0 5px var(--crit-soft);--h0:5px;--h1:11px}
   .x-track li.cur.s-wait>.x-nd{--hc:color-mix(in srgb,var(--warn) 25%,transparent)}
@@ -1292,6 +1298,9 @@ button.x-doc:hover{border-color:var(--signal-line);background:var(--signal-soft)
 @keyframes xscan{from{transform:translateY(-100%)}to{transform:translateY(250%)}}
 @keyframes xgrow{from{transform:scale(.8)}to{transform:none}}
 @keyframes xdraw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes xbig{0%{transform:scale(.6)}70%{transform:scale(1.08)}100%{transform:scale(1)}}
+@keyframes xripple{from{transform:scale(1);opacity:.35}to{transform:scale(2.2);opacity:0}}
+@keyframes xburst{0%{transform:rotate(var(--a)) translateX(30px);opacity:1}100%{transform:rotate(var(--a)) translateX(var(--d));opacity:0}}
 @keyframes xfly{to{transform:translate(12px,-12px);opacity:0}}
 @keyframes xpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
 @keyframes xhalo{0%,100%{box-shadow:var(--nb),0 0 0 var(--h0) transparent}50%{box-shadow:var(--nb),0 0 0 var(--h1) var(--hc)}}
@@ -2314,13 +2323,17 @@ html{overflow-x:hidden}
   S.open = { mri:true };
 
   // ---------- Drawer ----------
-  let sentIn = false; // one-shot: the sent check draws only on the render right after sending
+  const burst = () => `<span class="x-burst" aria-hidden="true">${Array.from({ length: 10 }, (_, i) => `<i style="--a:${i * 36}deg;--d:${32 + 40 + (i * 7) % 31}px;--s:${6 + i % 3}px;--c:${['#5B8CFF','#E65BBE','#6D4AFF'][i % 3]}"></i>`).join('')}</span>`;
+  let sent = null; // { k, at }: what was just confirmed; re-renders in the next 2s resume its animation, later ones are static
   let dwOpen = null, dwDone = false, lastFocus = null, editing = false, pick = 'centro';
   function openDrawer(kind){ dwOpen = kind; dwDone = false; editing = false; lastFocus = document.activeElement; renderDrawer(); $('#xDrawer').classList.add('on'); $('#xScrim').classList.add('on'); $('#xDrawer').setAttribute('aria-hidden','false'); document.body.style.overflow = 'hidden'; setTimeout(() => { const c = $('#xDrawer [data-close]'); if (c) c.focus(); }, 60); }
   function closeDrawer(){ if (!dwOpen) return; dwOpen = null; $('#xDrawer').classList.remove('on'); $('#xScrim').classList.remove('on'); $('#xDrawer').setAttribute('aria-hidden','true'); document.body.style.overflow = ''; if (lastFocus && document.contains(lastFocus)) lastFocus.focus(); else { const b = $('#xView button, #xView a'); if (b) b.focus(); } }
   const head = (k, title) => `<div class="x-dh"><div><span class="x-kick">${k}</span><h2 id="xDwT">${title}</h2></div><button class="x-icon" type="button" data-close aria-label="${t('close')}">${ic('i-x')}</button></div>`;
   const fld = (l, v) => `<div class="x-fld"><div class="lb">${l}</div><div class="v">${v}</div></div>`;
-  const doneBody = (h, p) => { const u = S.undo && Date.now() < S.undo.until, enter = sentIn; sentIn = false; return `<div class="x-db"><div class="x-sent${enter ? ' x-in' : ''}"><div class="big"><svg class="i" viewBox="0 0 24 24"><path pathLength="1" d="m5 12.5 4.2 4.2L19 7"/></svg></div><h3>${h}</h3><p>${p}</p>${u ? `<p class="x-undo"><button class="x-textbtn" type="button" data-undo>${ic('i-reset')}${t('undo')}</button><span>${t('undo.s')}</span></p>` : ''}</div></div><div class="x-df"><button class="x-btn dark" type="button" data-close data-backhome>${t('back')}</button></div>`; };
+  const doneBody = (h, p) => { const u = S.undo && Date.now() < S.undo.until, ago = sent ? Date.now() - sent.at : 1e9, k = ago < 2000 && !reduce() ? sent.k : '', cele = k === 'schedule';
+    const cls = cele ? ' x-cele' : ['request','review','appeal'].includes(k) ? ' x-in' : '';
+    if (cele) setTimeout(() => $$('#xDrawer .x-burst').forEach(b => b.remove()), 2000 - ago);
+    return `<div class="x-db"><div class="x-sent${cls}"${cls ? ` style="--t:-${ago}ms"` : ''}><div class="big"><svg class="i" viewBox="0 0 24 24"><path pathLength="1" d="m5 12.5 4.2 4.2L19 7"/></svg>${cele ? burst() : ''}</div><h3>${h}</h3><p>${p}</p>${u ? `<p class="x-undo"><button class="x-textbtn" type="button" data-undo>${ic('i-reset')}${t('undo')}</button><span>${t('undo.s')}</span></p>` : ''}</div></div><div class="x-df"><button class="x-btn dark" type="button" data-close data-backhome>${t('back')}</button></div>`; };
   const armUndo = (prev, histLen, pending) => { S.undo = { prev, histLen, pending, until: Date.now() + 8000 }; setTimeout(() => { if (dwOpen && dwDone) renderDrawer(); }, 8100); };
 const STEPK = () => S.steps.map(s => s.k), STEPL = k => stepLabel(S.steps.find(s => s.k === k));
   // Your own edits win; then the model's draft; while it's being written, a status line; if it failed, the template letter.
@@ -2400,7 +2413,7 @@ const STEPK = () => S.steps.map(s => s.k), STEPL = k => stepLabel(S.steps.find(s
   }
   function confirmDrawer(){
     const k = dwOpen;
-    sentIn = k === 'request' || k === 'review' || k === 'appeal';
+    sent = { k, at: Date.now() };
     if (k === 'appeal') { const l = $('#xLetter'); if (l && editing) S.appealLetter = l.innerHTML; armUndo('denied', S.hist.length, S.pending); S.stage = 'waitAppeal'; log('h.appeal'); dwDone = true; advance('schedule', 'h.apprAppeal', 't.apprAppeal'); }
     else if (k === 'request') { const l = $('#xLetter'); if (l && editing) S.letter = l.innerHTML; armUndo('request', S.hist.length, S.pending); S.stage = 'waitClinic'; log('h.req'); dwDone = true; advance('review', 'h.notes', 't.notes', 'h.pack'); }
     else if (k === 'review') { armUndo('review', S.hist.length, S.pending); S.stage = 'waitPlan'; log('h.sent'); dwDone = true; advance('schedule', 'h.appr', 't.appr'); }
