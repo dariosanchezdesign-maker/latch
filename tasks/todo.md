@@ -220,3 +220,16 @@ Plan:
 - `crear-cuenta.html`: new `.foot` (existing `--muted` / `--line` tokens, 12.5px, inside `.pg` so it uses the page padding). Spanish by default; English if `latch-lang` is `en`.
 - Checked at 390px: landing, app (upload and Hoy screens) and crear-cuenta have no horizontal scroll (scrollWidth 390). In the app the footer sits below the view and, scrolled to the end, above the mobile tab bar.
 - Note: the app no longer shows the old "datos ficticios" footer; the "Demo: no subas récords reales" note on the upload screen stays.
+
+---
+
+# Motion · three key moments
+
+- [x] "Falta algo" dot in the reading checklist: one soft pulse (scale 1 → 1.15 → 1, 600ms) as the row appears.
+- [x] Hoy track: the current step's dot (main order, `li.cur`) breathes a halo in its own color at 25% (2s, ease-in-out, infinite). Rest frame equals today's static look; no step is `cur` once the flow is done.
+- [x] "El plan negó la MRI" card: rises in once (8px → 0, opacity 0 → 1, 300ms). A one-shot `denyIn` flag adds `.x-in` only on the render right after the denial, so later re-renders don't replay it.
+- [x] All three inside `@media (prefers-reduced-motion: no-preference)`.
+
+## Review
+
+CSS plus two tiny JS touches in `index.html`: the `cur` class on the main track step and the `denyIn` flag. No layout, copy, color or logic changes. Ran the full María flow at 390px (read → request → clinic → plan → denial → appeal → schedule → done): each animation fires as specified, scrollWidth stays 390 on Hoy, Plan and Familia.
