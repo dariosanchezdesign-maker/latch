@@ -1182,7 +1182,7 @@ details.x-hist{margin-top:18px;background:var(--panel);border:1px solid var(--li
 .x-extract li{display:none;gap:12px;padding:12px 0;border-top:1px solid var(--line-2)}
 @keyframes xrise{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 .x-extract li:first-child{border-top:0}
-.x-extract li.on{display:flex;animation:xrise .3s ease both}
+.x-extract li.on{display:flex}
 .x-extract li b{display:block;font-size:14.5px}
 .x-extract li span{font-size:13.5px;color:var(--muted)}
 .x-extract li.s-alert .x-nd{background:var(--crit);border-color:var(--crit);color:#fff}
@@ -1274,12 +1274,25 @@ button.x-doc:hover{border-color:var(--signal-line);background:var(--signal-soft)
 .x-tabbar{display:none}
 @media (prefers-reduced-motion:reduce){.x-drawer,.x-scrim,.x-toast,.x-extract li{transition:none}.x-kick i{animation:none}}
 @media (prefers-reduced-motion:no-preference){
-  .x-extract li.s-alert.on .x-nd{animation:xpulse .6s ease-in-out .3s 1}
+  .x-extract li.on{animation:xrow .25s ease both}
+  .x-extract li.on .x-nd{animation:xpop .3s ease both}
+  .x-extract li.s-alert.on .x-nd{animation:xpop .3s ease both,xpulse .6s ease-in-out .3s 1}
+  .x-card.x-scan{position:relative;overflow:hidden}
+  .x-card.x-scan::after{content:"";position:absolute;left:0;right:0;top:0;height:40%;pointer-events:none;background:linear-gradient(180deg,transparent,color-mix(in srgb,var(--signal) 10%,transparent),transparent);animation:xscan 1.4s ease-in-out infinite}
+  .x-sent.x-in .big{animation:xgrow .2s ease-out both}
+  .x-sent.x-in .big path{stroke-dasharray:1;animation:xdraw .4s ease-out .2s both}
+  .x-btn.x-fly svg.i:first-child{animation:xfly .3s ease-in forwards}
   .x-track li.cur>.x-nd{--hc:color-mix(in srgb,var(--signal) 25%,transparent);--nb:0 0 0 0 transparent;--h0:0px;--h1:6px;animation:xhalo 2s ease-in-out infinite}
   .x-track li.cur.s-act>.x-nd{--hc:color-mix(in srgb,var(--crit) 25%,transparent);--nb:0 0 0 5px var(--crit-soft);--h0:5px;--h1:11px}
   .x-track li.cur.s-wait>.x-nd{--hc:color-mix(in srgb,var(--warn) 25%,transparent)}
   .x-now.x-in{animation:xin .3s ease-out 1}
 }
+@keyframes xrow{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes xpop{0%{transform:scale(.6)}60%{transform:scale(1.1)}100%{transform:scale(1)}}
+@keyframes xscan{from{transform:translateY(-100%)}to{transform:translateY(250%)}}
+@keyframes xgrow{from{transform:scale(.8)}to{transform:none}}
+@keyframes xdraw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes xfly{to{transform:translate(12px,-12px);opacity:0}}
 @keyframes xpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
 @keyframes xhalo{0%,100%{box-shadow:var(--nb),0 0 0 var(--h0) transparent}50%{box-shadow:var(--nb),0 0 0 var(--h1) var(--hc)}}
 @keyframes xin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -1999,7 +2012,7 @@ html{overflow-x:hidden}
           <p class="x-note" role="alert">${t(D[lang]['er.' + S.err] ? 'er.' + S.err : 'er.ai_unavailable')}</p>
           <div class="x-acts"><button class="x-btn dark" type="button" data-act="retry">${t('er.retry')}</button><button class="x-btn ghost" type="button" data-act="sample">${t('in.use')} ${ic('i-arrow')}</button></div>
         </div>` : ex ? `
-        <div class="x-card">
+        <div class="x-card${S.reading ? ' x-scan' : ''}">
           <div class="x-sech" style="margin-bottom:6px"><h3>${t('ex.h')}</h3></div>
           ${S.reading ? `<p class="x-note" id="xReading" role="status">${t('ex.reading')}${S.slow ? ' ' + t('ex.slow') : ''}</p>` : `
           <ol class="x-extract" id="xEx">${exRows().map((r,i) => { const al = i===4 && !(S.gaps && !S.gaps.length); return `<li class="${i < S.exN ? 'on' : ''} ${al?'s-alert':''}">${node(al?'s-act':'s-done', al?'!':check)}<div><b>${r[0]}</b><span>${r[1]}</span></div></li>`; }).join('')}</ol>`}
@@ -2287,10 +2300,10 @@ html{overflow-x:hidden}
     const step = () => {
       S.exN++;
       const li = $$('#xEx li')[S.exN-1]; if (li) li.classList.add('on');
-      if (S.exN < 5) setTimeout(step, reduce() ? 80 : 650);
+      if (S.exN < 5) { if (!reduce()) setTimeout(step, 180); }
       else { log('h.ex', { n: S.steps.length - 1 }); log('h.plan'); if (S.gaps.length) log('h.miss'); const g = $('#xExGo'); if (g) { g.hidden = false; $('#exGo').focus(); } }
     };
-    setTimeout(step, reduce() ? 50 : 500);
+    if (reduce()) { while (S.exN < 5) step(); } else step();
   }
   // Where the plan starts: gap → ask the clinic; no gap → review the packet; nothing needs approval → pick the specialist's time.
   function enterPlan(){ S.stage = { gap:'request', doc:'review', ref:'schedule' }[S.path]; S.tab = 'hoy'; S.open = { [S.mainK]:true }; render(); window.scrollTo(0,0); }
@@ -2301,12 +2314,13 @@ html{overflow-x:hidden}
   S.open = { mri:true };
 
   // ---------- Drawer ----------
+  let sentIn = false; // one-shot: the sent check draws only on the render right after sending
   let dwOpen = null, dwDone = false, lastFocus = null, editing = false, pick = 'centro';
   function openDrawer(kind){ dwOpen = kind; dwDone = false; editing = false; lastFocus = document.activeElement; renderDrawer(); $('#xDrawer').classList.add('on'); $('#xScrim').classList.add('on'); $('#xDrawer').setAttribute('aria-hidden','false'); document.body.style.overflow = 'hidden'; setTimeout(() => { const c = $('#xDrawer [data-close]'); if (c) c.focus(); }, 60); }
   function closeDrawer(){ if (!dwOpen) return; dwOpen = null; $('#xDrawer').classList.remove('on'); $('#xScrim').classList.remove('on'); $('#xDrawer').setAttribute('aria-hidden','true'); document.body.style.overflow = ''; if (lastFocus && document.contains(lastFocus)) lastFocus.focus(); else { const b = $('#xView button, #xView a'); if (b) b.focus(); } }
   const head = (k, title) => `<div class="x-dh"><div><span class="x-kick">${k}</span><h2 id="xDwT">${title}</h2></div><button class="x-icon" type="button" data-close aria-label="${t('close')}">${ic('i-x')}</button></div>`;
   const fld = (l, v) => `<div class="x-fld"><div class="lb">${l}</div><div class="v">${v}</div></div>`;
-  const doneBody = (h, p) => { const u = S.undo && Date.now() < S.undo.until; return `<div class="x-db"><div class="x-sent"><div class="big">${ic('i-check')}</div><h3>${h}</h3><p>${p}</p>${u ? `<p class="x-undo"><button class="x-textbtn" type="button" data-undo>${ic('i-reset')}${t('undo')}</button><span>${t('undo.s')}</span></p>` : ''}</div></div><div class="x-df"><button class="x-btn dark" type="button" data-close data-backhome>${t('back')}</button></div>`; };
+  const doneBody = (h, p) => { const u = S.undo && Date.now() < S.undo.until, enter = sentIn; sentIn = false; return `<div class="x-db"><div class="x-sent${enter ? ' x-in' : ''}"><div class="big"><svg class="i" viewBox="0 0 24 24"><path pathLength="1" d="m5 12.5 4.2 4.2L19 7"/></svg></div><h3>${h}</h3><p>${p}</p>${u ? `<p class="x-undo"><button class="x-textbtn" type="button" data-undo>${ic('i-reset')}${t('undo')}</button><span>${t('undo.s')}</span></p>` : ''}</div></div><div class="x-df"><button class="x-btn dark" type="button" data-close data-backhome>${t('back')}</button></div>`; };
   const armUndo = (prev, histLen, pending) => { S.undo = { prev, histLen, pending, until: Date.now() + 8000 }; setTimeout(() => { if (dwOpen && dwDone) renderDrawer(); }, 8100); };
 const STEPK = () => S.steps.map(s => s.k), STEPL = k => stepLabel(S.steps.find(s => s.k === k));
   // Your own edits win; then the model's draft; while it's being written, a status line; if it failed, the template letter.
@@ -2386,6 +2400,7 @@ const STEPK = () => S.steps.map(s => s.k), STEPL = k => stepLabel(S.steps.find(s
   }
   function confirmDrawer(){
     const k = dwOpen;
+    sentIn = k === 'request' || k === 'review' || k === 'appeal';
     if (k === 'appeal') { const l = $('#xLetter'); if (l && editing) S.appealLetter = l.innerHTML; armUndo('denied', S.hist.length, S.pending); S.stage = 'waitAppeal'; log('h.appeal'); dwDone = true; advance('schedule', 'h.apprAppeal', 't.apprAppeal'); }
     else if (k === 'request') { const l = $('#xLetter'); if (l && editing) S.letter = l.innerHTML; armUndo('request', S.hist.length, S.pending); S.stage = 'waitClinic'; log('h.req'); dwDone = true; advance('review', 'h.notes', 't.notes', 'h.pack'); }
     else if (k === 'review') { armUndo('review', S.hist.length, S.pending); S.stage = 'waitPlan'; log('h.sent'); dwDone = true; advance('schedule', 'h.appr', 't.appr'); }
@@ -2444,7 +2459,7 @@ const STEPK = () => S.steps.map(s => s.k), STEPL = k => stepLabel(S.steps.find(s
     }
     if (q('[data-close]')) { const home = q('[data-backhome]'); closeDrawer(); if (home && S.tab !== 'hoy') { S.tab = 'hoy'; render(); window.scrollTo(0,0); } return; }
     if (q('#xScrim')) { closeDrawer(); return; }
-    if (q('[data-confirm]')) { confirmDrawer(); return; }
+    if ((el = q('[data-confirm]'))) { const fly = ['request','review','appeal'].includes(dwOpen) && !reduce(); if (el.classList.contains('x-fly')) return; if (fly) { el.classList.add('x-fly'); setTimeout(confirmDrawer, 300); } else confirmDrawer(); return; }
     if ((el = q('[data-edit]'))) { const l = $('#xLetter'); if (editing && l) S[letterKey()] = l.innerHTML; editing = !editing; renderDrawer(); if (editing) $('#xLetter').focus(); return; }
     if ((el = q('[data-undo]')) && S.undo) { const u = S.undo; S.undo = null; S.stage = u.prev; S.hist.splice(0, S.hist.length - u.histLen); S.pending = u.pending; dwDone = false; render(); renderDrawer(); toast('t.undo'); const c = $('#xDrawer [data-confirm]'); if (c) c.focus(); return; }
     if ((el = q('[data-notify]'))) { S.notify = el.dataset.notify; render(); const b = $(`[data-notify="${S.notify}"]`); if (b) b.focus(); return; }

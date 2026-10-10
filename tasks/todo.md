@@ -233,3 +233,17 @@ Plan:
 ## Review
 
 CSS plus two tiny JS touches in `index.html`: the `cur` class on the main track step and the `denyIn` flag. No layout, copy, color or logic changes. Ran the full María flow at 390px (read → request → clinic → plan → denial → appeal → schedule → done): each animation fires as specified, scrollWidth stays 390 on Hoy, Plan and Familia.
+
+---
+
+# Motion · document reading and send confirmations
+
+- [x] Scan sweep on the reading card while `/api/read` is in flight (`.x-scan` only while `S.reading`; stops on the render that follows the response, success or error).
+- [x] Checklist reveal: 180ms stagger, no lead-in delay (was 500ms + 650ms per row); rows rise 6px/250ms, icons pop 0.6→1.1→1/300ms; "Falta algo" stays last and keeps its pulse. Last row lands ~0.8s after the response.
+- [x] Sent confirmations (request, packet, appeal): circle scales 0.8→1 (200ms), then the check draws (400ms). Check is now an inline SVG path (`pathLength="1"`), same path, size and color as `#i-check`. One-shot `sentIn` so the 8s undo re-render doesn't replay it.
+- [x] Paper plane on the drawer's send button takes off (+12px, −12px, fade, 300ms), then the confirmation appears.
+- [x] All motion inside `@media (prefers-reduced-motion: no-preference)`; reduced motion shows all rows and confirmations instantly, no 300ms wait.
+
+## Review
+
+Local runs at 390px: María flow twice end to end, all three confirmations animated, scrollWidth 390 throughout. Error case (uploaded non-medical picture, local `/api` failing): scan stopped 7ms after the response, error card shown, no rows. Not changed: the API call itself, copy, layout, final states.
