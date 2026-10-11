@@ -261,3 +261,25 @@ Local runs at 390px: María flow twice end to end, all three confirmations anima
 ## Review
 
 Two full María runs at 390px. Frame-by-frame (Web Animations API, paused and seeked, since the pane reported `hidden` and throttled live timing) matched the spec. Final state: scale 1, rings at 0, check drawn, burst out of the DOM, scrollWidth 390, dots stay >120px inside the drawer. The three "enviada" confirmations keep the regular check.
+
+---
+
+# Sprint 1 · Cuentas y casos reales (spec: `SPRINT-1.md`)
+
+Override from the user: Supabase **email** OTP (6-digit code, no magic link) instead of phone OTP during development; auth code isolated so phone OTP can replace it later.
+
+## Phase 1 · Database
+- [x] `supabase/migrations/20261011000000_sprint1_schema.sql`: enums, 8 tables, indexes, RLS on every table, column-level grants, append-only `events`, profile-on-signup trigger, `team_members()` helper, private `documents` bucket (no client storage policies: signed URLs from the server only).
+- [x] Access model: `active` member = full access; `pending` caregiver who created the patient = can read, upload, create cases and log events, but can't advance orders (nothing is "sent" without consent); `revoked` = nothing.
+- [x] patients / care_team / consents: no client inserts (server functions in phase 2), so nobody can add themselves to someone else's patient.
+- [x] `supabase/seed.mjs`: Santos (Ana → María, active by link), Díaz (Roberto, self), Vélez (Luis → Carmen, pending link). Fictional `@latch.test` emails. Uses the service_role key from the shell env only.
+- [x] Validate the migration and the RLS rules locally against real Postgres (PGlite) with stubbed `auth`/`storage` schemas.
+- [x] `SPRINT-1.md`: note the email OTP change.
+
+## Phase 1 review
+- Migration validated on PGlite (Postgres 16 in WASM) with stand-in `auth`/`storage` schemas and real `anon`/`authenticated` roles: 46/46 checks (María invisible to Roberto through every table and helper; pending can upload but not advance; revoke cuts access at once; events append-only even for the server; token_hash unreadable; anon gets nothing).
+- Not yet applied to the real Supabase project; steps in `supabase/README.md`.
+
+## Phase 2 · Auth + onboarding (after review)
+## Phase 3 · Cases (after review)
+## Phase 4 · Verification of the 10 acceptance criteria (after review)
